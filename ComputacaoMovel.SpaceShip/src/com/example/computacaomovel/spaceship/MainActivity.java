@@ -24,6 +24,7 @@ import android.view.MotionEvent;
 
 public class MainActivity extends BaseGameActivity {
 
+	//ISTO.É.UMA.ALTERAÇÃO
 	Scene cena = new Scene();
 	Camera mCamera = new Camera(0,0,CAMERA_WIDTH, CAMERA_HEIGHT);
 	EngineOptions eo;
