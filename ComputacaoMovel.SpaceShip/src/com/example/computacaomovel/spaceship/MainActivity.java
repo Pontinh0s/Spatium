@@ -33,8 +33,10 @@ public class MainActivity extends BaseGameActivity {
 	 *---------------- MENU FIM ---------------------
 	 */
 =======
-	//ISTO.É.UMA.ALTERAÇÃO
+	//ISTO.É.UMA.ALTERAÇÃO 
 >>>>>>> branch 'master' of https://github.com/Davidepaalte/ComputacaoMovel.git
+	
+	// alteração2
 	
 	Scene cena = new Scene();
 	Camera mCamera = new Camera(0,0,CAMERA_WIDTH, CAMERA_HEIGHT);
