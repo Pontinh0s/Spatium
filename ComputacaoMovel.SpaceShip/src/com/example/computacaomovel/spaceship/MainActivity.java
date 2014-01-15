@@ -24,6 +24,7 @@ import android.view.MotionEvent;
 
 public class MainActivity extends BaseGameActivity {
 
+<<<<<<< HEAD
 	/**
 	 *-------------- Variaveis MENU ----------------
 	 */
@@ -31,6 +32,10 @@ public class MainActivity extends BaseGameActivity {
 	/**
 	 *---------------- MENU FIM ---------------------
 	 */
+=======
+	//ISTO.É.UMA.ALTERAÇÃO
+>>>>>>> branch 'master' of https://github.com/Davidepaalte/ComputacaoMovel.git
+	
 	Scene cena = new Scene();
 	Camera mCamera = new Camera(0,0,CAMERA_WIDTH, CAMERA_HEIGHT);
 	EngineOptions eo;
