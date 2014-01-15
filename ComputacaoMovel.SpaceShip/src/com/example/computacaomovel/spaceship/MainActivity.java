@@ -15,6 +15,7 @@ import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
+import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.color.Color;
@@ -23,21 +24,8 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 
 public class MainActivity extends BaseGameActivity {
-
-<<<<<<< HEAD
-	/**
-	 *-------------- Variaveis MENU ----------------
-	 */
 	
-	/**
-	 *---------------- MENU FIM ---------------------
-	 */
-=======
-	//ISTO.É.UMA.ALTERAÇÃO 
->>>>>>> branch 'master' of https://github.com/Davidepaalte/ComputacaoMovel.git
-	
-	// alteração2
-	
+		
 	Scene cena = new Scene();
 	Camera mCamera = new Camera(0,0,CAMERA_WIDTH, CAMERA_HEIGHT);
 	EngineOptions eo;
@@ -80,6 +68,11 @@ public class MainActivity extends BaseGameActivity {
 	public void onCreateResources(
 			OnCreateResourcesCallback pOnCreateResourcesCallback)
 			throws Exception {
+		// -- MENU --
+		
+		
+		
+		// -- FIM MENU --
 		
 		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
