@@ -38,8 +38,8 @@ public class Menu extends BaseGameActivity {
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		//eo = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), mCamera);		
-		eo = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new FillResolutionPolicy(), mCamera);		
-		eo.setWakeLockOptions(WakeLockOptions.SCREEN_ON);
+		eo = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new FillResolutionPolicy(), mCamera);		
+		eo.setWakeLockOptions(WakeLockOptions.SCREEN_DIM);
 		return eo;
 	}
 
@@ -56,7 +56,7 @@ public class Menu extends BaseGameActivity {
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback)
 			throws Exception {
-		// TODO Auto-generated method stub
+		// Não sei o quê que isto faz... vai comentando o código para poder preceber :)
 		cena.setTouchAreaBindingOnActionDownEnabled(true);
 		pOnCreateSceneCallback.onCreateSceneFinished(cena);
 	}
