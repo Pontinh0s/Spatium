@@ -1,4 +1,20 @@
-private Sprite nave;
+package com.example.computacaomovel.spaceship;
+
+import java.io.IOException;
+
+import org.andengine.audio.sound.Sound;
+import org.andengine.audio.sound.SoundFactory;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.texture.ITexture;
+import org.andengine.opengl.texture.TextureManager;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
+
+import android.view.MotionEvent;
+
+public class Player{
+	private Sprite nave;
 	private ITexture spritesheet;
 	private ITextureRegion direita, frente, esquerda;
 	private Sound collision, laser;
@@ -6,7 +22,7 @@ private Sprite nave;
 
     public float sensibilidade = 9f;
     public float acelerador = 0.7f;
-    public float forÃ§a_das_molas = 0.2f;
+    public float força_das_molas = 0.2f;
     public int lifes = 5;
     public Boolean saltar = false;
     public float salto = 0;
@@ -55,7 +71,7 @@ private Sprite nave;
         // movimento em X   - feito
         nave.setX((CAMERA_WIDTH/2) + (accelerationX * -acelerador));
         if (nave.getX() < -3f) nave.setX(nave.getX() + 3f);
-        if (nave.getX() > 3f) nave.setX((nave.getX() - 3f) * forÃ§a_das_molas);
+        if (nave.getX() > 3f) nave.setX((nave.getX() - 3f) * força_das_molas);
         
         //Dsparo Android
         if (event.getAction() == MotionEvent.ACTION_DOWN)
