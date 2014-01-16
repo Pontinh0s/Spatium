@@ -69,21 +69,13 @@ public class MainActivity extends BaseGameActivity implements IOnSceneTouchListe
 	    SoundFactory.setAssetBasePath("sounds/");
 	    MusicFactory.setAssetBasePath("sounds/");
 	    
-		// Load our "music.mp3" file into a music object
-	    try {
-	    	mMusic = MusicFactory.createMusicFromAsset(getMusicManager(), this, "background.ogg");
-		    mMusic.setLooping(true);
-	    } catch (IOException e) {
-	    	e.printStackTrace();
-	    }
 		// -------------Sounds_END-------------
 	    
 		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
 
 	@Override
-	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback)
-			throws Exception {
+	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws Exception {
 		
 
 		cena.setOnSceneTouchListener(this);
@@ -103,8 +95,7 @@ public class MainActivity extends BaseGameActivity implements IOnSceneTouchListe
 	}
 
 	@Override
-	public void onPopulateScene(Scene pScene,
-			OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
+	public void onPopulateScene(Scene pScene, OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
 		
 		pOnPopulateSceneCallback.onPopulateSceneFinished();
 	}
@@ -127,8 +118,15 @@ public class MainActivity extends BaseGameActivity implements IOnSceneTouchListe
 
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-		if (pSceneTouchEvent.isActionDown())
-			toastOnUIThread("carregaste. touch funciona!");
+		if (pSceneTouchEvent.isActionDown()){
+			
+			if(pSceneTouchEvent.getX()>CAMERA_WIDTH/2){
+				toastOnUIThread("carregaste no lado direito!");
+			}
+			else if(pSceneTouchEvent.getX()<CAMERA_WIDTH/2){
+				toastOnUIThread("carregaste no lado esquerdo!");
+			}
+		}
 		
 		return false;
 	}
