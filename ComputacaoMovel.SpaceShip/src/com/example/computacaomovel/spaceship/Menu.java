@@ -23,9 +23,13 @@ import android.widget.Toast;
 
 public class Menu extends BaseGameActivity {
 	
-	
+	//-- Variaveis
 	BuildableBitmapTextureAtlas button_tiles;
-	ITiledTextureRegion mButtonTextureRegion;
+	ITiledTextureRegion start_btn;
+	ITiledTextureRegion high_btn;
+	ITiledTextureRegion op_btn;
+	ITiledTextureRegion credits_btn;
+	ITiledTextureRegion quit_btn;
 	Scene cena = new Scene();
 	
 	//-----Camera------
@@ -49,7 +53,11 @@ public class Menu extends BaseGameActivity {
 			throws Exception {
 		// TODO Auto-generated method stub
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("spritesheets/");
-		mButtonTextureRegion  = (ITiledTextureRegion) new BitmapTexture(mEngine.getTextureManager(), LoadContent("botao.png"));
+		start_btn  = (ITiledTextureRegion) new BitmapTexture(mEngine.getTextureManager(), LoadContent("StartGame.png"));
+		high_btn  = (ITiledTextureRegion) new BitmapTexture(mEngine.getTextureManager(), LoadContent("Highscores.png"));
+		op_btn  = (ITiledTextureRegion) new BitmapTexture(mEngine.getTextureManager(), LoadContent("Options.png"));
+		credits_btn  = (ITiledTextureRegion) new BitmapTexture(mEngine.getTextureManager(), LoadContent("Credits.png"));
+		quit_btn  = (ITiledTextureRegion) new BitmapTexture(mEngine.getTextureManager(), LoadContent("Quit.png"));
 		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
 
@@ -71,9 +79,79 @@ public class Menu extends BaseGameActivity {
 	
 	
 	
-	// -------------AAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!--------------------------
+	// ----------------------------------------------------------------------------------------------------------
+	// --------------------------------------- BOTAO START ------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------
+	
 	/* Create the buttonSprite object in the center of the Scene */
-	ButtonSprite buttonSprite = new ButtonSprite(CAMERA_WIDTH * 0.5f,CAMERA_HEIGHT * 0.5f, mButtonTextureRegion,mEngine.getVertexBufferObjectManager()) {
+	ButtonSprite buttonSpriteStart = new ButtonSprite(CAMERA_WIDTH * 0.5f,CAMERA_HEIGHT * 0.15f,start_btn,mEngine.getVertexBufferObjectManager()) {	
+		
+	/* Override the onAreaTouched() event method */
+	@Override
+	public boolean onAreaTouched(TouchEvent pSceneTouchEvent,float pTouchAreaLocalX, float pTouchAreaLocalY) {		
+	/* If buttonSprite is touched with the finger */
+		
+	if(pSceneTouchEvent.isActionDown()){
+		
+	/* When the button is pressed, we can create an event
+	* In this case, we're simply displaying a quick toast */
+		Menu.this.runOnUiThread(new Runnable(){
+		@Override 
+		public void run() {	
+		Toast.makeText(getApplicationContext(), "Button	Pressed!", Toast.LENGTH_SHORT).show();
+		}
+		});
+	}
+	
+	/* In order to allow the ButtonSprite to swap tiled texture
+	region
+	* index on our buttonSprite object, we must return the super
+	method */
+	return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX,
+	pTouchAreaLocalY);
+	}
+	};
+	
+	// ----------------------------------------------------------------------------------------------------------
+	// --------------------------------------- BOTAO HIGHSCORE ------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------
+	
+	/* Create the buttonSprite object in the center of the Scene */
+	ButtonSprite buttonSpriteHigh = new ButtonSprite(CAMERA_WIDTH * 0.5f,CAMERA_HEIGHT * 0.30f,high_btn,mEngine.getVertexBufferObjectManager()) {	
+		
+	/* Override the onAreaTouched() event method */
+	@Override
+	public boolean onAreaTouched(TouchEvent pSceneTouchEvent,float pTouchAreaLocalX, float pTouchAreaLocalY) {		
+	/* If buttonSprite is touched with the finger */
+		
+	if(pSceneTouchEvent.isActionDown()){
+		
+	/* When the button is pressed, we can create an event
+	* In this case, we're simply displaying a quick toast */
+		Menu.this.runOnUiThread(new Runnable(){
+		@Override 
+		public void run() {	
+		Toast.makeText(getApplicationContext(), "Button	Pressed!", Toast.LENGTH_SHORT).show();
+		}
+		});
+	}
+	
+	/* In order to allow the ButtonSprite to swap tiled texture
+	region
+	* index on our buttonSprite object, we must return the super
+	method */
+	return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX,
+	pTouchAreaLocalY);
+	}
+	};
+	
+	// ----------------------------------------------------------------------------------------------------------
+	// --------------------------------------- BOTAO OPCAO ------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------
+	
+	/* Create the buttonSprite object in the center of the Scene */
+	ButtonSprite buttonSpriteOP = new ButtonSprite(CAMERA_WIDTH * 0.5f,CAMERA_HEIGHT * 0.45f,op_btn,mEngine.getVertexBufferObjectManager()) {	
+		
 	/* Override the onAreaTouched() event method */
 	@Override
 	public boolean onAreaTouched(TouchEvent pSceneTouchEvent,float pTouchAreaLocalX, float pTouchAreaLocalY) {		
@@ -98,6 +176,76 @@ public class Menu extends BaseGameActivity {
 	pTouchAreaLocalY);
 	}
 	};
+	
+	
+	// ----------------------------------------------------------------------------------------------------------
+	// --------------------------------------- BOTAO CREDITOS ------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------
+	
+	/* Create the buttonSprite object in the center of the Scene */
+	ButtonSprite buttonSpriteCR = new ButtonSprite(CAMERA_WIDTH * 0.5f,CAMERA_HEIGHT * 0.6f,credits_btn,mEngine.getVertexBufferObjectManager()) {	
+		
+	/* Override the onAreaTouched() event method */
+	@Override
+	public boolean onAreaTouched(TouchEvent pSceneTouchEvent,float pTouchAreaLocalX, float pTouchAreaLocalY) {		
+	/* If buttonSprite is touched with the finger */
+		
+	if(pSceneTouchEvent.isActionDown()){
+		
+	/* When the button is pressed, we can create an event
+	* In this case, we're simply displaying a quick toast */
+		Menu.this.runOnUiThread(new Runnable(){
+		@Override 
+		public void run() {	
+		Toast.makeText(getApplicationContext(), "Button	Pressed!", Toast.LENGTH_SHORT).show();
+		}
+		});
+	}
+	/* In order to allow the ButtonSprite to swap tiled texture
+	region
+	* index on our buttonSprite object, we must return the super
+	method */
+	return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX,
+	pTouchAreaLocalY);
+	}
+	};
+	
+	
+	// ----------------------------------------------------------------------------------------------------------
+	// --------------------------------------- BOTAO QUIT ------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------
+	
+	/* Create the buttonSprite object in the center of the Scene */
+	ButtonSprite buttonSpriteQuit = new ButtonSprite(CAMERA_WIDTH * 0.5f,CAMERA_HEIGHT * 0.75f,quit_btn,mEngine.getVertexBufferObjectManager()) {	
+		
+	/* Override the onAreaTouched() event method */
+	@Override
+	public boolean onAreaTouched(TouchEvent pSceneTouchEvent,float pTouchAreaLocalX, float pTouchAreaLocalY) {		
+	/* If buttonSprite is touched with the finger */
+		
+	if(pSceneTouchEvent.isActionDown()){
+		
+	/* When the button is pressed, we can create an event
+	* In this case, we're simply displaying a quick toast */
+		Menu.this.runOnUiThread(new Runnable(){
+		@Override 
+		public void run() {	
+		Toast.makeText(getApplicationContext(), "Button	Pressed!", Toast.LENGTH_SHORT).show();
+		}
+		});
+	}
+	/* In order to allow the ButtonSprite to swap tiled texture
+	region
+	* index on our buttonSprite object, we must return the super
+	method */
+	return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX,
+	pTouchAreaLocalY);
+	}
+	};
+	
+	
+	
+	// ---------------------------------- BOTOES FIM ----------------------------------------
 	
 	
 	public IInputStreamOpener LoadContent(final String pathName){
