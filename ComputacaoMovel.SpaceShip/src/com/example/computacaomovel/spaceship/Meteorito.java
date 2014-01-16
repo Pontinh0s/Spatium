@@ -1,5 +1,6 @@
 package com.example.computacaomovel.spaceship;
 
+import org.andengine.entity.shape.IShape;
 import org.andengine.entity.sprite.Sprite;
 
 public class Meteorito {
@@ -37,11 +38,11 @@ public class Meteorito {
 		 meteorito.setX(mX - meteorito.getWidth()/2);
 	 }
 	 
-	 public void Destroy(){
-		 // Descarregar Texturas
+	 public boolean DetectColision(IShape otherShape){
+		 return (this.meteorito.collidesWith(otherShape));
 	 }
 	 
-	 public Sprite Shape(){
-		 return this.meteorito;
+	 public void Destroy(){
+		 // Descarregar Texturas
 	 }
 }
