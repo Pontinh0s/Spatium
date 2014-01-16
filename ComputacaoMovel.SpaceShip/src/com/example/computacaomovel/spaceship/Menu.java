@@ -31,8 +31,8 @@ public class Menu extends BaseGameActivity {
 	//-----Camera------
 	Camera mCamera = new Camera(0,0,CAMERA_WIDTH, CAMERA_HEIGHT);
 	EngineOptions eo;
-	static final int CAMERA_WIDTH = 480;
-	static final int CAMERA_HEIGHT = 320;
+	static final int CAMERA_WIDTH = 320;
+	static final int CAMERA_HEIGHT = 480;
 	//-----Fim camera----
 	
 	@Override
