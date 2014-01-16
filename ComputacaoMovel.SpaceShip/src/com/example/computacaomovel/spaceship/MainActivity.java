@@ -128,7 +128,7 @@ public class MainActivity extends BaseGameActivity implements IOnSceneTouchListe
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 		if (pSceneTouchEvent.isActionDown())
-			toastOnUIThread("carregaste. touch funciona!")
+			toastOnUIThread("carregaste. touch funciona!");
 		
 		return false;
 	}
