@@ -156,7 +156,8 @@ public class Game extends BaseGameActivity implements IOnSceneTouchListener, IAc
 		
 		switch (myEventAction) {
 			case MotionEvent.ACTION_DOWN:
-				if (x > getWindowManager().getDefaultDisplay().)
+				if (x > CAMERA_WIDTH/2)
+					nave.disparar();
 				break;
 		}
 		return true;
