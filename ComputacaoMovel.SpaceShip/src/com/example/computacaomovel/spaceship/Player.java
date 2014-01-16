@@ -39,7 +39,7 @@ public class Player{
 		
     public void LoadContent(TextureManager textureManager, MainActivity game) throws IOException{
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("spritesheets/");
-    	spritesheet = new BitmapTexture(textureManager, game.LoadContent("spritesheets/nave.png"));
+    	//spritesheet = new BitmapTexture(textureManager, game.LoadContent("spritesheets/nave.png"));
     	spritesheet.load();
         
     	// 
@@ -54,10 +54,8 @@ public class Player{
     
     public void Update(final MotionEvent event, final float accelerationX, final float accelerationY, final float accelerationZ)
     {
-    	//Salto Android    - feito
-        if (!saltar && (accelerationZ > 0.2f))
-            saltar = true;
-        else if (saltar)
+    	//Salto
+    	if (saltar)
         {
         	nave.setScale((float) (Math.sin(salto) * altura_do_salto*0.01f));
             salto += velocidade_de_salto;
@@ -72,14 +70,16 @@ public class Player{
         nave.setX((CAMERA_WIDTH/2) + (accelerationX * -acelerador));
         if (nave.getX() < -3f) nave.setX(nave.getX() + 3f);
         if (nave.getX() > 3f) nave.setX((nave.getX() - 3f) * força_das_molas);
-        
-        //Dsparo Android
-        if (event.getAction() == MotionEvent.ACTION_DOWN)
-        {}
-        //    Instantiate(tiro, transform.position, transform.localRotation);
     }
 
 	public Sprite getNave() {
 		return nave;
 	}
+
+	public void disparar() {
+        //    Instantiate(tiro, transform.position, transform.localRotation);
+	}
+
+	public void saltar() {
+        saltar = true;}
 }

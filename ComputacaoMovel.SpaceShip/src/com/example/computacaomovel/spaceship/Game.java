@@ -97,7 +97,7 @@ public class Game extends BaseGameActivity implements IOnSceneTouchListener, IAc
 	    
 
 		// ---------------Player---------------
-	    nave = new Player();
+	    nave = new Player(CAMERA_WIDTH, CAMERA_HEIGHT);
 	    // -------------Player_END-------------
 	}
 
@@ -122,6 +122,13 @@ public class Game extends BaseGameActivity implements IOnSceneTouchListener, IAc
 	@Override
 	public void onPopulateScene(Scene pScene,
 			OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	// Update
+	private void Update() {
 		// TODO Auto-generated method stub
 		
 	}
