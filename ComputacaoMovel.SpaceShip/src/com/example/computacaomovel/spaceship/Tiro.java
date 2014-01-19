@@ -1,6 +1,15 @@
 package com.example.computacaomovel.spaceship;
 
+import org.andengine.engine.Engine;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.texture.TextureOptions;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.andengine.opengl.texture.region.TextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
+
+import android.content.Context;
 
 public class Tiro {
 	/* The mX and mY variables have no real purpose in this recipe, however in
@@ -9,11 +18,14 @@ public class Tiro {
 	private Sprite tiro;
 	private int speed = 2;
 	private int mX;
-	private int mY, inicialY;
+	private int mY;
 	 
 	 // BaseObject constructor, all subtypes should define an mX and mY value on creation
-	 public Tiro(final int pY){
-		 this.inicialY = pY;
+	 public Tiro(Context context,Engine mEngine){
+		 BuildableBitmapTextureAtlas texBanana = new BuildableBitmapTextureAtlas(mEngine.getTextureManager(), 256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		 TextureRegion regBanana = BitmapTextureAtlasTextureRegionFactory.createFromAsset(texBanana, context.getAssets(), "nave.png");
+		 texBanana.load();
+		 tiro = new Sprite(0,0,TextureRegionFactory.extractFromTexture(texBanana),mEngine.getVertexBufferObjectManager());
 	 }
 	 
 	 public void Update(){
@@ -21,17 +33,15 @@ public class Tiro {
 		 tiro.setY(mY - tiro.getHeight()/2);
 	 }
 	 
-	 public void Create(final int pX){
+	 public void Fire(final int pX, final int pY){
 		 this.mX = pX;
-		 mY = inicialY;
+		 mY = pY;
 		 tiro.setY(mY - tiro.getHeight()/2);
 		 tiro.setX(mX - tiro.getWidth()/2);
-		 
-		 // Carregar Texturas
 	 }
 	 
 	 public void Destroy(){
-		 // Descarregar Texturas
+		 
 	 }
 	 
 	 public Sprite Shape(){

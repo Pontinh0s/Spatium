@@ -34,12 +34,12 @@ import android.view.MotionEvent;
 public class Game extends BaseGameActivity implements IOnSceneTouchListener, IAccelerationListener{
 
 	Scene cena = new Scene();
-	Camera mCamera = new Camera(0,0,CAMERA_WIDTH, CAMERA_HEIGHT);
+	Camera mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 	EngineOptions eo;
 	static final int CAMERA_WIDTH = 480;
 	static final int CAMERA_HEIGHT = 320;
     private Timer timer;
-    private Sound backMusic;
+    private Music backMusic, collision, laser;
     private Text score;
     private Font mFont;
     private Player nave;
@@ -50,7 +50,6 @@ public class Game extends BaseGameActivity implements IOnSceneTouchListener, IAc
 		eo = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new FillResolutionPolicy(), mCamera);		
 		eo.setWakeLockOptions(WakeLockOptions.SCREEN_ON);
 		eo.getAudioOptions().setNeedsMusic(true);
-		eo.getAudioOptions().setNeedsSound(true);
 		
 		return eo;
 	}
@@ -74,24 +73,16 @@ public class Game extends BaseGameActivity implements IOnSceneTouchListener, IAc
 	    
 	    
 		// ---------------Sounds---------------
-	    SoundFactory.setAssetBasePath("sounds/");
 	    MusicFactory.setAssetBasePath("sounds/");
-	    // Load our "sound.mp3" file into a Sound object
-	    Sound mSound;
+	    
 	    try {
-	    	mSound = SoundFactory.createSoundFromAsset(getSoundManager(), this, "sound.mp3");
+	    	backMusic = MusicFactory.createMusicFromAsset(getMusicManager(), this, "background.ogg");
+	    	collision = MusicFactory.createMusicFromAsset(getMusicManager(), this, "background.ogg");
+	    	laser = MusicFactory.createMusicFromAsset(getMusicManager(), this, "background.ogg");
 	    } catch (IOException e) {
 	    	e.printStackTrace();
 	    }
 	    
-	    // Load our "music.mp3" file into a music object
-	    Music mMusic;
-	    try {
-	    	mMusic = MusicFactory.createMusicFromAsset(getMusicManager(), this, "background.ogg");
-		    mMusic.setLooping(true);
-	    } catch (IOException e) {
-	    	e.printStackTrace();
-	    }
 		// -------------Sounds_END-------------
 	    
 	    
@@ -145,22 +136,6 @@ public class Game extends BaseGameActivity implements IOnSceneTouchListener, IAc
 	    		nave.saltar();
 	    }
 	    return false;
-	}
-	public boolean onTouchEvent (MotionEvent event){
-		int myEventAction = event.getAction();
-		
-		float x = event.getX();
-		float y = event.getY();
-		
-		
-		
-		switch (myEventAction) {
-			case MotionEvent.ACTION_DOWN:
-				if (x > CAMERA_WIDTH/2)
-					nave.disparar();
-				break;
-		}
-		return true;
 	}
 	
 	// Para permitir a leitura do acelerómetro no jogo
