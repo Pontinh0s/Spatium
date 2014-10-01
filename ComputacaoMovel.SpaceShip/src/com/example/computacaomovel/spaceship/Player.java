@@ -22,27 +22,30 @@ import android.view.MotionEvent;
 public class Player{
 	private Sprite nave;
     private ITiledTextureRegion player;
-	private Sound collision, laser;
-	final int CAMERA_WIDTH, CAMERA_HEIGHT;
+	private Sound laser;
+	private final int CAMERA_WIDTH, CAMERA_HEIGHT;
 
-    public float sensibilidade = 9f;
-    public float acelerador = 0.7f;
-    public float força_das_molas = 0.2f;
+    private final float sensibilidade = 9f;
+    private final float acelerador = 2f;
+    private final float força_das_molas = 0.17f;
     public int lifes = 5;
     public Boolean saltar = false;
-    public float salto = 0;
-    public float velocidade_de_salto = 0.2f;
-    public float altura_do_salto = 8;
+    private float salto = 0;
+    private final float velocidade_de_salto = 0.065f;
+    private final float altura_do_salto = 4;
     private float accelerationOLD = 0;
+    private float scale;
     
-	public Player(final int CAMERA_WIDTH, final int CAMERA_HEIGHT){
+    private int X, Y;
+    
+	public Player(final int CAMERA_WIDTH, final int CAMERA_HEIGHT, MainActivity game, float scale) throws IOException{
 		this.CAMERA_WIDTH = CAMERA_WIDTH;
 		this.CAMERA_HEIGHT = CAMERA_HEIGHT;
+		this.scale = scale;
+		LoadContent(game);
 	}
 		
-	public void LoadContent(MainActivity game) throws IOException{
-        BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("spritesheets/");
-        //spritesheet = new BitmapTexture(textureManager, game.LoadContent("spritesheets/nave.png"));
+	private void LoadContent(MainActivity game) throws IOException{
         
 		TextureRegion myTextureRegion;
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("spritesheets/");
@@ -51,56 +54,54 @@ public class Player{
 		mBitmapTextureAtlas.load();
 		player = TextureRegionFactory.extractTiledFromTexture(myTextureRegion.getTexture(), 3, 1);
         
+		X = CAMERA_WIDTH/2;
+		Y = CAMERA_HEIGHT-80;
 		nave = new Sprite(
-				CAMERA_WIDTH/2, CAMERA_WIDTH-10,
+				X, Y,
 				player.getTextureRegion(1),
 				game.getEngine().getVertexBufferObjectManager());
-        
+        nave.setScale(this.scale, this.scale);
 		
         // Sons
-        collision = SoundFactory.createSoundFromAsset(game.getEngine().getSoundManager(), game, "collision.ogg");
-        laser = SoundFactory.createSoundFromAsset(game.getEngine().getSoundManager(), game, "laser.ogg");
+        laser = SoundFactory.createSoundFromAsset(game.getEngine().getSoundManager(), game, "sounds/laser.ogg");
 }
     
-    public void Update(final float accelerationX, final float accelerationY, VertexBufferObjectManager VBOmanager)
+    public void Update(final float accelerationX)
     {
     	//Salto
     	if (saltar)
         {
-        	nave.setScale((float) (Math.sin(salto) * altura_do_salto * 0.01f));
+        	nave.setScaleX(this.scale + (float) (Math.sin(salto) * altura_do_salto * 0.1f));
+        	nave.setScaleY(this.scale + (float) (Math.sin(salto) * altura_do_salto * 0.1f));
             salto += velocidade_de_salto;
-            if (salto >= Math.PI * 2)
+            
+            if (salto >= Math.PI * 1)
             {
                 salto = 0f;
                 saltar = false;
             }
         }
-
-    	// Movimento em X
-    	float limite = 5f;
-        if (nave.getX() < -limite)
-    		nave.setX(nave.getX() + (nave.getX()+limite) * força_das_molas * 0.2f);
-        if (nave.getX() > limite)
-    		nave.setX(nave.getX() - (nave.getX()-limite) * força_das_molas * 0.2f);
     	
-        // mudança de sprites
-    	float viragem = 0.2f;
-    	if((accelerationX < viragem) && (accelerationOLD >= viragem))
-    		nave = new Sprite(nave.getX(), nave.getY(), player.getTextureRegion(0), VBOmanager);
-    	else if ((accelerationX > -viragem) && (accelerationOLD <= -viragem))
-    		nave = new Sprite(nave.getX(), nave.getY(), player.getTextureRegion(2), VBOmanager);
-        else if ((accelerationOLD < -viragem) || (accelerationOLD > viragem))
-    		nave = new Sprite(nave.getX(), nave.getY(), player.getTextureRegion(1), VBOmanager);
+    	// Movimento em X
+    	X=(int)(X + accelerationX * acelerador);
+    	
+    	int limite = 100;
+        if (X < limite-nave.getWidth()/2)
+    		X=X + (int)((limite-X-nave.getWidth()/2) * força_das_molas);
+        if (X > CAMERA_WIDTH - limite-nave.getWidth()/2)
+    		X=X - (int)((X- (CAMERA_WIDTH-limite-nave.getWidth()/2)) * força_das_molas);
     	
     	accelerationOLD = accelerationX;
+    	nave.setPosition(X, Y);
     }
 
-	public Sprite getNave() {
+	public Sprite Shape() {
 		return nave;
 	}
 
-	public void disparar() {
-        //    Instantiate(tiro, transform.position, transform.localRotation);
+	public void disparar(Tiro bala) {
+		laser.play();
+		bala.Fire(nave.getX() + nave.getWidth() / 2, nave.getY());
 	}
 
 	public void saltar() {

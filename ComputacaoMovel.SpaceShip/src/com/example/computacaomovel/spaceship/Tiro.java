@@ -1,11 +1,14 @@
 package com.example.computacaomovel.spaceship;
 
+import java.io.IOException;
+
 import org.andengine.engine.Engine;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 
@@ -16,32 +19,49 @@ public class Tiro {
 	 * a real factory class, member variables might be used to define position,
 	 * color, scale, and more, of a sprite or other entity. */
 	private Sprite tiro;
-	private int speed = 2;
-	private int mX;
-	private int mY;
+	private int speed = 6;
+	private float mX;
+	private float mY;
+	private boolean active = false;
+    private ITextureRegion regiao;
 	 
-	 // BaseObject constructor, all subtypes should define an mX and mY value on creation
-	 public Tiro(Context context,Engine mEngine){
-		 BuildableBitmapTextureAtlas texBanana = new BuildableBitmapTextureAtlas(mEngine.getTextureManager(), 256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		 TextureRegion regBanana = BitmapTextureAtlasTextureRegionFactory.createFromAsset(texBanana, context.getAssets(), "nave.png");
-		 texBanana.load();
-		 tiro = new Sprite(0,0,TextureRegionFactory.extractFromTexture(texBanana),mEngine.getVertexBufferObjectManager());
+	 public Tiro(MainActivity game){
+		TextureRegion myTextureRegion;
+		BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(game.getEngine().getTextureManager(), 50, 25, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		myTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, game, "Tiro.png", 0, 0);
+		mBitmapTextureAtlas.load();
+		regiao = TextureRegionFactory.extractFromTexture(myTextureRegion.getTexture());
+  
+		tiro = new Sprite(
+				-50, -50, regiao,
+				game.getEngine().getVertexBufferObjectManager());
+		tiro.setScale(0.3f, 0.3f);
+		tiro.setRotation(90);
 	 }
 	 
 	 public void Update(){
-		 mY -= speed;
-		 tiro.setY(mY - tiro.getHeight()/2);
+		 if(active){
+			 mY -= speed;
+			 tiro.setY(mY - tiro.getHeight()/2);
+			 if(tiro.getY() < -tiro.getHeight())
+				 active=false;
+		 }
 	 }
 	 
-	 public void Fire(final int pX, final int pY){
-		 this.mX = pX;
-		 mY = pY;
-		 tiro.setY(mY - tiro.getHeight()/2);
-		 tiro.setX(mX - tiro.getWidth()/2);
+	 public void Fire(final float pX, final float pY){
+		 if(active==false){
+			 this.mX = pX;
+			 mY = pY;
+			 tiro.setY(mY - tiro.getHeight() / 2);
+			 tiro.setX(mX - tiro.getWidth() / 2);
+			 active = true;
+		 }
 	 }
 	 
 	 public void Destroy(){
-		 
+		 tiro.setX(-50);
+		 tiro.setY(-50);
+		 active = false;
 	 }
 	 
 	 public Sprite Shape(){
