@@ -4,6 +4,14 @@ import org.andengine.entity.sprite.Sprite;
 
 public abstract class Enemy {
 	
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
 	//Sprite do inimigo
 	private Sprite sprite; 
 	//velocidades
@@ -17,6 +25,8 @@ public abstract class Enemy {
 	public Enemy(){
 	}
 	
+	//Metodo abstrato para disparar
+	//É necessário fazer override do metodo
 	public abstract void shoot();
 	
 	public void update()
@@ -25,16 +35,17 @@ public abstract class Enemy {
 		moverX();
 	}
 	
-	public void moverY()
+	private void moverY()
 	{
 		posY = posY + velocidadeY;
 	}
 	
-	public void moverX()
+	private void moverX()
 	{
 		posX = posX + velocidadeX;
 	}
 	
+	//Remove 1 escudo por cada ponto em i, quando tiver 0 escudos a proxima colisão destroi a nave
 	public void removeShield(int i)
 	{
 		if (shield < i){
@@ -45,11 +56,17 @@ public abstract class Enemy {
 			shield = shield - i;
 	}
 	
+	//Regenera o escudo de acordo com o rate recebido
 	public void generateShield(float rate)
 	{
 		shield += rate;
 	}
 	
+	
+	/* ------ Get's --------
+	 * ------  & -----------
+	 * ------ Set's --------
+	 */
 	public float getPosX() {
 		return posX;
 	}
@@ -65,4 +82,21 @@ public abstract class Enemy {
 	public boolean getVida() {
 		return vida;
 	}
+
+	public float getVelocidadeY() {
+		return velocidadeY;
+	}
+
+	public void setVelocidadeY(float velocidadeY) {
+		this.velocidadeY = velocidadeY;
+	}
+
+	public float getVelocidadeX() {
+		return velocidadeX;
+	}
+
+	public void setVelocidadeX(float velocidadeX) {
+		this.velocidadeX = velocidadeX;
+	}
+	
 }
