@@ -17,7 +17,8 @@ import org.andengine.opengl.texture.region.TextureRegionFactory;
 import android.content.Context;
 
 public class Tiro {
-	/* The mX and mY variables have no real purpose in this recipe, however in
+	
+		/* The mX and mY variables have no real purpose in this recipe, however in
 	 * a real factory class, member variables might be used to define position,
 	 * color, scale, and more, of a sprite or other entity. */
 	private Sprite tiro;

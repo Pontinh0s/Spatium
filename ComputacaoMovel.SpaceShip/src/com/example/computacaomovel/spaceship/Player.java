@@ -25,10 +25,16 @@ public class Player{
 	private Sound laser;
 	private final int CAMERA_WIDTH, CAMERA_HEIGHT;
 
-    private final float sensibilidade = 9f;
+	//Integridade
+	private float shield, rate;
+	public int lifes = 5;
+	
+	//Movimento
+	private final float sensibilidade = 9f;
     private final float acelerador = 2f;
     private final float força_das_molas = 0.17f;
-    public int lifes = 5;
+    
+    //Salto
     public Boolean saltar = false;
     private float salto = 0;
     private final float velocidade_de_salto = 0.065f;
@@ -55,7 +61,7 @@ public class Player{
 		player = TextureRegionFactory.extractTiledFromTexture(myTextureRegion.getTexture(), 3, 1);
         
 		X = CAMERA_WIDTH/2;
-		Y = CAMERA_HEIGHT-80;
+		Y = CAMERA_HEIGHT-70;
 		nave = new Sprite(
 				X, Y,
 				player.getTextureRegion(1),
@@ -64,10 +70,12 @@ public class Player{
 		
         // Sons
         laser = SoundFactory.createSoundFromAsset(game.getEngine().getSoundManager(), game, "sounds/laser.ogg");
-}
+	}
     
     public void Update(final float accelerationX)
     {
+    	//É necessario fazer setShield antes do primeiro update
+    	regenerateShield(rate);
     	//Salto
     	if (saltar)
         {
@@ -107,4 +115,38 @@ public class Player{
 	public void saltar() {
         saltar = true;
     }
+	
+	//Remove 1 escudo por cada ponto em i, quando tiver 0 escudos a proxima colisão destroi a nave
+	public void removeShield(int i)
+	{
+		if (shield < i){
+			shield = 0;
+		}else if (shield < 1){
+			lifes -= 1;
+		}else
+			shield = shield - i;
+	}
+		
+	//Regenera o escudo de acordo com o rate recebido
+	private void regenerateShield(float rate)
+	{
+		shield += rate;
+	}
+
+	public float getShield() {
+		return shield;
+	}
+
+	public void setShield(float shield) {
+		this.shield = shield;
+	}
+
+	public float getRate() {
+		return rate;
+	}
+
+	public void setRate(float rate) {
+		this.rate = rate;
+	}
+	
 }
