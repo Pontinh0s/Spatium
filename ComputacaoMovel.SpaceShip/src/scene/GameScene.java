@@ -6,19 +6,25 @@ import managers.SceneManager;
 import managers.SceneManager.SceneType;
 
 import org.andengine.engine.handler.IUpdateHandler;
+import org.andengine.entity.scene.IOnSceneTouchListener;
+import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
+import org.andengine.input.touch.TouchEvent;
+import org.andengine.input.touch.controller.ITouchController;
 import org.andengine.util.color.Color;
 
 import android.util.Log;
+import android.view.MotionEvent;
 import base_classes.BaseScene;
 
 
-public class GameScene extends BaseScene{
+public class GameScene extends BaseScene implements IOnSceneTouchListener{
 	private AccelerometerManager accelerometer;
 	private float timer = 0;
+	private float touchX, touchY;
 	
 	private Text scoreText;
 	private int score = 0;
@@ -93,4 +99,36 @@ public class GameScene extends BaseScene{
     	Log.d("AccelerometerDEBUG", String.format("x:%.3f  y:%.3f  z:%.3f", accelerometer.getXAxis(), accelerometer.getYAxis(), accelerometer.getZAxis()));
     	//Log.d("TouchDEBUG", "x:")
     }
+
+	@Override
+	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+    	switch (pSceneTouchEvent.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				touchX = pSceneTouchEvent.getX();
+				touchY = pSceneTouchEvent.getX();
+				onTouchDown();
+				break;
+			case MotionEvent.ACTION_MOVE:
+				touchX = pSceneTouchEvent.getX();
+				touchY = pSceneTouchEvent.getX();
+				onTouchMove();
+				break;
+			case MotionEvent.ACTION_UP:
+				onTouchUp();
+				break;
+		}
+        return true;
+	}
+	
+	private void onTouchDown(){
+		
+	}
+	
+	private void onTouchMove(){
+		
+	}
+	
+	private void onTouchUp(){
+		
+	}
 }
