@@ -15,6 +15,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.ui.activity.BaseGameActivity;
 
 import android.content.Context;
 
@@ -31,16 +32,15 @@ public class Meteorito {
     private ITextureRegion enemy;
 	 
 	 // BaseObject constructor, all subtypes should define an mX and mY value on creation
-	 public Meteorito(MainActivity game, final int maxX, final int maxY) throws IOException{
+	 public Meteorito(BaseGameActivity game, final int maxX, final int maxY){
 		 this.maxX = maxX;
 		 this.maxY = maxY;
 		 mY = -50;
 		 LoadContent(game);
 	 }
 		
-	private void LoadContent(MainActivity game) throws IOException{
+	private void LoadContent(BaseGameActivity game){
 		TextureRegion myTextureRegion;
-		//BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("spritesheets/");
 		BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(game.getEngine().getTextureManager(), 64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		myTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, game, "asteroidBig01.png", 0, 0);
 		mBitmapTextureAtlas.load();

@@ -1,16 +1,22 @@
 package com.example.computacaomovel.spaceship;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.andengine.engine.Engine;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.texture.ITexture;
+import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.andengine.opengl.texture.bitmap.BitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.util.adt.io.in.IInputStreamOpener;
 
 import android.content.Context;
 
@@ -25,7 +31,7 @@ public class Tiro {
 	private boolean active = false;
     private ITextureRegion regiao;
 	 
-	 public Tiro(MainActivity game){
+	 public Tiro(BaseGameActivity game){
 		TextureRegion myTextureRegion;
 		BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(game.getEngine().getTextureManager(), 50, 25, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		myTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, game, "Tiro.png", 0, 0);
@@ -66,5 +72,17 @@ public class Tiro {
 	 
 	 public Sprite Shape(){
 		 return this.tiro;
+	 }
+	 
+	 private ITexture LoadTexture(final BaseGameActivity game, final String fileName) throws IOException{
+		 ITexture textura = new BitmapTexture(
+				 game.getTextureManager(),
+				 new IInputStreamOpener() {
+					public InputStream open() throws IOException {
+						return game.getAssets().open(fileName);
+					}
+				});
+		 
+		 return textura;
 	 }
 }

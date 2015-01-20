@@ -15,6 +15,7 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.ui.activity.BaseGameActivity;
 
 import android.content.Context;
 import android.view.MotionEvent;
@@ -38,32 +39,36 @@ public class Player{
     
     private int X, Y;
     
-	public Player(final int CAMERA_WIDTH, final int CAMERA_HEIGHT, MainActivity game, float scale) throws IOException{
+	public Player(final int CAMERA_WIDTH, final int CAMERA_HEIGHT, BaseGameActivity game, float scale){
 		this.CAMERA_WIDTH = CAMERA_WIDTH;
 		this.CAMERA_HEIGHT = CAMERA_HEIGHT;
 		this.scale = scale;
 		LoadContent(game);
 	}
 		
-	private void LoadContent(MainActivity game) throws IOException{
-        
-		TextureRegion myTextureRegion;
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("spritesheets/");
-		BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(game.getEngine().getTextureManager(), 201, 65, TextureOptions.DEFAULT);
-		myTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, game, "nave.png", 0, 0);
-		mBitmapTextureAtlas.load();
-		player = TextureRegionFactory.extractTiledFromTexture(myTextureRegion.getTexture(), 3, 1);
-        
-		X = CAMERA_WIDTH/2;
-		Y = CAMERA_HEIGHT-80;
-		nave = new Sprite(
+	private void LoadContent(BaseGameActivity game){
+        try {
+			TextureRegion myTextureRegion;
+			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("spritesheets/");
+			BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(game.getEngine().getTextureManager(), 201, 65, TextureOptions.DEFAULT);
+			myTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, game, "nave.png", 0, 0);
+			mBitmapTextureAtlas.load();
+			player = TextureRegionFactory.extractTiledFromTexture(myTextureRegion.getTexture(), 3, 1);
+	        
+			X = CAMERA_WIDTH/2;
+			Y = CAMERA_HEIGHT-80;
+			nave = new Sprite(
 				X, Y,
 				player.getTextureRegion(1),
 				game.getEngine().getVertexBufferObjectManager());
-        nave.setScale(this.scale, this.scale);
+			nave.setScale(this.scale, this.scale);
 		
-        // Sons
-        laser = SoundFactory.createSoundFromAsset(game.getEngine().getSoundManager(), game, "sounds/laser.ogg");
+			// Sons
+			laser = SoundFactory.createSoundFromAsset(game.getEngine().getSoundManager(), game, "sounds/laser.ogg");
+		
+        	} catch (Exception e) {
+			e.printStackTrace();
+		}
 }
     
     public void Update(final float accelerationX)
