@@ -1,4 +1,5 @@
 package com.example.computacaomovel.spaceship;
+/*package com.example.computacaomovel.spaceship;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,9 +52,12 @@ import org.andengine.util.color.Color;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.texturepack.TexturePackLibrary;
 
+import com.example.computacaomovel.spaceship.SceneManager.SceneType;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -87,13 +91,13 @@ public class MainActivity extends BaseGameActivity  implements IOnSceneTouchList
     private SpriteBackground backgroundMenu, backgroundGame;
     
     //-----Camera------
-    private Camera mCamera = new Camera(0,0,CAMERA_WIDTH, CAMERA_HEIGHT);
+    private Camera mCamera;
     private EngineOptions eo;
-    static final int CAMERA_WIDTH = 320;
-    static final int CAMERA_HEIGHT = 480;
+    static Point windowSize;
     //-----Fim camera----
     
     //GAME
+    private GameLevel level;
     private EngineOptions gameEO;
     private Scene game = new Scene();
     private float timer=0;
@@ -104,36 +108,44 @@ public class MainActivity extends BaseGameActivity  implements IOnSceneTouchList
     private Player nave;
     private Meteorito enemy;
     private Tiro bullets;
-    boolean gameOver = false;
+    private boolean gameOver = false;
+
+    //---------------------------------------------
+    // SCENES
+    //---------------------------------------------
+    
+    private BaseScene splashScene;
+    private BaseScene menuScene;
+    private BaseScene gameScene;
+    private BaseScene loadingScene;
 
     //SENSOR
     AccelerometerHelper mAccelerometerHelper;
-    float accelerationX=0;
+    float accelerationX = 0;
     
     //GLOBAL
-    mode estado = mode.menu;
-    public enum mode{
-    	menu,
-    	game;
-    }
+    SceneType estado = SceneType.SCENE_MENU;
     
     @Override
      public EngineOptions onCreateEngineOptions() {
-    	//if(estado==mode.menu){
-            eo = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new FillResolutionPolicy(), mCamera);
-            eo.setWakeLockOptions(WakeLockOptions.SCREEN_BRIGHT);
-    	//}
-    	//else{
-    		gameEO = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new FillResolutionPolicy(), mCamera);
-    		gameEO.setWakeLockOptions(WakeLockOptions.SCREEN_ON);
-        	CreateNewGameEngine();
-    	//}
-
+    	Display defaultDisplay = getWindowManager().getDefaultDisplay();
+    	try{
+    		windowSize = new Point(defaultDisplay.getWidth(), defaultDisplay.getHeight());
+    	}
+    	catch (Exception e){
+    		System.out.print(e.getMessage());
+    		//defaultDisplay.getSize(windowSize);
+    	}
+    	mCamera = new Camera(0,0,windowSize.x, windowSize.y);
+    	
+        eo = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new FillResolutionPolicy(), mCamera);
+        eo.setWakeLockOptions(WakeLockOptions.SCREEN_BRIGHT);
         eo.getAudioOptions().setNeedsMusic(true);
         eo.getAudioOptions().setNeedsSound(true);
-        gameEO.getAudioOptions().setNeedsMusic(true);
-        gameEO.getAudioOptions().setNeedsSound(true);
+        //CreateNewGameEngine();
 
+        level = new GameLevel(mCamera);
+        
         //SENSOR
         mAccelerometerHelper = new AccelerometerHelper(this);
         
@@ -148,20 +160,13 @@ public class MainActivity extends BaseGameActivity  implements IOnSceneTouchList
     	w_credits = new Intent(this, Credits.class);
     	//w_heighscores = new Intent(this, Credits.class);
     	w_options = new Intent(this, Options.class);
-    	
-    	//GAME
-        BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("spritesheets/");
-        MusicFactory.setAssetBasePath("sounds/");
-        FontFactory.setAssetBasePath("fonts/");
 
         //MENU
         LoadButtons();
         LoadSounds();
-        LoadBackgrounds();
         
         //GAME
-        LoadGameObjects();
-        LoadGameFont();
+        level.onCreateResources();
             
     	pOnCreateResourcesCallback.onCreateResourcesFinished();
     }
@@ -182,7 +187,7 @@ public class MainActivity extends BaseGameActivity  implements IOnSceneTouchList
         opBitmap.load();
         op_btn = TextureRegionFactory.extractTiledFromTexture(opRegion.getTexture(), 2, 1);
 	}
-
+    
 	public void LoadSounds(){
 		try {
             mMusic = MusicFactory.createMusicFromAsset(getMusicManager(), this, "a-call-to-duty.mp3");
@@ -203,55 +208,41 @@ public class MainActivity extends BaseGameActivity  implements IOnSceneTouchList
         cena.setTouchAreaBindingOnActionDownEnabled(true);
         CreateButtons();
 
-		game.setBackground(backgroundGame);
-		game.setOnSceneTouchListener(this);
-        game.registerUpdateHandler(new IUpdateHandler() {
-			@Override
-			public void onUpdate(float pSecondsElapsed) {
-	        	if(estado == mode.game){
-					timer += pSecondsElapsed;
-					gameUpdate();
-	        	}
-			}
-			@Override
-			public void reset() {
-			}
-        });
+        //level.StartGame(this, mEngine);
         
     	pOnCreateSceneCallback.onCreateSceneFinished(cena);
     }
 
     @Override
     public void onPopulateScene(Scene pScene, OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
-        	game.attachChild(bullets.Shape());
-        	game.attachChild(enemy.Shape());
-        	game.attachChild(nave.Shape());
-        	game.attachChild(score);
+    	game.attachChild(bullets.Shape());
+    	game.attachChild(enemy.Shape());
+    	game.attachChild(nave.Shape());
+    	game.attachChild(score);
     	
         pOnPopulateSceneCallback.onPopulateSceneFinished();
     }
      
     public void CreateButtons(){
-
-        TiledSprite startButton = new TiledSprite(CAMERA_WIDTH/2-start_btn.getWidth(0)/2, CAMERA_HEIGHT/4-start_btn.getHeight(0)/2, start_btn, getVertexBufferObjectManager()){
+        TiledSprite startButton = new TiledSprite(windowSize.x/2-start_btn.getWidth(0)/2, windowSize.y/4-start_btn.getHeight(0)/2, start_btn, getVertexBufferObjectManager()){
         @Override
         public boolean onAreaTouched(final TouchEvent pAreaTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY){
                 switch(pAreaTouchEvent.getAction()){
                 case TouchEvent.ACTION_DOWN:
-                        this.setCurrentTileIndex(1);
-                        mCollision.play();
-                        break;
-        case TouchEvent.ACTION_OUTSIDE:
-                this.setCurrentTileIndex(0);
-                break;
-        case TouchEvent.ACTION_UP:
-            this.setCurrentTileIndex(0);
-        	estado = mode.game;
-        	 gameReset();
-        	//mMusic.stop();
-        	//backMusic.play();
-        	mEngine.setScene(game);
-            break;
+                    this.setCurrentTileIndex(1);
+                    mCollision.play();
+                    break;
+		        case TouchEvent.ACTION_OUTSIDE:
+	                this.setCurrentTileIndex(0);
+	                break;
+		        case TouchEvent.ACTION_UP:
+		            this.setCurrentTileIndex(0);
+		        	estado = mode.game;
+		        	 gameReset();
+		        	//mMusic.stop();
+		        	//backMusic.play();
+		        	mEngine.setScene(level.StartGame(mEngine));
+		            break;
                 }
                 return true;
         }
@@ -259,7 +250,7 @@ public class MainActivity extends BaseGameActivity  implements IOnSceneTouchList
         cena.registerTouchArea(startButton);
         cena.attachChild(startButton);
 
-        TiledSprite optionsButton = new TiledSprite(CAMERA_WIDTH/2-op_btn.getWidth(0)/2, (float) (CAMERA_HEIGHT*2/4-op_btn.getHeight(0)/2), op_btn, getVertexBufferObjectManager()){
+        TiledSprite optionsButton = new TiledSprite(windowSize.x/2-op_btn.getWidth(0)/2, (float) (windowSize.y*2/4-op_btn.getHeight(0)/2), op_btn, getVertexBufferObjectManager()){
         @Override
         public boolean onAreaTouched(final TouchEvent pAreaTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY){
                 switch(pAreaTouchEvent.getAction()){
@@ -281,7 +272,7 @@ public class MainActivity extends BaseGameActivity  implements IOnSceneTouchList
         cena.registerTouchArea(optionsButton);
         cena.attachChild(optionsButton);
 
-        TiledSprite creditsButton = new TiledSprite(CAMERA_WIDTH/2-credits_btn.getWidth(0)/2, CAMERA_HEIGHT*3/4-credits_btn.getHeight(0)/2, credits_btn, getVertexBufferObjectManager()){
+        TiledSprite creditsButton = new TiledSprite(windowSize.x/2-credits_btn.getWidth(0)/2, windowSize.y*3/4-credits_btn.getHeight(0)/2, credits_btn, getVertexBufferObjectManager()){
         @Override
         public boolean onAreaTouched(final TouchEvent pAreaTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY){
                 switch(pAreaTouchEvent.getAction()){
@@ -306,16 +297,7 @@ public class MainActivity extends BaseGameActivity  implements IOnSceneTouchList
     
     //GAME
     public void CreateNewGameEngine(){
-		mEngine = new FixedStepEngine(eo, 200);
-    }
-    
-    public void LoadGameFont(){
-    	FontFactory.setAssetBasePath("font/");
-    	fontTexture = new BitmapTextureAtlas(getTextureManager(), 256, 256, TextureOptions.BILINEAR);
-        this.mFont = new Font(getFontManager(), fontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, new Color(1f,0.97f,0.57f));
-		mFont.load();
-	    score = new Text(-20, 10, mFont, "Vidas: XX\nTempo: XXxxxxxXxxxXXxxxXXxxXxxxxxxX", mEngine.getVertexBufferObjectManager());
-	    score.setScale(0.5f);
+		mEngine = level.CreateNewGameEngine();
     }
     
     public void LoadBackgrounds(){
@@ -325,24 +307,8 @@ public class MainActivity extends BaseGameActivity  implements IOnSceneTouchList
 		mBitmapTextureAtlas.load();
 		TextureRegion region=TextureRegionFactory.extractFromTexture(myTextureRegion.getTexture());
 		Sprite sprite = new Sprite(0,0, region,mEngine.getVertexBufferObjectManager());
-			sprite.setScale(CAMERA_WIDTH/sprite.getWidth()*1.2f);
+			sprite.setScale(windowSize.x/sprite.getWidth()*1.2f);
 		backgroundMenu = new SpriteBackground(sprite);
-
-		mBitmapTextureAtlas = new BitmapTextureAtlas(mEngine.getTextureManager(), 576, 324, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		myTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, this, "earth-wallpaper-1080p.png", 0, 0);
-		mBitmapTextureAtlas.load();
-		region=TextureRegionFactory.extractFromTexture(myTextureRegion.getTexture());
-		sprite = new Sprite(0,0, region,mEngine.getVertexBufferObjectManager());
-			sprite.setScale(sprite.getWidth()*1.6f/CAMERA_WIDTH);
-			sprite.setX(-(sprite.getWidth()-CAMERA_WIDTH)/2);
-			sprite.setY(-(sprite.getHeight()-CAMERA_HEIGHT)/2);
-		backgroundGame = new SpriteBackground(sprite);
-    }
-
-    public void LoadGameObjects() throws IOException{
-    	nave = new Player(CAMERA_WIDTH, CAMERA_HEIGHT, this, 0.7f);
-    	enemy = new Meteorito(this, CAMERA_WIDTH, CAMERA_HEIGHT);
-    	bullets = new Tiro(this);
     }
     
     public void gameUpdate(){
@@ -390,7 +356,7 @@ public class MainActivity extends BaseGameActivity  implements IOnSceneTouchList
     @Override
     public synchronized void onPauseGame() {
         super.onPauseGame();
-    	mMusic.pause();
+    	level.onPauseGame();
     }
     
     @Override
@@ -420,7 +386,9 @@ public class MainActivity extends BaseGameActivity  implements IOnSceneTouchList
     {
         if ((keyCode == KeyEvent.KEYCODE_BACK) && (estado == mode.game))
         {
-            estado = mode.menu;
+        	if (estado == mode.game)
+        		estado = mode.menu;
+        	
         	mEngine.setScene(cena);
         }
         else if ((keyCode == KeyEvent.KEYCODE_BACK) && (estado == mode.menu)){
@@ -433,16 +401,9 @@ public class MainActivity extends BaseGameActivity  implements IOnSceneTouchList
     
     //SENSOR
 	@Override
-	public boolean onSceneTouchEvent(Scene pScene,
-			TouchEvent pSceneTouchEvent) {
-		if (pSceneTouchEvent.isActionDown())
-	    {
-	    	if (pSceneTouchEvent.getX() > CAMERA_WIDTH/2)
-    			nave.disparar(bullets);
-	    	if (pSceneTouchEvent.getX() < CAMERA_WIDTH/2)
-	    		nave.saltar();
-	    }
+	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+		level.onSceneTouchEvent(pSceneTouchEvent);
 		return false;
 	}
 
-}
+}*/

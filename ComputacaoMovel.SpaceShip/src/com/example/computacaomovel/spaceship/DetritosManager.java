@@ -11,6 +11,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.ui.activity.BaseGameActivity;
 
 public class DetritosManager {
 	/* The mX and mY variables have no real purpose in this recipe, however in
@@ -26,16 +27,19 @@ public class DetritosManager {
     private ITextureRegion enemy;
 	 
 	 // BaseObject constructor, all subtypes should define an mX and mY value on creation
+<<<<<<< HEAD:ComputacaoMovel.SpaceShip/src/com/example/computacaomovel/spaceship/DetritosManager.java
 	 public DetritosManager(MainActivity game, final int maxX, final int maxY) throws IOException{
+=======
+	 public Meteorito(BaseGameActivity game, final int maxX, final int maxY){
+>>>>>>> origin/Davide.1:ComputacaoMovel.SpaceShip/src/com/example/computacaomovel/spaceship/Meteorito.java
 		 this.maxX = maxX;
 		 this.maxY = maxY;
 		 mY = -50;
 		 LoadContent(game);
 	 }
 		
-	private void LoadContent(MainActivity game) throws IOException{
+	private void LoadContent(BaseGameActivity game){
 		TextureRegion myTextureRegion;
-		//BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("spritesheets/");
 		BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(game.getEngine().getTextureManager(), 64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		myTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, game, "asteroidBig01.png", 0, 0);
 		mBitmapTextureAtlas.load();
