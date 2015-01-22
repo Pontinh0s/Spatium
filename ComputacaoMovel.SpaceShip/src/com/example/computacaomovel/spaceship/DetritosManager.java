@@ -1,38 +1,37 @@
 package com.example.computacaomovel.spaceship;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
-
-import org.andengine.audio.sound.SoundFactory;
-import org.andengine.engine.Engine;
 import org.andengine.entity.shape.IShape;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.BaseGameActivity;
 
-import android.content.Context;
-
-public class Meteorito {
+public class DetritosManager {
 	/* The mX and mY variables have no real purpose in this recipe, however in
 	 * a real factory class, member variables might be used to define position,
 	 * color, scale, and more, of a sprite or other entity. */
 	private Sprite meteorito;
+	private ArrayList<Sprite> detritos;
 	private Random random = new Random();
 	public int speed = 4;
-	private float scale = 3f;
+	//private float scale = 3f;
 	private float mX, maxX;
 	private float mY, maxY;
     private ITextureRegion enemy;
 	 
 	 // BaseObject constructor, all subtypes should define an mX and mY value on creation
+<<<<<<< HEAD:ComputacaoMovel.SpaceShip/src/com/example/computacaomovel/spaceship/DetritosManager.java
+	 public DetritosManager(MainActivity game, final int maxX, final int maxY) throws IOException{
+=======
 	 public Meteorito(BaseGameActivity game, final int maxX, final int maxY){
+>>>>>>> origin/Davide.1:ComputacaoMovel.SpaceShip/src/com/example/computacaomovel/spaceship/Meteorito.java
 		 this.maxX = maxX;
 		 this.maxY = maxY;
 		 mY = -50;
@@ -54,18 +53,26 @@ public class Meteorito {
 }
 	 
 	 public void Update(){
-		 mY += speed;
-		 if(mY >= maxY)
-			 Restart();
-		 else
-			 meteorito.setY(mY);
+		
+		 for (int i = 0; i < detritos.size();i++){
+			 mY += speed;
+			 detritos.get(i).setY(mY - meteorito.getHeight()/2);
+			 if (detritos.get(i).getY() > maxY){
+				 detritos.get(i).detachSelf();
+				 detritos.get(i).dispose();
+				 detritos.remove(i);
+			 }
+		 }		
 	 }
 
-	 public void Restart(){
+	 public void Add(){
+		 
 		 this.mX = random.nextFloat()*maxX;
 		 mY = -meteorito.getHeight();
 		 meteorito.setY(mY - meteorito.getHeight()/2);
 		 meteorito.setX(mX - meteorito.getWidth()/2);
+		 detritos.add(meteorito);
+		 
 	 }
 	 
 	 public boolean DetectColision(IShape otherShape){
@@ -75,4 +82,17 @@ public class Meteorito {
 	 public Sprite Shape(){
 		 return this.meteorito;
 	 }
+	 
+	 public void Destroy(IShape shapeu){
+		 
+		 for (int index = 0; index < detritos.size();index++){
+			if (this.detritos.get(index).collidesWith(shapeu)){
+				
+				detritos.get(index).detachSelf();
+				detritos.get(index).dispose();
+				detritos.remove(index);
+			}
+		 }
+	 }
 }
+
