@@ -50,61 +50,55 @@ public class Tiro {
 		tiro.setRotation(90);
 	 }
 	 
-	 public void Update(){
-		
-		 for (int i = 0; i < tiros.size();i++){
-			 mY -= speed;
-			 tiros.get(i).setY(mY - tiro.getHeight()/2);
-			 if (tiros.get(i).getY() > alturaEcra){
-				 tiros.get(i).detachSelf();
-				 tiros.get(i).dispose();
-				 tiros.remove(i);
-			 }
-		 }		 
-	 }
+	public void Update(){
+		for (int i = 0; i < tiros.size();i++){
+			mY -= speed;
+			tiros.get(i).setY(mY - tiro.getHeight()/2);
+			if (tiros.get(i).getY() > alturaEcra){
+				tiros.get(i).detachSelf();
+				tiros.get(i).dispose();
+				tiros.remove(i);
+			}
+		}
+	}
 	 
-	 public void Fire(final float pX, final float pY){
-		 
-			 this.mX = pX;
-			 mY = pY;
-			 tiro.setY(mY - tiro.getHeight() / 2);
-			 tiro.setX(mX - tiro.getWidth() / 2);
-			 tiros.add(tiro);
-	 }
-	 
-	 public void Destroy(int index){
-		 
-		 tiros.get(index).detachSelf();
-		 tiros.get(index).dispose();
-		 tiros.remove(index);
-		 
-	 }
-	 
-	 public void Destroy(IShape shapeu){
-		 
-		 for (int index = 0; index < tiros.size();index++){
+	public void Fire(final float pX, final float pY){
+		this.mX = pX;
+		mY = pY;
+		tiro.setY(mY - tiro.getHeight() / 2);
+		tiro.setX(mX - tiro.getWidth() / 2);
+		tiros.add(tiro);
+	}
+	
+	public void Destroy(int index){
+		tiros.get(index).detachSelf();
+		tiros.get(index).dispose();
+		tiros.remove(index);
+	}
+	
+	public void Destroy(IShape shapeu){
+		for (int index = 0; index < tiros.size();index++){
 			if (this.tiros.get(index).collidesWith(shapeu)){
-				
 				tiros.get(index).detachSelf();
 				tiros.get(index).dispose();
 				tiros.remove(index);
 			}
-		 }
-	 }
-	 
-	 public Sprite Shape(){
-		 return this.tiro;
-	 }
-	 
-	 private ITexture LoadTexture(final BaseGameActivity game, final String fileName) throws IOException{
-		 ITexture textura = new BitmapTexture(
-				 game.getTextureManager(),
-				 new IInputStreamOpener() {
+		}
+	}
+	
+	public Sprite Shape(){
+		return this.tiro;
+	}
+	
+	private ITexture LoadTexture(final BaseGameActivity game, final String fileName) throws IOException{
+		ITexture textura = new BitmapTexture(
+				game.getTextureManager(),
+				new IInputStreamOpener() {
 					public InputStream open() throws IOException {
 						return game.getAssets().open(fileName);
 					}
 				});
-		 
-		 return textura;
-	 }
+				
+		return textura;
+	}
 }
