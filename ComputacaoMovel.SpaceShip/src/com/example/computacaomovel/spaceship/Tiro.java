@@ -38,12 +38,8 @@ public class Tiro {
     private ArrayList<Sprite> tiros;
     private int alturaEcra;
 	 
-<<<<<<< HEAD
-	 public Tiro(MainActivity game, int altura){
-		 alturaEcra = altura;
-=======
-	 public Tiro(BaseGameActivity game){
->>>>>>> origin/Davide.1
+	public Tiro(MainActivity game, int altura){
+		alturaEcra = altura;
 		TextureRegion myTextureRegion;
 		BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(game.getEngine().getTextureManager(), 50, 25, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		myTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, game, "Tiro.png", 0, 0);

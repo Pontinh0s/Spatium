@@ -26,17 +26,13 @@ public class DetritosManager {
 	private float mY, maxY;
     private ITextureRegion enemy;
 	 
-	 // BaseObject constructor, all subtypes should define an mX and mY value on creation
-<<<<<<< HEAD:ComputacaoMovel.SpaceShip/src/com/example/computacaomovel/spaceship/DetritosManager.java
-	 public DetritosManager(MainActivity game, final int maxX, final int maxY) throws IOException{
-=======
-	 public Meteorito(BaseGameActivity game, final int maxX, final int maxY){
->>>>>>> origin/Davide.1:ComputacaoMovel.SpaceShip/src/com/example/computacaomovel/spaceship/Meteorito.java
-		 this.maxX = maxX;
-		 this.maxY = maxY;
-		 mY = -50;
-		 LoadContent(game);
-	 }
+	// BaseObject constructor, all subtypes should define an mX and mY value on creation
+	public DetritosManager(MainActivity game, final int maxX, final int maxY) throws IOException{
+		this.maxX = maxX;
+		this.maxY = maxY;
+		mY = -50;
+		LoadContent(game);
+	}
 		
 	private void LoadContent(BaseGameActivity game){
 		TextureRegion myTextureRegion;
@@ -50,49 +46,44 @@ public class DetritosManager {
 				enemy,
 				game.getEngine().getVertexBufferObjectManager());
 		meteorito.setScale(0.9f, 0.9f);
-}
+	}
 	 
-	 public void Update(){
-		
-		 for (int i = 0; i < detritos.size();i++){
-			 mY += speed;
-			 detritos.get(i).setY(mY - meteorito.getHeight()/2);
-			 if (detritos.get(i).getY() > maxY){
-				 detritos.get(i).detachSelf();
-				 detritos.get(i).dispose();
-				 detritos.remove(i);
-			 }
-		 }		
-	 }
+	public void Update(){
+		for (int i = 0; i < detritos.size();i++){
+			mY += speed;
+			detritos.get(i).setY(mY - meteorito.getHeight()/2);
+			if (detritos.get(i).getY() > maxY){
+				detritos.get(i).detachSelf();
+				detritos.get(i).dispose();
+				detritos.remove(i);
+			}
+		}		
+	}
 
-	 public void Add(){
-		 
-		 this.mX = random.nextFloat()*maxX;
-		 mY = -meteorito.getHeight();
-		 meteorito.setY(mY - meteorito.getHeight()/2);
-		 meteorito.setX(mX - meteorito.getWidth()/2);
-		 detritos.add(meteorito);
-		 
-	 }
+	public void Add(){
+		this.mX = random.nextFloat()*maxX;
+		mY = -meteorito.getHeight();
+		meteorito.setY(mY - meteorito.getHeight()/2);
+		meteorito.setX(mX - meteorito.getWidth()/2);
+		detritos.add(meteorito);
+	}
 	 
-	 public boolean DetectColision(IShape otherShape){
-		 return (this.meteorito.collidesWith(otherShape));
-	 }
+	public boolean DetectColision(IShape otherShape){
+		return (this.meteorito.collidesWith(otherShape));
+	}
 	 
-	 public Sprite Shape(){
-		 return this.meteorito;
-	 }
-	 
-	 public void Destroy(IShape shapeu){
-		 
-		 for (int index = 0; index < detritos.size();index++){
+	public Sprite Shape(){
+		return this.meteorito;
+	}
+	
+	public void Destroy(IShape shapeu){
+		for (int index = 0; index < detritos.size();index++){
 			if (this.detritos.get(index).collidesWith(shapeu)){
-				
 				detritos.get(index).detachSelf();
 				detritos.get(index).dispose();
 				detritos.remove(index);
 			}
-		 }
-	 }
+		}
+	}
 }
 

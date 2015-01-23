@@ -51,10 +51,8 @@ public class Player{
 		this.scale = scale;
 		LoadContent(game);
 	}
-		
-<<<<<<< HEAD
+	
 	private void LoadContent(MainActivity game) throws IOException{
-        
 		TextureRegion myTextureRegion;
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("spritesheets/");
 		BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(game.getEngine().getTextureManager(), 201, 65, TextureOptions.DEFAULT);
@@ -65,38 +63,14 @@ public class Player{
 		X = CAMERA_WIDTH/2;
 		Y = CAMERA_HEIGHT-70;
 		nave = new Sprite(
-=======
-	private void LoadContent(BaseGameActivity game){
-        try {
-			TextureRegion myTextureRegion;
-			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("spritesheets/");
-			BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(game.getEngine().getTextureManager(), 201, 65, TextureOptions.DEFAULT);
-			myTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBitmapTextureAtlas, game, "nave.png", 0, 0);
-			mBitmapTextureAtlas.load();
-			player = TextureRegionFactory.extractTiledFromTexture(myTextureRegion.getTexture(), 3, 1);
-	        
-			X = CAMERA_WIDTH/2;
-			Y = CAMERA_HEIGHT-80;
-			nave = new Sprite(
->>>>>>> origin/Davide.1
 				X, Y,
 				player.getTextureRegion(1),
 				game.getEngine().getVertexBufferObjectManager());
 			nave.setScale(this.scale, this.scale);
 		
-<<<<<<< HEAD
         // Sons
         laser = SoundFactory.createSoundFromAsset(game.getEngine().getSoundManager(), game, "sounds/laser.ogg");
 	}
-=======
-			// Sons
-			laser = SoundFactory.createSoundFromAsset(game.getEngine().getSoundManager(), game, "sounds/laser.ogg");
-		
-        	} catch (Exception e) {
-			e.printStackTrace();
-		}
-}
->>>>>>> origin/Davide.1
     
     public void Update(final float accelerationX)
     {
