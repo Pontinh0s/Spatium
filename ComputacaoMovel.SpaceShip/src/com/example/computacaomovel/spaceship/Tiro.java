@@ -1,11 +1,8 @@
 package com.example.computacaomovel.spaceship;
 
 import java.io.IOException;
-<<<<<<< HEAD
 import java.util.ArrayList;
-=======
 import java.io.InputStream;
->>>>>>> origin/Davide.1
 
 import org.andengine.engine.Engine;
 import org.andengine.entity.shape.IShape;
