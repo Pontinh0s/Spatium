@@ -119,7 +119,7 @@ public class ResourcesManager
     }
     
     private void loadMenuFonts(){
-    	fontDefault = loadFont("Peric.ttf", 32, Color.BLACK_ABGR_PACKED_INT, false);
+    	fontDefault = loadFont("Peric.ttf", 32, Color.BLUE_ABGR_PACKED_INT, false);
     }
 
     
@@ -170,7 +170,7 @@ public class ResourcesManager
     
     
     private void loadGameFonts(){
-    	fontDefault = loadFont("Peric.ttf", 32, Color.BLACK_ABGR_PACKED_INT, false);
+    	fontDefault = loadFont("Peric.ttf", 32, Color.WHITE_ABGR_PACKED_INT, false);
     }
     
     private void loadGameAudio(){

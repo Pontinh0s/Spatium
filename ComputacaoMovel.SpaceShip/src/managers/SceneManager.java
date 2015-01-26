@@ -5,13 +5,13 @@ import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
+import MenuScenes.MainMenuScene;
+import MenuScenes.SplashScene;
 import base_classes.BaseScene;
 
 
 import scene.GameScene;
 import scene.LoadingScene;
-import scene.MainMenuScene;
-import scene.SplashScene;
 
 
 
