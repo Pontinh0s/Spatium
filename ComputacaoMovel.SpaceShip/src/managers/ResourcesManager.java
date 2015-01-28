@@ -44,6 +44,8 @@ public class ResourcesManager
     public Camera camera;
     public VertexBufferObjectManager vbom;
 
+	public float timer = 0;
+
     //---------------------------------------------
     // TEXTURES & TEXTURE REGIONS
     //---------------------------------------------

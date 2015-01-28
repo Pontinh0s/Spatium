@@ -3,6 +3,7 @@ package scene;
 import managers.AccelerometerManager;
 import managers.DetritosManager;
 import managers.ResourcesManager;
+import managers.TirosManager;
 import managers.SceneManager;
 import managers.SceneManager.SceneType;
 
@@ -13,8 +14,10 @@ import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
+import org.andengine.entity.text.TextOptions;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.controller.ITouchController;
+import org.andengine.util.HorizontalAlign;
 import org.andengine.util.color.Color;
 
 import com.example.computacaomovel.spaceship.*;
@@ -28,12 +31,12 @@ import base_classes.Tiro;
 
 public class GameScene extends BaseScene implements IOnSceneTouchListener{
 	private AccelerometerManager accelerometer;
-	private float timer = 0;
 	private float touchX, touchY;
 	private Player nave;
-	private DetritosManager enemy;
-	private Tiro bullets;
+	private DetritosManager detritos;
+	private TirosManager bullets;
 	
+	private float ticker = 0;
 	private Text scoreText;
 	private float score = 0;
 	private int shields = 3;
@@ -51,16 +54,13 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
     	createHUD();
     	LoadGameObjects();
     	createUpdates();
-    	gameUpdate();
     }
 
     private void LoadGameObjects(){
     	nave = new Player(resourcesManager,  0.7f);
-    	enemy = new DetritosManager(resourcesManager);
-    	bullets = new Tiro(resourcesManager);
+    	detritos = new DetritosManager(resourcesManager);
+    	bullets = new TirosManager(resourcesManager);
     	
-    	attachChild(bullets.Shape());
-    	attachChild(enemy.Shape());
     	attachChild(nave.Shape());
     	attachChild(scoreText);
     	
@@ -94,18 +94,18 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
     private void createHUD(){
     	int scorePosX = 20;
     	int scorePosY = 10;
-    	float scoreScale = 0.5f;
+    	float scoreScale = 1.0f;
     	
     	scoreText = new Text(scorePosX, scorePosY, resourcesManager.fontDefault, "Vidas: XX\nTempo: XXxxxxxXxxxXXxxxXXxxXxxxxxxX", vbom);
-	    scoreText.setScale(scoreScale);
+	    scoreText.setTextOptions(new TextOptions(HorizontalAlign.LEFT));
+    	scoreText.setScale(scoreScale);
 		scoreText.setColor(Color.BLUE);
-	   
     }
     
     private void updateInfo(int shields, int score){
         this.shields = shields;
         this.score = score;
-        scoreText.setText("Shields: " + shields + "\nTempo: " + score);
+        RefreshText();
     }
     
     private void createUpdates(){
@@ -113,8 +113,14 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
 			@Override
 			public void onUpdate(float pSecondsElapsed) {
 			
-				timer += pSecondsElapsed;
-				gameUpdate();
+				resourcesManager.timer += pSecondsElapsed;
+				gameUpdate(pSecondsElapsed);
+				
+				ticker += pSecondsElapsed;
+				if (ticker >= 1) {
+					ticker -= 1;
+					tickEverySecond();
+				}
 			}
 			@Override
 			public void reset() {
@@ -122,16 +128,12 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
         });
     }
     
-    private void gameUpdate(){
+    private void gameUpdate(float pSecondsElapsed){
     	nave.Update(-accelerometer.getXAxis());
-    	enemy.Update();
+    	detritos.Update(pSecondsElapsed, bullets.getTiros());
     	bullets.Update();
-    	//COLISOES
-    	if(enemy.DetectColision(bullets.Shape())){
-    		bullets.Destroy();
-    		enemy.Restart();
-    	}
-    	else if(!nave.saltar && enemy.DetectColision(nave.Shape())){
+    	
+    	/*if(!nave.saltar && detritos.DetectColision(nave.Shape())){
     		nave.lifes--;
     		resourcesManager.mImpact.stop();
     		resourcesManager.mImpact.play();
@@ -144,19 +146,22 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
     			//estado=mode.menu;
     			//resourcesManager.engine.setScene(cena);
     		}
-    		enemy.Restart();
-    	}
+    	}*/
     	
     	//SCORE
-    	if(!gameOver){
-    		scoreText.setText("Vidas: " + nave.lifes + "\nTempo: " + String.format("%.0f", score));
-    	}
-    	else{
+    	if(gameOver){
     		maxScore = score;
     		scoreText.setText("GAME OVER!\nyou survived for " + String.format("%.1f", maxScore) + " seconds.");
     	}
     	
-    	debugs();
+    	//debugs();
+    }
+    
+    private void tickEverySecond() {
+    	if (!gameOver) {
+    		score++;
+    		RefreshText();
+    	}
     }
     
     private void debugs(){
@@ -164,6 +169,10 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
     	//Log.d("TouchDEBUG", "x:")
     }
 
+    private void RefreshText() {
+    	scoreText.setText("Vidas: " + nave.lifes + "\nTempo: " + String.format("%.0f", score));
+    }
+    
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
     	switch (pSceneTouchEvent.getAction()) {
@@ -186,10 +195,10 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
 	
 	
 	private void onTouchDown(){
-		
-		if (touchX > resourcesManager.camera.getWidth()/2){
-		nave.disparar(bullets);}else{ nave.saltar();}
-		
+		if (touchX > resourcesManager.camera.getWidth()/2)
+			nave.disparar(bullets);
+		else
+			nave.saltar();
 	}
 	
 	private void onTouchMove(){

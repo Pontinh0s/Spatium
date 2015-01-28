@@ -1,8 +1,8 @@
 package base_classes;
 
-import java.util.ArrayList;
 import managers.ResourcesManager;
-import org.andengine.entity.shape.IShape;
+
+import org.andengine.audio.sound.Sound;
 import org.andengine.entity.sprite.Sprite;
 
 public class Tiro {
@@ -10,16 +10,13 @@ public class Tiro {
 	/* The mX and mY variables have no real purpose in this recipe, however in
 	 * a real factory class, member variables might be used to define position,
 	 * color, scale, and more, of a sprite or other entity. */
+	private Sound laser;
 	private Sprite tiro;
-	private int speed = 6;
-	private float mX;
-	private float mY;
-    private ArrayList<Sprite> tiros;
-    private float alturaEcra;
-	 
+	private float velocidadeY, velocidadeX;
+	private float posX, posY;
+
 	public Tiro(ResourcesManager resources){
-		alturaEcra = resources.camera.getHeight();
-  
+		laser = resources.mlaser;
 		tiro = new Sprite(
 				-50, -50,
 				resources.tTiro,
@@ -28,43 +25,68 @@ public class Tiro {
 		tiro.setRotation(90);
 	 }
 	 
-	public void Update(){
-		for (int i = 0; i < tiros.size();i++){
-			mY -= speed;
-			tiros.get(i).setY(mY - tiro.getHeight()/2);
-			if (tiros.get(i).getY() > alturaEcra){
-				tiros.get(i).detachSelf();
-				tiros.get(i).dispose();
-				tiros.remove(i);
-			}
-		}
-	}
-	 
-	public void Fire(final float pX, final float pY){
-		this.mX = pX;
-		mY = pY;
-		tiro.setY(mY - tiro.getHeight() / 2);
-		tiro.setX(mX - tiro.getWidth() / 2);
-		tiros.add(tiro);
+	public void update() {
+		moverY();
+		//moverX();
 	}
 	
-	public void Destroy(int index){
-		tiros.get(index).detachSelf();
-		tiros.get(index).dispose();
-		tiros.remove(index);
+	private void moverY() {
+		posY = posY - velocidadeY;
 	}
 	
-	public void Destroy(IShape shapeu){
-		for (int index = 0; index < tiros.size();index++){
-			if (this.tiros.get(index).collidesWith(shapeu)){
-				tiros.get(index).detachSelf();
-				tiros.get(index).dispose();
-				tiros.remove(index);
-			}
-		}
+	private void moverX() {
+		posX = posX + velocidadeX;
 	}
 	
-	public Sprite Shape(){
+	public Sprite Shape() {
 		return this.tiro;
 	}
+	
+	public void RemoveSprite() {
+		tiro.detachSelf();
+		tiro.dispose();
+	}
+	
+	//Get's && Set's
+	public float getVelocidadeY() {
+		return velocidadeY;
+	}
+
+	public void setVelocidadeY(float velocidadeY) {
+		this.velocidadeY = velocidadeY;
+	}
+
+	public float getVelocidadeX() {
+		return velocidadeX;
+	}
+
+	public void setVelocidadeX(float velocidadeX) {
+		this.velocidadeX = velocidadeX;
+	}
+
+	public float getPosX() {
+		return posX;
+	}
+
+	public void setPosX(float posX) {
+		this.posX = posX;
+	}
+
+	public float getPosY() {
+		return posY;
+	}
+
+	public void setPosY(float posY) {
+		this.posY = posY;
+	}
+
+	public Sprite getTiro() {
+		return tiro;
+	}
+
+	public void setTiro(Sprite tiro) {
+		this.tiro = tiro;
+	}
+	
+
 }

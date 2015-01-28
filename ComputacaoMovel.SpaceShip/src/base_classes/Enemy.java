@@ -31,7 +31,7 @@ public abstract class Enemy {
 	//Metodo abstrato para disparar
 	//É necessário fazer override do metodo
 	public abstract void shoot();
-	
+
 	public void update()
 	{
 		moverY();
@@ -102,4 +102,15 @@ public abstract class Enemy {
 		this.velocidadeX = velocidadeX;
 	}
 	
+	public void setPosX(float posX) {
+		this.posX = posX;
+	}
+
+	public void setPosY(float posY) {
+		this.posY = posY;
+	}
+
+	public void setShield(float shield) {
+		this.shield = shield;
+	}
 }

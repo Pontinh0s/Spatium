@@ -1,12 +1,13 @@
 package base_classes;
 
 import managers.ResourcesManager;
+import managers.TirosManager;
+
 import org.andengine.audio.sound.Sound;
 import org.andengine.entity.sprite.Sprite;
 
 public class Player{
 	private Sprite nave;
-	private Sound laser;
 	private final float CAMERA_WIDTH, CAMERA_HEIGHT;
 
 	//Integridade
@@ -32,7 +33,6 @@ public class Player{
 		this.CAMERA_HEIGHT = resources.camera.getHeight();
 		this.scale = scale;
 		setShield(3);
-
 		LoadContent(resources);
 	}
 
@@ -44,9 +44,6 @@ public class Player{
 				resources.ttPlayer.getTextureRegion(1),
 				resources.vbom);
 		nave.setScale(this.scale, this.scale);
-		
-        // Sons
-        laser = resources.mlaser;
 	}
     
 	public void Update(final float accelerationX)
@@ -85,9 +82,8 @@ public class Player{
 		return nave;
 	}
 
-	public void disparar(Tiro bala) {
-		laser.play();
-		bala.Fire(nave.getX() + nave.getWidth() / 2, nave.getY());
+	public void disparar(TirosManager bullets) {
+		bullets.Fire(nave.getX() + nave.getWidth() / 2, nave.getY());
 	}
 
 	public void saltar() {
@@ -125,6 +121,22 @@ public class Player{
 
 	public void setRate(float rate) {
 		this.rate = rate;
+	}
+
+	public float getX() {
+		return X;
+	}
+
+	public void setX(float x) {
+		X = x;
+	}
+
+	public float getY() {
+		return Y;
+	}
+
+	public void setY(float y) {
+		Y = y;
 	}
 	
 }
