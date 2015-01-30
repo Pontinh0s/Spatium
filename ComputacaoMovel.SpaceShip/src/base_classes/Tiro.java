@@ -11,82 +11,70 @@ public class Tiro {
 	 * a real factory class, member variables might be used to define position,
 	 * color, scale, and more, of a sprite or other entity. */
 	private Sound laser;
-	private Sprite tiro;
-	private float velocidadeY, velocidadeX;
-	private float posX, posY;
+	private Sprite sprite;
+	private int speedX, speedY;
 
-	public Tiro(ResourcesManager resources){
+	public Tiro(ResourcesManager resources, float posX, float posY, int speedX, int speedY){
 		laser = resources.mlaser;
-		tiro = new Sprite(
-				-50, -50,
+		this.speedX = speedX;
+		this.speedY = speedY;
+		
+		sprite = new Sprite(
+				posX - resources.tTiro.getWidth()/2,
+				posY - resources.tTiro.getHeight()/2,
 				resources.tTiro,
 				resources.vbom);
-		tiro.setScale(0.3f, 0.3f);
-		tiro.setRotation(90);
+		sprite.setScale(0.6f, 0.6f);
+		sprite.setRotation(90);
+		
+		resources.engine.getScene().attachChild(this.sprite);
 	 }
 	 
-	public void update() {
-		moverY();
-		//moverX();
-	}
-	
-	private void moverY() {
-		posY = posY - velocidadeY;
-	}
-	
-	private void moverX() {
-		posX = posX + velocidadeX;
+	public void update(float deltaTime) {
+		sprite.setPosition(sprite.getX() + speedX * deltaTime, sprite.getY() - speedY * deltaTime);
 	}
 	
 	public Sprite Shape() {
-		return this.tiro;
+		return this.sprite;
 	}
 	
 	public void RemoveSprite() {
-		tiro.detachSelf();
-		tiro.dispose();
+		sprite.detachSelf();
+		sprite.dispose();
 	}
 	
-	//Get's && Set's
+	/* ------ Get's --------
+	 * ------  & -----------
+	 * ------ Set's --------
+	 */
+	
+	public boolean isOutOfBounds(float cameraWidth, float cameraHeight) {
+		if ((sprite.getX() < -sprite.getWidth()) ||
+			(sprite.getY() < -sprite.getHeight()) ||
+			(sprite.getX() > cameraWidth) ||
+			(sprite.getY() > cameraHeight))
+			return true;
+		else
+			return false;
+	}
+	
 	public float getVelocidadeY() {
-		return velocidadeY;
+		return speedY;
 	}
 
-	public void setVelocidadeY(float velocidadeY) {
-		this.velocidadeY = velocidadeY;
+	public void setVelocidadeY(int velocidadeY) {
+		this.speedY = velocidadeY;
 	}
 
 	public float getVelocidadeX() {
-		return velocidadeX;
+		return speedX;
 	}
 
-	public void setVelocidadeX(float velocidadeX) {
-		this.velocidadeX = velocidadeX;
+	public void setVelocidadeX(int velocidadeX) {
+		this.speedX = velocidadeX;
 	}
 
-	public float getPosX() {
-		return posX;
+	public Sprite getSprite() {
+		return sprite;
 	}
-
-	public void setPosX(float posX) {
-		this.posX = posX;
-	}
-
-	public float getPosY() {
-		return posY;
-	}
-
-	public void setPosY(float posY) {
-		this.posY = posY;
-	}
-
-	public Sprite getTiro() {
-		return tiro;
-	}
-
-	public void setTiro(Sprite tiro) {
-		this.tiro = tiro;
-	}
-	
-
 }

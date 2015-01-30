@@ -16,60 +16,52 @@ public class TirosManager {
 	 * a real factory class, member variables might be used to define position,
 	 * color, scale, and more, of a sprite or other entity. */
 	private Sound laser;
-	private int speed = 2;
-	private float mX;
-	private float mY;
     private ArrayList<Tiro> tiros;
 
-	private float alturaEcra;
-    private ResourcesManager res;
+    private ResourcesManager resources;
     
 	public TirosManager(ResourcesManager resources){
-		alturaEcra = resources.camera.getHeight();
 		laser = resources.mlaser;
 		tiros = new ArrayList<Tiro>();
-		res = resources;
+		this.resources = resources;
 	 }
 	 
-	public void Update(){
+	public void Update(float pSecondsElapsed){
+		// Out of Screen detection
+		if ((tiros.size() > 0) && (tiros.get(0).isOutOfBounds(resources.camera.getWidth(), resources.camera.getHeight())))
+			Destroy(0);
+		
 		for (int i = 0; i < tiros.size();i++){
-			tiros.get(i).update();
-			if (tiros.get(i).getPosY() > alturaEcra){
-				tiros.get(i).getTiro().detachSelf();
-				tiros.get(i).getTiro().dispose();
-				tiros.remove(i);
-			}
+			// Updates
+			tiros.get(i).update(pSecondsElapsed);
+
+			// Colisions
 		}
 	}
 	 
 	public void Fire(final float pX, final float pY){
-		Tiro tiro = new Tiro(res);
-		this.mX = pX;
-		mY = pY;
-		tiro.setPosY(mY - tiro.getTiro().getHeight() / 2);
-		tiro.setPosX(mX - tiro.getTiro().getWidth() / 2);
+		Tiro tiro = new Tiro(resources, pX, pY, 0, 240);
 		tiros.add(tiro);
-		res.engine.getScene().attachChild(tiro.getTiro());
 		//laser.play();
 	}
 	
 	public void Destroy(int index){
-		tiros.get(index).getTiro().detachSelf();
-		tiros.get(index).getTiro().dispose();
+		tiros.get(index).RemoveSprite();
 		tiros.remove(index);
 	}
 	
-	public void Destroy(IShape shapeu){
+	public void DestroyAll(){
 		for (int index = 0; index < tiros.size();index++){
-			if (this.tiros.get(index).getTiro().collidesWith(shapeu)){
-				tiros.get(index).getTiro().detachSelf();
-				tiros.get(index).getTiro().dispose();
-				tiros.remove(index);
-			}
+			tiros.get(index).RemoveSprite();
 		}
+		tiros.clear();
 	}
 	
-    public ArrayList<Tiro> getTiros() {
-		return tiros;
+	public Sprite get(int index) {
+		return tiros.get(index).getSprite();
 	}
+	
+    public int Size() {
+    	return tiros.size();
+    }
 }

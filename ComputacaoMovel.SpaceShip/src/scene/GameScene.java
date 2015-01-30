@@ -130,8 +130,8 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
     
     private void gameUpdate(float pSecondsElapsed){
     	nave.Update(-accelerometer.getXAxis());
-    	detritos.Update(pSecondsElapsed, bullets.getTiros());
-    	bullets.Update();
+    	detritos.Update(pSecondsElapsed, bullets);
+    	bullets.Update(pSecondsElapsed);
     	
     	/*if(!nave.saltar && detritos.DetectColision(nave.Shape())){
     		nave.lifes--;
