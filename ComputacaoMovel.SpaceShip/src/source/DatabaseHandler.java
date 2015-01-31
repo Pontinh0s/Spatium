@@ -17,52 +17,32 @@ public class DatabaseHandler {
 		// DB Fields
 		public static final String KEY_ROWID = "_id";
 		public static final int COL_ROWID = 0;
-		/*
-		 * CHANGE 1:
-		 */
-		// TODO: Setup your fields here:
-		public static final String KEY_NAME = "name";
-		public static final String KEY_STUDENTNUM = "studentnum";
-		public static final String KEY_FAVCOLOUR = "favcolour";
-		
-		// TODO: Setup your field numbers here (0 = KEY_ROWID, 1=...)
-		public static final int COL_NAME = 1;
-		public static final int COL_STUDENTNUM = 2;
-		public static final int COL_FAVCOLOUR = 3;
 
 		
-		public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_NAME, KEY_STUDENTNUM, KEY_FAVCOLOUR};
+		public static final String KEY_PLAYERNAME = "playerName";
+		public static final String KEY_SCORE = "score";
+		public static final String KEY_TIME = "time";
 		
-		// DB info: it's name, and the table we are using (just one).
-		public static final String DATABASE_NAME = "MyDb";
+		public static final int COL_PLAYERNAME = 1;
+		public static final int COL_SCORE = 2;
+		public static final int COL_TIME = 3;
+
+		public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_PLAYERNAME, KEY_SCORE, KEY_TIME};
+
+		
+		public static final String DATABASE_NAME = "Highscores";
 		public static final String DATABASE_TABLE = "mainTable";
-		// Track DB version if a new version of your app changes the format.
-		public static final int DATABASE_VERSION = 2;	
+		public static final int DATABASE_VERSION = 1;
 		
 		private static final String DATABASE_CREATE_SQL = 
 				"create table " + DATABASE_TABLE 
 				+ " (" + KEY_ROWID + " integer primary key autoincrement, "
-				
-				/*
-				 * CHANGE 2:
-				 */
-				// TODO: Place your fields here!
-				// + KEY_{...} + " {type} not null"
-				//	- Key is the column name you created above.
-				//	- {type} is one of: text, integer, real, blob
-				//		(http://www.sqlite.org/datatype3.html)
-				//  - "not null" means it is a required field (must be given a value).
-				// NOTE: All must be comma separated (end of line!) Last one must have NO comma!!
-				+ KEY_NAME + " text not null, "
-				+ KEY_STUDENTNUM + " integer not null, "
-				+ KEY_FAVCOLOUR + " string not null"
-				
-				// Rest  of creation:
+				+ KEY_PLAYERNAME + " text not null, "
+				+ KEY_SCORE + " integer not null, "
+				+ KEY_TIME + " float not null"
 				+ ");";
 		
-		// Context of application who uses us.
 		private final Context context;
-		
 		private DatabaseHelper myDBHelper;
 		private SQLiteDatabase db;
 
@@ -70,13 +50,13 @@ public class DatabaseHandler {
 		//	Public methods:
 		/////////////////////////////////////////////////////////////////////
 		
-		public DBAdapter(Context ctx) {
+		public DatabaseHandler (Context ctx) {
 			this.context = ctx;
 			myDBHelper = new DatabaseHelper(context);
 		}
 		
 		// Open the database connection.
-		public DBAdapter open() {
+		public DatabaseHandler open() {
 			db = myDBHelper.getWritableDatabase();
 			return this;
 		}
@@ -87,19 +67,12 @@ public class DatabaseHandler {
 		}
 		
 		// Add a new set of values to the database.
-		public long insertRow(String name, int studentNum, String favColour) {
-			/*
-			 * CHANGE 3:
-			 */		
-			// TODO: Update data in the row with new fields.
-			// TODO: Also change the function's arguments to be what you need!
-			// Create row's data:
+		public long insertRow(String playerName, int score, float time) {
 			ContentValues initialValues = new ContentValues();
-			initialValues.put(KEY_NAME, name);
-			initialValues.put(KEY_STUDENTNUM, studentNum);
-			initialValues.put(KEY_FAVCOLOUR, favColour);
+			initialValues.put(KEY_PLAYERNAME, playerName);
+			initialValues.put(KEY_SCORE, score);
+			initialValues.put(KEY_TIME, time);
 			
-			// Insert it into the database.
 			return db.insert(DATABASE_TABLE, null, initialValues);
 		}
 		
@@ -143,21 +116,14 @@ public class DatabaseHandler {
 		}
 		
 		// Change an existing row to be equal to new data.
-		public boolean updateRow(long rowId, String name, int studentNum, String favColour) {
+		public boolean updateRow(long rowId, String playerName, int score, float time) {
 			String where = KEY_ROWID + "=" + rowId;
 
-			/*
-			 * CHANGE 4:
-			 */
-			// TODO: Update data in the row with new fields.
-			// TODO: Also change the function's arguments to be what you need!
-			// Create row's data:
 			ContentValues newValues = new ContentValues();
-			newValues.put(KEY_NAME, name);
-			newValues.put(KEY_STUDENTNUM, studentNum);
-			newValues.put(KEY_FAVCOLOUR, favColour);
+			newValues.put(KEY_PLAYERNAME, playerName);
+			newValues.put(KEY_SCORE, score);
+			newValues.put(KEY_TIME, time);
 			
-			// Insert it into the database.
 			return db.update(DATABASE_TABLE, newValues, where, null) != 0;
 		}
 		
