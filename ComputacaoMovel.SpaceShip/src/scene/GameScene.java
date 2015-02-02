@@ -158,7 +158,7 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
     }
 
     private void RefreshText() {
-    	scoreText.setText("Shields: " + nave.getShield() + "\nVidas: " + nave.getLifes() + "\nTempo: " + String.format("%.0f", score));
+    	scoreText.setText("Shields: " + (int)Math.floor(nave.getShield()) + "\nVidas: " + nave.getLifes() + "\nTempo: " + String.format("%.0f", score));
     }
     
     private void debugs() {
