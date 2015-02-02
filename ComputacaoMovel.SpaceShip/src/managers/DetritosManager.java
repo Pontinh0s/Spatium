@@ -3,6 +3,8 @@ package managers;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.andengine.entity.shape.IShape;
+
 import android.util.Log;
 import base_classes.Detrito;
 
@@ -15,6 +17,7 @@ public class DetritosManager {
 	private float timeRand = 1.2f, timer;
 	private boolean frameCount = false;
 	private ResourcesManager resources;
+	private int damage = 1;
 	 
 	// BaseObject constructor, all subtypes should define an mX and mY value on creation
 	public DetritosManager(ResourcesManager resources) {
@@ -23,7 +26,7 @@ public class DetritosManager {
 		this.maxY = resources.camera.getHeight();
 		detritos = new ArrayList<Detrito>();
 	}
-	 
+	
 	public void Update(float pSecondsElapsed, TirosManager tiros){
 		// Count frame
 		frameCount = !frameCount;
@@ -65,7 +68,8 @@ public class DetritosManager {
 		int velX = 0,
 			velY = 200;
 		Detrito meteoro = new Detrito(resources, 0, 0, velX, velY, 1.1f, maxX, maxY);
-		meteoro.getSprite().setX(random.nextFloat()*resources.camera.getWidth() - meteoro.getSprite().getWidthScaled());
+		float x = random.nextFloat()*resources.camera.getWidth() - meteoro.getSprite().getWidthScaled();
+		meteoro.getSprite().setX(x);
 		meteoro.getSprite().setY(-meteoro.getSprite().getHeight());
 		detritos.add(meteoro);
 	}
@@ -73,6 +77,10 @@ public class DetritosManager {
 	public void Destroy(int index){
 		detritos.get(index).RemoveSprite();
 		detritos.remove(index);
+	}
+	
+	public boolean colidesWith(IShape shape, int index) {
+		return detritos.get(index).getSprite().collidesWith(shape);
 	}
 	
     public int Size() {
@@ -85,5 +93,8 @@ public class DetritosManager {
 		}
 		detritos.clear();
 	}
+	
+	public int getDamage() {
+		return damage;
+	}
 }
-

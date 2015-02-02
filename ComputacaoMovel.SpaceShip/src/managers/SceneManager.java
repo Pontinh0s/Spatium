@@ -1,12 +1,20 @@
 package managers;
 
 import org.andengine.engine.Engine;
+import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
+import org.andengine.entity.IEntity;
+import org.andengine.entity.modifier.FadeInModifier;
+import org.andengine.entity.modifier.FadeOutModifier;
+import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
+import org.andengine.util.modifier.IModifier;
+import org.andengine.util.modifier.ease.IEaseFunction;
 
 import MenuScenes.MainMenuScene;
 import MenuScenes.SplashScene;
+import android.util.Log;
 import base_classes.BaseScene;
 
 
@@ -49,8 +57,8 @@ public class SceneManager
     // CLASS LOGIC
     //---------------------------------------------
     
-    public void setScene(BaseScene scene){
-        engine.setScene(scene);
+    public void setScene(final BaseScene scene){
+		engine.setScene(scene);
         currentScene = scene;
         currentSceneType = scene.getSceneType();
     }
@@ -82,9 +90,12 @@ public class SceneManager
     }
     
     private void disposeSplashScene(){
+    	try {
         ResourcesManager.getInstance().unloadSplashScreen();
         splashScene.disposeScene();
         splashScene = null;
+    	} catch (Exception e) {
+    	}
     }
     
     //---------------------------------------------

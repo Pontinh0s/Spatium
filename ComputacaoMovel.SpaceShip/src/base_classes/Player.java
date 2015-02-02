@@ -1,18 +1,23 @@
 package base_classes;
 
+import managers.DetritosManager;
 import managers.ResourcesManager;
 import managers.TirosManager;
 
 import org.andengine.audio.sound.Sound;
 import org.andengine.entity.sprite.Sprite;
 
+import scene.GameScene;
+
 public class Player{
-	private Sprite nave;
+	private Sprite sprite;
 	private final float CAMERA_WIDTH, CAMERA_HEIGHT;
+	private GameScene game;
+	private DetritosManager detritos;
 
 	//Integridade
-	private float shield, rate;
-	public int lifes = 5;
+	private float shield = 1, shieldRegenRate = 0.05f, shieldLimit = 3;
+	public int lifes = 2;
 	
 	//Movimento
     private final float acelerador = 2f;
@@ -23,88 +28,115 @@ public class Player{
     private float salto = 0;
     private final float velocidade_de_salto = 0.065f;
     private final float altura_do_salto = 4;
-    private float accelerationOLD = 0;
     private float scale;
     
     private float X, Y;
     
-	public Player(ResourcesManager resources, float scale){
+	public Player(GameScene game, ResourcesManager resources, DetritosManager detritos, float scale){
 		this.CAMERA_WIDTH = resources.camera.getWidth();
 		this.CAMERA_HEIGHT = resources.camera.getHeight();
+		this.game = game;
+		this.detritos = detritos;
 		this.scale = scale;
-		setShield(3);
 		LoadContent(resources);
 	}
 
 	private void LoadContent(ResourcesManager resources) {
 		X = CAMERA_WIDTH/2;
 		Y = CAMERA_HEIGHT-70;
-		nave = new Sprite(
+		sprite = new Sprite(
 				X, Y,
 				resources.ttPlayer.getTextureRegion(1),
 				resources.vbom);
-		nave.setScale(this.scale, this.scale);
+		sprite.setScale(this.scale, this.scale);
 	}
     
-	public void Update(final float accelerationX)
+	public void Update(final float accelerationX, float elapsedTime)
     {
-		//É necessario fazer setShield antes do primeiro update
-    	regenerateShield(rate);
+		//Colisões
+		detectColisions();
+    	regenerateShield(elapsedTime);
     	
     	//Salto
     	if (saltar)
-    	{
-    		nave.setScaleX(this.scale + (float) (Math.sin(salto) * altura_do_salto * 0.1f));
-        	nave.setScaleY(this.scale + (float) (Math.sin(salto) * altura_do_salto * 0.1f));
-        	salto += velocidade_de_salto;
-        	
-        	if (salto >= Math.PI * 1)
-        	{
-        		salto = 0f;
-        		saltar = false;
-        	}
-    	}
+    		saltar();
     	
     	// Movimento em X
     	X=(int)(X + accelerationX * acelerador);
     	
     	int limite = 100;
-        if (X < limite-nave.getWidth()/2)
-    		X=X + (int)((limite-X-nave.getWidth()/2) * força_das_molas);
-        if (X > CAMERA_WIDTH - limite-nave.getWidth()/2)
-    		X=X - (int)((X- (CAMERA_WIDTH-limite-nave.getWidth()/2)) * força_das_molas);
+        if (X < limite-sprite.getWidth()/2)
+    		X=X + (int)((limite-X-sprite.getWidth()/2) * força_das_molas);
+        if (X > CAMERA_WIDTH - limite-sprite.getWidth()/2)
+    		X=X - (int)((X- (CAMERA_WIDTH-limite-sprite.getWidth()/2)) * força_das_molas);
     	
-    	accelerationOLD = accelerationX;
-    	nave.setPosition(X, Y);
+        sprite.setPosition(X, Y);
     }
-
-	public Sprite Shape() {
-		return nave;
+	
+	private boolean detectColisions(){
+		for(int i = 0; i<detritos.Size(); i++) {
+			if (detritos.colidesWith(this.sprite, i)) {
+				detritos.Destroy(i);
+				removeShield(detritos.getDamage());
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	public void disparar(TirosManager bullets) {
-		bullets.Fire(nave.getX() + nave.getWidth() / 2, nave.getY());
+		bullets.Fire(sprite.getX() + sprite.getWidth() / 2, sprite.getY());
 	}
 
-	public void saltar() {
-        saltar = true;
+	private void saltar() {
+		sprite.setScaleX(this.scale + (float) (Math.sin(salto) * altura_do_salto * 0.1f));
+		sprite.setScaleY(this.scale + (float) (Math.sin(salto) * altura_do_salto * 0.1f));
+    	salto += velocidade_de_salto;
+    	
+    	if (salto >= Math.PI * 1)
+    	{
+    		salto = 0f;
+    		saltar = false;
+    	}
     }
 	
 	//Remove 1 escudo por cada ponto em i, quando tiver 0 escudos a proxima colisão destroi a nave
-	public void removeShield(int i)
+	private void removeShield(int i)
 	{
-		if (shield < i){
+		if (shield < 1){
+			lifes --;
+			if (lifes <= 0)
+				gameOver();
+		}
+		else if (shield < i){
 			shield = 0;
-		}else if (shield < 1){
-			lifes -= 1;
-		}else
-			shield = shield - i;
+		}
+		else
+			shield -= i;
 	}
-		
-	//Regenera o escudo de acordo com o rate recebido
-	private void regenerateShield(float rate)
-	{
-		shield += rate;
+	
+	//Regenera o escudo de acordo com o rate
+	private void regenerateShield(float elapsedTime) {
+		shield += shieldRegenRate * elapsedTime;
+		if (shield > shieldLimit)
+			shield = shieldLimit;
+	}
+	
+	private void gameOver() {
+		game.gameOver();
+	}
+	
+	public Sprite getSprite() {
+		return sprite;
+	}
+	
+	public int getLifes() {
+		return lifes;
+	}
+	
+	public void setLifes(int lifes) {
+		this.lifes = lifes;
 	}
 
 	public float getShield() {
@@ -116,11 +148,11 @@ public class Player{
 	}
 
 	public float getRate() {
-		return rate;
+		return shieldRegenRate;
 	}
 
 	public void setRate(float rate) {
-		this.rate = rate;
+		this.shieldRegenRate = rate;
 	}
 
 	public float getX() {
@@ -139,4 +171,7 @@ public class Player{
 		Y = y;
 	}
 	
+	public void setSalto(boolean isJumping) {
+		saltar = isJumping;
+	}
 }

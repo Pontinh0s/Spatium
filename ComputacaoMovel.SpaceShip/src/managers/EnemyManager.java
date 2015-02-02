@@ -3,11 +3,13 @@ package managers;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.andengine.entity.shape.IShape;
+
 import base_classes.Enemy;
 
 public class EnemyManager{
 
-	Enemy enemy;
+	private ResourcesManager resources;
 	private ArrayList<Enemy> inimigos;
 	private float alturaEcra, larguraEcra;
 	private float rate;
@@ -39,7 +41,16 @@ public class EnemyManager{
 		ciclos++;
 	}
 	
+	public boolean colidesWith(IShape shape, int index) {
+		return inimigos.get(index).getSprite().collidesWith(shape);
+	}
+	
 	private void AddEnemy(){
+		Enemy enemy = new Enemy(resources) {
+			@Override
+			public void shoot() {
+			}
+		};
 		random = new Random().nextFloat();
 		enemy.setPosX(larguraEcra*random);
 		random = new Random().nextFloat();
