@@ -41,6 +41,15 @@ public class Player{
 		LoadContent(resources);
 	}
 
+	public Player(GameScene game, ResourcesManager resources, float scale){
+		this.CAMERA_WIDTH = resources.camera.getWidth();
+		this.CAMERA_HEIGHT = resources.camera.getHeight();
+		this.game = game;
+		this.detritos = null;
+		this.scale = scale;
+		LoadContent(resources);
+	}
+
 	private void LoadContent(ResourcesManager resources) {
 		X = CAMERA_WIDTH/2;
 		Y = CAMERA_HEIGHT-70;

@@ -32,7 +32,7 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
 	private Player nave;
 	private DetritosManager detritos;
 	private TirosManager bullets;
-	private boolean frameCount = false;
+	protected boolean frameCount = false;
 	
 	private float ticker = 0;
 	private Text scoreText;
@@ -96,7 +96,8 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
     	int scorePosY = 10;
     	float scoreScale = 1.0f;
     	
-    	scoreText = new Text(scorePosX, scorePosY, resourcesManager.fontDefault, "Vidas: XX\nTempo: XXxxxxxXxxxXXxxxXXxxXxxxxxxX", vbom);
+    	//MANTER
+    	scoreText = new Text(scorePosX, scorePosY, resourcesManager.fontDefault, "", 40, vbom);
 	    scoreText.setTextOptions(new TextOptions(HorizontalAlign.LEFT));
     	scoreText.setScale(scoreScale);
 		scoreText.setColor(Color.BLUE);
@@ -158,7 +159,8 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
     }
 
     private void RefreshText() {
-    	scoreText.setText("Shields: " + nave.getShield() + "\nVidas: " + nave.getLifes() + "\nTempo: " + String.format("%.0f", score));
+    	//Esta linha não será mantida porcausa do %.3f aqui em baixo
+    	scoreText.setText(String.format("Shields: %.3f\nVidas: %d\nTempo: %.0f", nave.getShield(), nave.getLifes(), score));
     }
     
     private void debugs() {
