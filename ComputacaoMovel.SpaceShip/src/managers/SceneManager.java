@@ -14,6 +14,7 @@ import org.andengine.util.modifier.ease.IEaseFunction;
 
 import MenuScenes.MainMenuScene;
 import MenuScenes.SplashScene;
+import Multiplayer.MultiplayerGame;
 import android.util.Log;
 import base_classes.BaseScene;
 
@@ -32,6 +33,7 @@ public class SceneManager
     private BaseScene splashScene;
     private BaseScene menuScene;
     private BaseScene gameScene;
+    private BaseScene multiplayerScene;
     private BaseScene loadingScene;
     
     //---------------------------------------------
@@ -50,6 +52,7 @@ public class SceneManager
         SCENE_SPLASH,
         SCENE_MENU,
         SCENE_GAME,
+        SCENE_MULTYPLAYER,
         SCENE_LOADING,
     }
     
@@ -70,6 +73,9 @@ public class SceneManager
                 break;
             case SCENE_GAME:
                 setScene(gameScene);
+                break;
+            case SCENE_MULTYPLAYER:
+                setScene(multiplayerScene);
                 break;
             case SCENE_SPLASH:
                 setScene(splashScene);
@@ -141,6 +147,10 @@ public class SceneManager
         }));
     }
     
+    //---------------------------------------------
+    // GAME
+    //---------------------------------------------
+    
     public void loadGameScene(final Engine mEngine){
         setScene(loadingScene);
         ResourcesManager.getInstance().unloadMenuGraphics();
@@ -151,6 +161,24 @@ public class SceneManager
                 ResourcesManager.getInstance().loadGameResources();
                 gameScene = new GameScene();
                 setScene(gameScene);
+            }
+        }));
+    }
+    
+    //---------------------------------------------
+    // MULTIPLAYER
+    //---------------------------------------------
+    
+    public void loadMultiplayerScene(final Engine mEngine){
+        setScene(loadingScene);
+        ResourcesManager.getInstance().unloadMenuGraphics();
+        mEngine.registerUpdateHandler(new TimerHandler(0.1f, new ITimerCallback() {
+            public void onTimePassed(final TimerHandler pTimerHandler) 
+            {
+                mEngine.unregisterUpdateHandler(pTimerHandler);
+                ResourcesManager.getInstance().loadGameResources();
+                multiplayerScene = new MultiplayerGame();
+                setScene(multiplayerScene);
             }
         }));
     }

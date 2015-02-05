@@ -21,7 +21,8 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		float midScrX = resourcesManager.camera.getWidth()/2,
 			  midScrY = resourcesManager.camera.getHeight()/2;
 		
-		new Button(midScrX, midScrY - resourcesManager.camera.getHeight()/6, resourcesManager.ttStart, vbom, this) {
+		//New Game Button
+		new Button(midScrX, midScrY*0.5f, resourcesManager.ttStart, vbom, this) {
 			@Override
 			public void ActionUp() {
 				SceneManager.getInstance().loadGameScene(engine);
@@ -31,8 +32,21 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 				//resourcesManager.mButtonSound.play();
 			}
 		};
-		
-		new Button(midScrX, midScrY + resourcesManager.camera.getHeight()/6, resourcesManager.ttHighscores, vbom, this) {
+
+		//Multiplayer Game Button
+		new Button(midScrX, midScrY, resourcesManager.ttStart, vbom, this) {
+			@Override
+			public void ActionUp() {
+				SceneManager.getInstance().loadMultiplayerScene(engine);
+			}
+			@Override
+			public void ActionDown() {
+				//resourcesManager.mButtonSound.play();
+			}
+		};
+
+		//Highscores Button
+		new Button(midScrX, midScrY*1.5f, resourcesManager.ttHighscores, vbom, this) {
 			@Override
 			public void ActionUp() {
 				

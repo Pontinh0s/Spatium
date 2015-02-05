@@ -13,7 +13,10 @@ public class Player{
 	private Sprite sprite;
 	private final float CAMERA_WIDTH, CAMERA_HEIGHT;
 	private GameScene game;
+	
+	//MANTER
 	private DetritosManager detritos;
+	private TirosManager tiros;
 
 	//Integridade
 	private float shield = 1, shieldRegenRate = 0.05f, shieldLimit = 3;
@@ -32,27 +35,33 @@ public class Player{
     
     private float X, Y;
     
-	public Player(GameScene game, ResourcesManager resources, DetritosManager detritos, float scale){
+    //MANTER
+	public Player(GameScene game, ResourcesManager resources, TirosManager bullets, DetritosManager detritos, float scale){
 		this.CAMERA_WIDTH = resources.camera.getWidth();
 		this.CAMERA_HEIGHT = resources.camera.getHeight();
 		this.game = game;
 		this.detritos = detritos;
+		this.tiros = bullets;
 		this.scale = scale;
+		X = CAMERA_WIDTH/2;
+		Y = CAMERA_HEIGHT-170;
 		LoadContent(resources);
 	}
 
-	public Player(GameScene game, ResourcesManager resources, float scale){
+	//MANTER
+	public Player(GameScene game, ResourcesManager resources, TirosManager bullets, float scale){
 		this.CAMERA_WIDTH = resources.camera.getWidth();
 		this.CAMERA_HEIGHT = resources.camera.getHeight();
 		this.game = game;
 		this.detritos = null;
+		this.tiros = bullets;
 		this.scale = scale;
+		X = CAMERA_WIDTH/2;
+		Y = CAMERA_HEIGHT-170;
 		LoadContent(resources);
 	}
 
 	private void LoadContent(ResourcesManager resources) {
-		X = CAMERA_WIDTH/2;
-		Y = CAMERA_HEIGHT-70;
 		sprite = new Sprite(
 				X, Y,
 				resources.ttPlayer.getTextureRegion(1),
@@ -62,8 +71,9 @@ public class Player{
     
 	public void Update(final float accelerationX, float elapsedTime)
     {
-		//Colisões
-		detectColisions();
+		//Colisões - MANTER
+		if (!saltar)
+			detectColisions();
     	regenerateShield(elapsedTime);
     	
     	//Salto
@@ -94,8 +104,8 @@ public class Player{
 		return false;
 	}
 
-	public void disparar(TirosManager bullets) {
-		bullets.Fire(sprite.getX() + sprite.getWidth() / 2, sprite.getY());
+	public void disparar() {
+		tiros.Fire(sprite.getX() + sprite.getWidth() / 2, sprite.getY());
 	}
 
 	private void saltar() {
@@ -182,5 +192,19 @@ public class Player{
 	
 	public void setSalto(boolean isJumping) {
 		saltar = isJumping;
+	}
+	
+	//MANTER
+	public void setTirosManager(TirosManager tiros) {
+		this.tiros = tiros;
+	}
+	
+	//MANTER
+	public TirosManager getTirosManager() {
+		return tiros;
+	}
+
+	public boolean getSalto() {
+		return saltar;
 	}
 }

@@ -29,23 +29,24 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
 	private DatabaseHandler dataBase;
 	private AccelerometerManager accelerometer;
 	private float touchX, touchY;
-	private Player nave;
+	protected Player nave;
 	private DetritosManager detritos;
-	private TirosManager bullets;
+	protected TirosManager bullets;
 	protected boolean frameCount = false;
 	
 	private float ticker = 0;
 	private Text scoreText;
 	private float score = 0;
 	
-	boolean gameOver = false;
+	//MANTER
+	protected boolean gameOver = false;
 	private float maxScore;
 	
     @Override
     public void createScene(){
     	dataBase = new DatabaseHandler(activity);
     	
-    	setOnSceneTouchListener(this); 
+    	setOnSceneTouchListener(this);
     	
     	this.accelerometer = new AccelerometerManager(activity);
     	
@@ -58,12 +59,11 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
     private void LoadGameObjects(){
     	detritos = new DetritosManager(resourcesManager);
     	bullets = new TirosManager(resourcesManager);
-    	//Player tem de ser inicializado depois de todos os managers
-    	nave = new Player(this, resourcesManager, detritos, 0.7f);
+    	//Player tem de ser inicializado depois de todos os outros managers
+    	nave = new Player(this, resourcesManager, bullets, detritos, 0.7f); //MANTER
     	
     	attachChild(nave.getSprite());
     	attachChild(scoreText);
-    	
     }
     
     @Override
@@ -198,7 +198,7 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
 	
 	private void onTouchDown(){
 		if (touchX > resourcesManager.camera.getWidth()/2)
-			nave.disparar(bullets);
+			nave.disparar(); //MANTER
 		else
 			nave.setSalto(true);
 	}
