@@ -18,7 +18,7 @@ public class DetritosManager {
 	private boolean frameCount = false;
 	private ResourcesManager resources;
 	private int damage = 1;
-	 
+	
 	// BaseObject constructor, all subtypes should define an mX and mY value on creation
 	public DetritosManager(ResourcesManager resources) {
 		this.resources = resources;
@@ -31,6 +31,8 @@ public class DetritosManager {
 		// Count frame
 		frameCount = !frameCount;
 		
+		speed += 2000*pSecondsElapsed;
+		
 		// Out of Screen detection
 		if ((detritos.size() > 0) && detritos.get(0).isOutOfBounds(resources.camera.getWidth(), resources.camera.getHeight()))
 			Destroy(0);
@@ -38,7 +40,7 @@ public class DetritosManager {
 		for (int i = 0; i < detritos.size(); i++){
 			// Updates
 			detritos.get(i).update(pSecondsElapsed);
-
+			
 			// Colisions
 			for (int j = 0; j < tiros.Size(); j++) {
 				if ((frameCount && (j%2 == 0)) || (!frameCount && (j%2 == 1)))

@@ -54,7 +54,8 @@ public class Player{
 	public void Update(final float accelerationX, float elapsedTime)
     {
 		//Colisões
-		detectColisions();
+    	if (!saltar)
+    		detectColisions();
     	regenerateShield(elapsedTime);
     	
     	//Salto
