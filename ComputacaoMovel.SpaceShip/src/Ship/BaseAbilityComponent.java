@@ -1,7 +1,7 @@
 package Ship;
 
 /**
- * BaseAbilityComponent.java
+ * BaseAbilityComponent.java<p>
  * Defines a base object for a bullet.
  *
  * @category Ship Component

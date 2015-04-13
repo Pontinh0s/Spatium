@@ -1,7 +1,7 @@
 package Ship;
 
 /**
- * BaseBoosterComponent.java
+ * BaseBoosterComponent.java<p>
  * Defines a base object for the booster power.
  *
  * @category Ship Component

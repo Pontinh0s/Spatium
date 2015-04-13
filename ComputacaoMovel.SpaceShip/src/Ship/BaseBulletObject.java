@@ -5,7 +5,7 @@ import org.andengine.entity.sprite.Sprite;
 import android.graphics.Point;
 
 /**
- * BaseBulletObject.java
+ * BaseBulletObject.java<p>
  * Defines a base object for a bullet.
  *
  * @category Ship Components

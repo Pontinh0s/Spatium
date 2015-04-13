@@ -5,7 +5,7 @@ import org.andengine.entity.sprite.Sprite;
 import android.graphics.Point;
 
 /**
- * BaseWeaponComponent.java
+ * BaseWeaponComponent.java<p>
  * Defines a base object for the Main Weapon.
  *
  * @category Ship Components
@@ -13,7 +13,7 @@ import android.graphics.Point;
  * @version 1.0 09/04/2015
  */
 public abstract class BaseWeaponComponent {
-	//Weapon parameters
+	//Weapon status
 	protected boolean enabled;
 	protected float reloadTime;
 	protected float damage;
@@ -23,10 +23,25 @@ public abstract class BaseWeaponComponent {
 	protected Sprite weaponSprite;
 	protected Point AnchorPoint;
 	
+	/// Functions and Methods
+	/**
+	 * If the weapon is enabled, it is used the abstract function
+	 * <code>_fire()</code> to fire it.
+	 */
+	public void fire() {
+		if (enabled) _fire();
+	}
+	
+	public void Draw() {
+		
+	}
 	
 	
 	/// Abstract Functions and Methods
-	public abstract void fire();
+	/**
+	 * Fires the weapon.
+	 */
+	public abstract void _fire();
 	
 	
 	/// Getters & Setters
@@ -43,11 +58,17 @@ public abstract class BaseWeaponComponent {
 	public float getDamage() {
 		return damage;
 	}
-
+	
+	/**
+	 * enables the weapon
+	 */
 	public void enable() {
 		enabled = true;
 	}
-	
+
+	/**
+	 * disables the weapon
+	 */
 	public void disable() {
 		enabled = false;
 	}

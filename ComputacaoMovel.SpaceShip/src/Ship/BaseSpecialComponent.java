@@ -1,7 +1,7 @@
 package Ship;
 
 /**
- * BaseSpecialComponent.java
+ * BaseSpecialComponent.java<p>
  * Defines a base object for the special power.
  *
  * @category Ship Component

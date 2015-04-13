@@ -5,7 +5,7 @@ import java.util.List;
 import android.graphics.Point;
 
 /**
- * ShipObject.java
+ * ShipObject.java<p>
  * Defines a base object for the Main Weapon.
  *
  * @category Objects
