@@ -1,8 +1,8 @@
 package Ship;
 
-import org.andengine.entity.sprite.Sprite;
-
-import android.graphics.Point;
+import org.andengine.opengl.texture.region.ITextureRegion;
+import base_classes.BaseBulletObject;
+import base_classes.GameEntity;
 
 /**
  * BaseWeaponComponent.java<p>
@@ -10,20 +10,37 @@ import android.graphics.Point;
  *
  * @category Ship Components
  * @author Davide Teixeria
- * @version 1.0 09/04/2015
+ * @version 1.1 15/04/2015
  */
-public abstract class BaseWeaponComponent {
+public abstract class BaseWeaponComponent extends GameEntity {
+	//#- Variables
+	//Position
+	final static float anchorX = 0.0f;
+	final static float anchorY = 0.0f;
+	
 	//Weapon status
-	protected boolean enabled;
-	protected float reloadTime;
-	protected float damage;
+	/** If the weapon component is working. */
+	private boolean enabled;
+	/** Time that takes to reload the weapon after firing. */
+	private float reloadTime;
+	/** Base damage that the weapon takes to the enemies. */
+	private float damage;
+	/** Bullet fired by the weapon. */
 	protected BaseBulletObject bullet;
+	//#!
 	
-	//Weapon graphics
-	protected Sprite weaponSprite;
-	protected Point AnchorPoint;
+	// Functions and Methods
+	/**
+	 * Defines a weapon based on reloadTime and bullet damage.
+	 * @param {@linkplain #reloadTime}
+	 * @param {@linkplain #damage}
+	 */
+	protected BaseWeaponComponent(float reloadTime, float damage, ITextureRegion texture) {
+			super(anchorX, anchorY, texture);
+		this.reloadTime = reloadTime;
+		this.damage = damage;
+	}
 	
-	/// Functions and Methods
 	/**
 	 * If the weapon is enabled, it is used the abstract function
 	 * <code>_fire()</code> to fire it.
@@ -32,28 +49,24 @@ public abstract class BaseWeaponComponent {
 		if (enabled) _fire();
 	}
 	
-	public void Draw() {
-		
-	}
 	
-	
-	/// Abstract Functions and Methods
+	// Abstract Functions and Methods
 	/**
 	 * Fires the weapon.
 	 */
 	public abstract void _fire();
 	
 	
-	/// Getters & Setters
+	//#- Getters & Setters
 	/**
-	 * @return The time that takes to reload the weapon after firing.
+	 * @return {@link #reloadTime}
 	 */
 	public float getReloadTime() {
 		return reloadTime;
 	}
 
 	/**
-	 * @return The base damage that the weapon takes to the enemies.
+	 * @return {@link #damage}
 	 */
 	public float getDamage() {
 		return damage;
@@ -72,4 +85,5 @@ public abstract class BaseWeaponComponent {
 	public void disable() {
 		enabled = false;
 	}
+	//#!
 }
