@@ -1,5 +1,10 @@
 package managers;
 
+import menus.GameScene;
+import menus.LoadingScene;
+import menus.MainMenuScene;
+import menus.SplashScene;
+
 import org.andengine.engine.Engine;
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.engine.handler.timer.ITimerCallback;
@@ -12,14 +17,10 @@ import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.ease.IEaseFunction;
 
-import MenuScenes.MainMenuScene;
-import MenuScenes.SplashScene;
+import source.BaseScene;
 import android.util.Log;
-import base_classes.BaseScene;
 
 
-import scene.GameScene;
-import scene.LoadingScene;
 
 
 

@@ -5,7 +5,7 @@ import java.util.Random;
 
 import org.andengine.entity.shape.IShape;
 
-import base_classes.Enemy;
+import basicClasses.Enemy;
 
 public class EnemyManager{
 

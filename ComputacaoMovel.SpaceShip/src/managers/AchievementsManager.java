@@ -1,7 +1,8 @@
 package managers;
 
 import java.util.ArrayList;
-import base_classes.Achievement;
+
+import basicClasses.Achievement;
 
 /**
  * AchievementsManager.java

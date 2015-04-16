@@ -1,23 +1,16 @@
 package managers;
 
-import java.io.IOException;
-
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
-import org.andengine.entity.text.Text;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
-import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
-import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
@@ -26,11 +19,16 @@ import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
-import org.andengine.util.debug.Debug;
 
-import android.graphics.Typeface;
-import android.media.AudioFormat;
-
+/**
+ * ResourcesManager.java<p>
+ * Loads, unloads and saves all resources used in the game.
+ * Also contains the engine, camera, activity and vertexBufferObjectManager from the game. 
+ * 
+ * @category Managers
+ * @author Davide Teixeria
+ * @version 1.0 --/--/----
+ */
 public class ResourcesManager
 {
     //---------------------------------------------
@@ -64,6 +62,8 @@ public class ResourcesManager
     	tSplashScreen;
     public BitmapTextureAtlas
     	bSplashScreen;
+
+    public ITextureRegion placeholder;
     
     //---------------------------------------------
     // FONTS

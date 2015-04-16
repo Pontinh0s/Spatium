@@ -3,7 +3,7 @@ package managers;
 import java.util.ArrayList;
 
 import managers.ResourcesManager;
-import base_classes.Tiro;
+import basicClasses.Tiro;
 
 import org.andengine.audio.sound.Sound;
 import org.andengine.engine.Engine;

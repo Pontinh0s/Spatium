@@ -6,7 +6,7 @@ import java.util.Random;
 import org.andengine.entity.shape.IShape;
 
 import android.util.Log;
-import base_classes.Detrito;
+import basicClasses.Detrito;
 
 public class DetritosManager {
 	private ArrayList<Detrito> detritos;
