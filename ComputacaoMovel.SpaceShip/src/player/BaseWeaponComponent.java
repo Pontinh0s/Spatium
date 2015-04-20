@@ -3,7 +3,7 @@ package player;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
 import source.GameEntity;
-import basicClasses.BaseBulletObject;
+import bullets.BaseBulletObject;
 
 /**
  * BaseWeaponComponent.java<p>

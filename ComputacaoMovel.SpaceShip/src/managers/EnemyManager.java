@@ -46,7 +46,8 @@ public class EnemyManager{
 	}
 	
 	private void AddEnemy(){
-		Enemy enemy = new Enemy(resources) {
+		Enemy enemy = new Enemy(resources, null, null ){
+			
 			@Override
 			public void shoot() {
 			}
@@ -58,3 +59,4 @@ public class EnemyManager{
 		inimigos.add(enemy);
 	}
 }
+	

@@ -14,6 +14,8 @@ import org.andengine.opengl.texture.region.ITextureRegion;
  * @version 1.0 15/04/2015
  */
 public class GameEntity extends Sprite {
+	protected static ResourcesManager resources;
+	
 	/**
 	 * @param pX Sprite position at X axis.
 	 * @param pY Sprite position at Y axis.
@@ -21,6 +23,7 @@ public class GameEntity extends Sprite {
 	 */
 	protected GameEntity(float pX, float pY, ITextureRegion texture) {
 		super(pX, pY, texture, ResourcesManager.getInstance().vbom);
+		resources = ResourcesManager.getInstance();
 	}
 	
 }

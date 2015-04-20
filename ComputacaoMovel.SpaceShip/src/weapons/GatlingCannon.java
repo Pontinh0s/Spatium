@@ -21,7 +21,7 @@ public class GatlingCannon extends BaseWeaponComponent {
 	 * @see {@linkplain BaseWeaponComponent Base Weapon Component class}
 	 */
 	public GatlingCannon() {
-			super(0.2f, 2, ResourcesManager.getInstance().placeholder);
+			super(0.2f, 2, resources.placeholder);
 	}
 	
 	@Override

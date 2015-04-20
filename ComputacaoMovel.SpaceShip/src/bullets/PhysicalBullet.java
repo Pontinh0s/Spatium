@@ -1,7 +1,6 @@
 package bullets;
 
 import managers.ResourcesManager;
-import basicClasses.BaseBulletObject;
 
 /**
  * PhysicalBullet.java<p>
@@ -22,7 +21,7 @@ public class PhysicalBullet extends BaseBulletObject {
 	 * @param <b>dirX & dirY</b> - Inicial bullet direction
 	 */
 	protected PhysicalBullet(float anchorX, float anchorY, float dirX, float dirY) {
-			super(anchorX, anchorY, ResourcesManager.getInstance().placeholder);
+			super(anchorX, anchorY, resources.placeholder);
 		float dirMag = (float) Math.sqrt((dirX*dirX) + (dirY*dirY)); //Direction's vector's magnitude.
 		this.speedX = (dirX/dirMag) * velocity;
 		this.speedY = (dirY/dirMag) * velocity;

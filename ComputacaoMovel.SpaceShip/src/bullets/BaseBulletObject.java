@@ -1,4 +1,4 @@
-package basicClasses;
+package bullets;
 
 import managers.ResourcesManager;
 
