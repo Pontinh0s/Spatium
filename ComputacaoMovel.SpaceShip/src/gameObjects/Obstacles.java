@@ -4,7 +4,6 @@
 package gameObjects;
 
 import org.andengine.opengl.texture.region.ITextureRegion;
-
 import source.GameEntity;
 
 /**
@@ -40,13 +39,13 @@ public class Obstacles extends GameEntity {
 	public void GetDamaged(float damage){
 		if ((hp > 0) && (isKillabe != false)){
 			
-				hp = hp - damage;
+			hp = hp - damage;
 				
-				if (hp < 0){
+			if (hp < 0){
 					
-					Destroy();
+				Destroy();
 					
-				}
+			}
 		}
 	}
 	

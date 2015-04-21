@@ -1,19 +1,27 @@
 package basicClasses;
 
 import managers.ResourcesManager;
-
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.texture.region.ITextureRegion;
+import gameObjects.Obstacles;
+import player.BaseWeaponComponent;
 
-public abstract class Enemy {
+/**
+ * Enemy.java<p>
+ * Defines a base object for the Enemy.
+ *
+ * @category Enemies
+ * @author David Malheiro
+ * @version 1.1 21/04/2015
+ */
+public abstract class Enemy extends Obstacles{
 	
 	//Sprite do inimigo
 	private Sprite sprite; 
 	//velocidades
 	private float speedY , speedX;
-	private float posX, posY;
 	//integridade 
 	private float shield;
-	private int life;
 	private boolean isAlive;
 	//Tag caso seja necessário
 	private String tag;
@@ -21,12 +29,11 @@ public abstract class Enemy {
 	
 	private enum AI_State{
 		PATTERN,
-		ATTACK,
-		DEFEND,
 		EVADE
 	}
 	
-	public Enemy(ResourcesManager resources,String tag,AI_State ai){
+	public Enemy(float pX, float pY,int hp, ITextureRegion texture,String tag,AI_State ai){
+		super(pX, pY, texture);
 		//sprite = resources.enemy;
 		this.tag = tag;
 		isAlive = true;
@@ -43,16 +50,7 @@ public abstract class Enemy {
 		moveX();
 	}
 	
-	private void moveY()
-	{
-		posY = posY + speedY;
-	}
-	
-	private void moveX()
-	{
-		posX = posX + speedX;
-	}
-	
+	/** Artificial Intelligence */
 	private void updateAI(AI_State ai){
 		this.aI = ai;
 	
@@ -60,14 +58,6 @@ public abstract class Enemy {
          	
 		 	case PATTERN:
          		System.out.println("pattern are bad.");
-         		break;
-         		
-         	case ATTACK:
-         		System.out.println("attack are bad.");
-         		break;
-         		
-         	case DEFEND:
-         		System.out.println("defend are bad.");
          		break;
          		
          	case EVADE:
@@ -78,7 +68,7 @@ public abstract class Enemy {
 	
 	//Remove 1 escudo por cada ponto em i, quando tiver 0 escudos a proxima colisão 
 	//Tira i pontos de vida se a nave ficar sem vida o isAlive fica falso.
-	public void gotDamaged(int i)
+	public void GetDamaged(int i)
 	{
 		if (shield < i){
 			shield = 0;
@@ -90,69 +80,27 @@ public abstract class Enemy {
 			isAlive = false;
 	}
 	
-	//Regenera o escudo de acordo com o rate recebido
+	/** Regenerates the shield */
 	public void generateShield(float rate)
 	{
 		shield += rate;
+	}
+	
+	/** Move the sprite in the Y axis */
+	private void moveY()
+	{
+		pX = pY + speedY;
+	}
+	
+	/** Move the sprite in the X axis */
+	private void moveX()
+	{
+		pX = pX + speedX;
 	}
 	
 	/* ------ Get's --------
 	 * ------  & -----------
 	 * ------ Set's --------
 	 */
-	public float getPosX() {
-		return posX;
-	}
-
-	public float getPosY() {
-		return posY;
-	}
-
-	public float getShield() {
-		return shield;
-	}
-
-	public int getVida() {
-		return life;
-	}
-
-	public void setVida(int vida) {
-		this.life = vida;
-	}
-	
-	public float getVelocidadeY() {
-		return speedY;
-	}
-
-	public void setVelocidadeY(float velocidadeY) {
-		this.speedY = velocidadeY;
-	}
-
-	public float getVelocidadeX() {
-		return speedX;
-	}
-
-	public void setVelocidadeX(float velocidadeX) {
-		this.speedX = velocidadeX;
-	}
-	
-	public void setPosX(float posX) {
-		this.posX = posX;
-	}
-
-	public void setPosY(float posY) {
-		this.posY = posY;
-	}
-
-	public void setShield(float shield) {
-		this.shield = shield;
-	}
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
 
 }
