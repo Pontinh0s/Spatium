@@ -2,7 +2,7 @@ package basicClasses;
 
 import managers.DetritosManager;
 import managers.ResourcesManager;
-import managers.TirosManager;
+import managers.TirosManager_Old;
 import menus.GameScene;
 
 import org.andengine.audio.sound.Sound;
@@ -85,7 +85,7 @@ public class Player{
 		return false;
 	}
 
-	public void disparar(TirosManager bullets) {
+	public void disparar(TirosManager_Old bullets) {
 		bullets.Fire(sprite.getX() + sprite.getWidth() / 2, sprite.getY());
 	}
 

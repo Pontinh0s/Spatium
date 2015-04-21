@@ -2,7 +2,7 @@ package menus;
 
 import managers.AccelerometerManager;
 import managers.DetritosManager;
-import managers.TirosManager;
+import managers.TirosManager_Old;
 import managers.SceneManager;
 import managers.SceneManager.SceneType;
 
@@ -30,7 +30,7 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
 	private float touchX, touchY;
 	private Player nave;
 	private DetritosManager detritos;
-	private TirosManager bullets;
+	private TirosManager_Old bullets;
 	private boolean frameCount = false;
 	
 	private float ticker = 0;
@@ -56,7 +56,7 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
 
     private void LoadGameObjects(){
     	detritos = new DetritosManager(resourcesManager);
-    	bullets = new TirosManager(resourcesManager);
+    	bullets = new TirosManager_Old(resourcesManager);
     	//Player tem de ser inicializado depois de todos os managers
     	nave = new Player(this, resourcesManager, detritos, 0.7f);
     	
