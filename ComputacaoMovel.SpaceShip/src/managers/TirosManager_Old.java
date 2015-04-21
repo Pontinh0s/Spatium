@@ -10,7 +10,7 @@ import org.andengine.engine.Engine;
 import org.andengine.entity.shape.IShape;
 import org.andengine.entity.sprite.Sprite;
 
-public class TirosManager {
+public class TirosManager_Old {
 	
 	/* The mX and mY variables have no real purpose in this recipe, however in
 	 * a real factory class, member variables might be used to define position,
@@ -20,7 +20,7 @@ public class TirosManager {
 
     private ResourcesManager resources;
     
-	public TirosManager(ResourcesManager resources){
+	public TirosManager_Old(ResourcesManager resources){
 		laser = resources.mlaser;
 		tiros = new ArrayList<Tiro>();
 		this.resources = resources;

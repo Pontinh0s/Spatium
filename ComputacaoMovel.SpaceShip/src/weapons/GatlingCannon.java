@@ -26,7 +26,5 @@ public class GatlingCannon extends BaseWeaponComponent {
 	
 	@Override
 	public void _fire() {
-		// TODO Auto-generated method stub
-
 	}
 }
