@@ -34,7 +34,7 @@ public abstract class BaseShieldComponent extends GameEntity {
 	//#- Functions and Methods
 	/** Automatic shield's onstructor. */
 	protected BaseShieldComponent() {
-			super(anchorX, anchorY, ResourcesManager.getInstance().placeholder);
+			super(anchorX, anchorY, resources.placeholder);
 		this.setAlpha(.0f);
 	}
 	

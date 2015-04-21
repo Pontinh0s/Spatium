@@ -27,7 +27,7 @@ public class DetritosManager {
 		detritos = new ArrayList<Detrito>();
 	}
 	
-	public void Update(float pSecondsElapsed, TirosManager tiros){
+	public void Update(float pSecondsElapsed, TirosManager_Old tiros){
 		// Count frame
 		frameCount = !frameCount;
 		

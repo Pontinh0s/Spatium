@@ -44,7 +44,7 @@ public class ShipObject extends GameEntity{
 	 * <p><b>1</b> - Ship at normal state.
 	 * <p><b>2</b> - Ship turning right.
 	 */
-	final static ITiledTextureRegion texture = ResourcesManager.getInstance().ttPlayer;
+	final static ITiledTextureRegion texture = resources.ttPlayer;
 	//#!
 	
 	/** Creates a new empty ship. */

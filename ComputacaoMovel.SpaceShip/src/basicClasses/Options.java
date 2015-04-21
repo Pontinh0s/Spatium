@@ -1,9 +1,9 @@
 package basicClasses;
 
-import com.example.computacaomovel.spaceship.R;
-import com.example.computacaomovel.spaceship.R.id;
-import com.example.computacaomovel.spaceship.R.layout;
-import com.example.computacaomovel.spaceship.R.menu;
+//import com.example.computacaomovel.spaceship.R;
+//import com.example.computacaomovel.spaceship.R.id;
+//import com.example.computacaomovel.spaceship.R.layout;
+//import com.example.computacaomovel.spaceship.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;

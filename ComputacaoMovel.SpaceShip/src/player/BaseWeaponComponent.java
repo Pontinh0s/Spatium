@@ -8,8 +8,7 @@ import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
 import source.GameEntity;
-import basicClasses.BaseBulletObject;
-import basicClasses.Tiro;
+import bullets.BaseBulletObject;
 
 /**
  * BaseWeaponComponent.java<p>
@@ -21,12 +20,6 @@ import basicClasses.Tiro;
  */
 public abstract class BaseWeaponComponent extends GameEntity {
 	//#- Variables
-	//Position
-	final static float anchorX = 0.0f;
-	final static float anchorY = 0.0f;
-	final static ResourcesManager resources = ResourcesManager.getInstance();
-	
-	//Weapon status
 	/** If the weapon component is working. */
 	private boolean enabled;
 	/** Time that takes to reload the weapon after firing. */
@@ -40,11 +33,12 @@ public abstract class BaseWeaponComponent extends GameEntity {
 	// Functions and Methods
 	/**
 	 * Defines a weapon based on reloadTime and bullet damage.
-	 * @param {@linkplain #reloadTime}
-	 * @param {@linkplain #damage}
+	 * @param <b>posX & posY</b> - relative position of the weapon.
+	 * @param <b>{@linkplain #reloadTime}</b>
+	 * @param <b>{@linkplain #damage}</b>
 	 */
-	protected BaseWeaponComponent(float reloadTime, float damage, ITextureRegion texture) {
-			super(anchorX, anchorY, texture);
+	protected BaseWeaponComponent(float posX, float posY, float reloadTime, float damage, ITextureRegion texture) {
+			super(posX, posY, texture);
 		this.reloadTime = reloadTime;
 		this.damage = damage;
 		bullets = new ArrayList<BaseBulletObject>();
@@ -66,7 +60,7 @@ public abstract class BaseWeaponComponent extends GameEntity {
 	 * This is an Update function.
 	 */
 	private void CheckBulletsUpdate() {
-		ResourcesManager.getInstance().engine.registerUpdateHandler(new IUpdateHandler() {
+		resources.engine.registerUpdateHandler(new IUpdateHandler() {
 			@Override
 			public void reset() {
 				
