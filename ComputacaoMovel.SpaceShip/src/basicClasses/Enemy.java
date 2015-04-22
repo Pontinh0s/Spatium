@@ -40,8 +40,7 @@ public abstract class Enemy extends Obstacles{
 		this.aI = aI;
 	}
 	
-	//Metodo abstrato para disparar
-	//É necessário fazer override do metodo
+	/**Faz o inimigo disparar*/
 	public abstract void shoot();
 
 	public void update()
