@@ -1,8 +1,13 @@
 package basicClasses;
 
 import managers.ResourcesManager;
+
+import org.andengine.entity.modifier.PathModifier;
+import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.util.modifier.ease.EaseLinear;
+
 import gameObjects.Obstacles;
 import player.BaseWeaponComponent;
 
@@ -16,28 +21,20 @@ import player.BaseWeaponComponent;
  */
 public abstract class Enemy extends Obstacles{
 	
-	//Sprite do inimigo
-	private Sprite sprite; 
-	//velocidades
-	private float speedY , speedX;
+
 	//integridade 
 	private float shield;
 	private boolean isAlive;
 	//Tag caso seja necessário
 	private String tag;
-	private AI_State aI;
+
 	
-	private enum AI_State{
-		PATTERN,
-		EVADE
-	}
-	
-	public Enemy(float pX, float pY,int hp, ITextureRegion texture,String tag,AI_State ai){
+	public Enemy(float pX, float pY, int hp, float shield, float speed, ITextureRegion texture, String tag, Path patternPath){
 		super(pX, pY, texture);
 		//sprite = resources.enemy;
 		this.tag = tag;
 		isAlive = true;
-		this.aI = aI;
+		this.registerEntityModifier(new PathModifier(speed, patternPath, EaseLinear.getInstance()));  
 	}
 	
 	//Metodo abstrato para disparar
@@ -46,38 +43,22 @@ public abstract class Enemy extends Obstacles{
 
 	public void update()
 	{
-		moveY();
-		moveX();
+
 	}
 	
-	/** Artificial Intelligence */
-	private void updateAI(AI_State ai){
-		this.aI = ai;
-	
-		 switch (this.aI) {
-         	
-		 	case PATTERN:
-         		System.out.println("pattern are bad.");
-         		break;
-         		
-         	case EVADE:
-         		System.out.println("evade are bad.");
-         		break;
-		 }
-	}
-	
-	//Remove 1 escudo por cada ponto em i, quando tiver 0 escudos a proxima colisão 
-	//Tira i pontos de vida se a nave ficar sem vida o isAlive fica falso.
+
+	/**Remove 1 escudo por cada ponto em i, quando tiver 0 escudos a proxima colisão 
+	*Tira i pontos de vida se a nave ficar sem vida o isAlive fica falso.*/
 	public void GetDamaged(int i)
 	{
 		if (shield < i){
 			shield = 0;
 		}else if (shield < 1){
-			life -= i;
+			this.hp -= i;
 		}else
 			shield = shield - i;
-		if (life <= 0)
-			isAlive = false;
+		if (this.hp <= 0)
+			this.isAlive = false;
 	}
 	
 	/** Regenerates the shield */
@@ -86,17 +67,6 @@ public abstract class Enemy extends Obstacles{
 		shield += rate;
 	}
 	
-	/** Move the sprite in the Y axis */
-	private void moveY()
-	{
-		pX = pY + speedY;
-	}
-	
-	/** Move the sprite in the X axis */
-	private void moveX()
-	{
-		pX = pX + speedX;
-	}
 	
 	/* ------ Get's --------
 	 * ------  & -----------
