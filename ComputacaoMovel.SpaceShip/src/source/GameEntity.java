@@ -26,4 +26,10 @@ public class GameEntity extends Sprite {
 		resources = ResourcesManager.getInstance();
 	}
 	
+
+	/** Completely destroys and detaches the sprite from any scene. */
+	public void Destroy() {
+		this.detachSelf();
+		this.dispose();
+	}
 }

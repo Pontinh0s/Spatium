@@ -1,7 +1,6 @@
 package player;
 
 import source.GameEntity;
-import managers.ResourcesManager;
 
 /**
  * BaseShieldComponent.java<p>
@@ -13,28 +12,29 @@ import managers.ResourcesManager;
  */
 public abstract class BaseShieldComponent extends GameEntity {
 	//#- variables
-	//Position
-	final static float anchorX = 0.0f;
-	final static float anchorY = 0.0f;
-	
-	//Shield Status
 	/** If the shield component is working. */
 	protected boolean enabled;
 	/** Maximum activated shield number. */
 	protected int maxShields;
 	/** Current activated shield number. */
-	protected float currentShields;
-	/** Strenght of each shield. */
-	protected float strenght;
+	protected int currentShields;
 	/** Shield recharging speed. */
 	protected float rechargeSpeed;
+	/** Recharging value. Varies between 0 and {@link #strength},
+	 * and when it reaches its max, 1 is added to {@link #currentShields}. */
+	protected float rechargeValue = 0;
+	/** The damage that a single shield can absorve. */
+	private final int strength = 10;
 	//#!
 	
 	
 	//#- Functions and Methods
-	/** Automatic shield's onstructor. */
-	protected BaseShieldComponent() {
-			super(anchorX, anchorY, resources.placeholder);
+	/**
+	 * Automatic shield's onstructor.
+	 * @param <b>posX & posY</b> - shield's sprite's position
+	 */
+	protected BaseShieldComponent(float posX, float posY) {
+			super(posX, posY, resources.placeholder);
 		this.setAlpha(.0f);
 	}
 	
@@ -47,15 +47,13 @@ public abstract class BaseShieldComponent extends GameEntity {
 	 * @param deltaTime  the time between Update calls. It is used to balance the
 	 * framerate drop lag.
 	 */
-	public void update(float deltaTime) {
-		if (enabled){
-			if (currentShields < maxShields){
-				int prevShields = (int)Math.floor(currentShields);
-				currentShields += rechargeSpeed*deltaTime;
-				if (currentShields > maxShields)
-					currentShields = maxShields;
-				if ((int)Math.floor(currentShields) != prevShields)
-					updateShieldColor();
+	public void Update(float elapsedTime) {
+		if (enabled && (currentShields < maxShields)){
+			rechargeValue += strength*rechargeSpeed*elapsedTime;
+			if (rechargeValue >= strength) {
+				rechargeValue -= strength;
+				currentShields++;
+				UpdateShieldColor();
 			}
 		}
 	}
@@ -65,20 +63,36 @@ public abstract class BaseShieldComponent extends GameEntity {
 	 * <p>
 	 * WARNING: At this moment, this function isn't coloring the sprite.
 	 */
-	private void updateShieldColor(){
+	private void UpdateShieldColor(){
 		switch ((int)Math.floor(currentShields)) {
 			case 0:
-				this.setColor(0, 0, 0, 0);
+				setColor(0, 0, 0, 0); // Transparent
 				break;
 			case 1:
+				setColor(0.9333f, 0.102f, 0.102f, 1.f); // Red #F01A1A
 				break;
 			case 2:
+				setColor(0.9373f, 0.5216f, 0.102f, 1.f); // Orange #EF851A
 				break;
 			case 3:
-				break;
-			case 4:
+				setColor(0.102f, 0.5216f, 0.9412f, 1.f); // Blue #1A85F0
 				break;
 		}
+	}
+	
+	/**
+	 * Aplies the damage to the shield, weakening it.
+	 * @param damage - The damage to be absorved by the shield.
+	 */
+	public void TakeDamage(float damage) {
+		rechargeValue -= damage;
+		
+		while (rechargeValue < 0 && currentShields > 0) {
+			currentShields--;
+			rechargeValue += strength;
+		}
+		
+		UpdateShieldColor();
 	}
 	//#!
 	
@@ -88,10 +102,12 @@ public abstract class BaseShieldComponent extends GameEntity {
 	public int getMaxShields() {
 		return maxShields;
 	}
-
-	/**@return {@link #strenght}*/
-	public float getStrenght() {
-		return strenght;
+	
+	/**@return If there is some active shielding. */
+	public boolean isActive(){
+		if (currentShields > 0)
+			return true;
+		else return false;
 	}
 	
 	/**Enables the shelds.*/

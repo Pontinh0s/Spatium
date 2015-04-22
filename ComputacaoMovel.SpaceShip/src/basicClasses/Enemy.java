@@ -37,8 +37,7 @@ public abstract class Enemy extends Obstacles{
 		this.registerEntityModifier(new PathModifier(speed, patternPath, EaseLinear.getInstance()));  
 	}
 	
-	//Metodo abstrato para disparar
-	//É necessário fazer override do metodo
+	/**Faz o inimigo disparar*/
 	public abstract void shoot();
 
 	public void update()

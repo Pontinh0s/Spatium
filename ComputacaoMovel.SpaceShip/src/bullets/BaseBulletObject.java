@@ -1,10 +1,8 @@
 package bullets;
 
-import managers.ResourcesManager;
-
-import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
+import player.BaseWeaponComponent;
 import source.GameEntity;
 
 /**
@@ -18,38 +16,46 @@ import source.GameEntity;
 public abstract class BaseBulletObject extends GameEntity {
 	protected final float anchorX;
 	protected final float anchorY;
+	protected final float speedX;
+	protected final float speedY;
 	
-	/**
-	 * Creates a bullet of any kind.
-	 * @param <b>anchorX & anchorY</b> - From where the bullet will fire.
-	 * @param texture - Bullet's texture.
+	/** Creates a bullet of any kind going to front (as in dirX=0, dirY=1).
+	 * @param <b>anchorX & anchorY</b> - From where the bullet will fire
+	 * @param velocity - Bullet's inicial velocity
+	 * @param texture - Bullet's texture
 	 */
-	protected BaseBulletObject(float anchorX, float anchorY, ITextureRegion texture) {
+	protected BaseBulletObject(float anchorX, float anchorY, float velocity, ITextureRegion texture) {
 		super(anchorX, anchorY, texture);
 		this.anchorX = anchorX;
 		this.anchorY = anchorY;
-	}
-	
-	/** Places the bullet on its anchor point and fires the bullet with {@link #_fire()} function. */
-	public void fire() {
-		this.setPosition(anchorX, anchorY);
-
-		ResourcesManager.getInstance().engine.registerUpdateHandler(new IUpdateHandler() {
-			@Override
-			public void reset() {
-			}
-			
-			@Override
-			public void onUpdate(float pSecondsElapsed) {
-				_fire();
-			}
-		});
+		speedX = velocity;
+		speedY = 0;
 	}
 
-	/** Fires the bullet. This function is repeated automaticly on Update.*/
-	protected abstract void _fire();
+	/** Creates a bullet of any kind.
+	 * @param <b>anchorX & anchorY</b> - From where the bullet will fire.
+	 * @param <b>dirX & dirY</b> - Inicial bullet direction (doesn't need to be normalized)
+	 * @param velocity - Bullet's inicial velocity
+	 * @param texture - Bullet's texture.
+	 */
+	protected BaseBulletObject(float anchorX, float anchorY, float dirX, float dirY, float velocity, ITextureRegion texture) {
+		super(anchorX, anchorY, texture);
+		this.anchorX = anchorX;
+		this.anchorY = anchorY;
+
+		float dirMag = (float) Math.sqrt((dirX*dirX) + (dirY*dirY)); //Direction's vector's magnitude.
+		this.speedX = (dirX/dirMag) * velocity;
+		this.speedY = (dirY/dirMag) * velocity;
+		this.setRotation((float) Math.cos(dirX/dirMag));
+	}
+
+
+	/** Moves the bullet. This function has to be repeated on an Update loop, generally called on {@link BaseWeaponComponent}.
+	 * @param elapsedTime - Time since the last update
+	 */
+	public abstract void Update(float elapsedTime);
 	
-	/**
+	/** Verifies if this bullet is or not out of bounds.
 	 * @param cameraWidth - Wight of the camera.
 	 * @param cameraHeight - Height of the camera.
 	 * @return If the bullet is or not completely outside the camera bounds. */
@@ -61,11 +67,5 @@ public abstract class BaseBulletObject extends GameEntity {
 			return true;
 		else
 			return false;
-	}
-	
-	/** Completely detaches this sprite from the scene. */
-	public void Destroy() {
-		this.detachSelf();
-		this.dispose();
 	}
 }

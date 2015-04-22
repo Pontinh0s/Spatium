@@ -8,6 +8,7 @@ import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
 import source.GameEntity;
+import basicClasses.Detrito;
 import bullets.BaseBulletObject;
 
 /**
@@ -43,6 +44,17 @@ public abstract class BaseWeaponComponent extends GameEntity {
 		this.damage = damage;
 		bullets = new ArrayList<BaseBulletObject>();
 	}
+
+	/**
+	 * Manages all the bullets shot 
+	 * @param elapsedTime - Time since the last update
+	 */
+	public void Update(float elapsedTime) {
+		for (int i = 0; i < bullets.size();i++)
+			bullets.get(i).Update(elapsedTime);
+			
+		CheckBullets();
+	}
 	
 	/**
 	 * If the weapon is enabled, it is used the abstract function
@@ -51,7 +63,6 @@ public abstract class BaseWeaponComponent extends GameEntity {
 	public void fire() {
 		if (enabled) {
 			_fire();
-			CheckBulletsUpdate();
 		}
 	}
 	
@@ -59,35 +70,23 @@ public abstract class BaseWeaponComponent extends GameEntity {
 	 * Checks if the bullets fired by this weapon are out of the screen limits.<p>
 	 * This is an Update function.
 	 */
-	private void CheckBulletsUpdate() {
-		resources.engine.registerUpdateHandler(new IUpdateHandler() {
-			@Override
-			public void reset() {
-				
-			}
-			
-			@Override
-			public void onUpdate(float pSecondsElapsed) {
-				// Verifica se alguma das balas atiradas já passou dos limites laterais do ecrã
-				for (int index = 0; index < bullets.size(); index++) {
-					if ((bullets.get(index).getX() < -bullets.get(index).getWidth()) ||
-						(bullets.get(index).getX() > resources.camera.getWidth()))
-						bullets.get(index).Destroy();
-				}
-				// Verifica se a primeira bala atirada já passou do limite superior/inferior do ecrã
-				if ((bullets.size() > 0) &&
-						(bullets.get(0).getY() < -(bullets.get(0).getHeight()) || (bullets.get(0).getY() > resources.camera.getHeight())))
-					bullets.get(0).Destroy();
-			}
-		});
+	private void CheckBullets() {
+		// Verifica se alguma das balas atiradas já passou dos limites laterais do ecrã
+		for (int index = 0; index < bullets.size(); index++) {
+			if ((bullets.get(index).getX() < -bullets.get(index).getWidth()) ||
+				(bullets.get(index).getX() > resources.camera.getWidth()))
+				bullets.get(index).Destroy();
+		}
+		// Verifica se a primeira bala atirada já passou do limite superior/inferior do ecrã
+		if ((bullets.size() > 0) &&
+				(bullets.get(0).getY() < -(bullets.get(0).getHeight()) || (bullets.get(0).getY() > resources.camera.getHeight())))
+			bullets.get(0).Destroy();
 	}
 	
 	
 	// Abstract Functions and Methods
-	/**
-	 * Fires the weapon.
-	 */
-	public abstract void _fire();
+	/** Defines how the weapon is fired. */
+	protected abstract void _fire();
 	
 	
 	//#- Getters & Setters

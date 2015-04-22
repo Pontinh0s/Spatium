@@ -1,11 +1,13 @@
 package player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 
 import source.GameEntity;
-import managers.ResourcesManager;
+import weapons.GatlingCannon;
+import gameObjects.BaseObstacleObject;
 
 /**
  * ShipObject.java<p>
@@ -29,28 +31,137 @@ public class ShipObject extends GameEntity{
 	 * Boosters here are being used and cannot be returned to player. */
 	protected List<BaseBoosterComponent> boosters = null;
 	
+	//Movimento
+	private float acceleration = 0;
+    private final float speeder = 2f;
+    private final float frictionForce = 2f;
+    private final float springForce = 0.17f;
+	
 	//Status
 	/** Ship's health points. */
-	float HP = 100;
+	private float HP = 100;
 	/** Maximum booster amount that a ship can use. */
-	final static int boosterLimit = 4;
+	private static int boosterLimit = 1;
 	/** Ship's start position on X axis. */
-	final static int startPositionX = 50;
+	private final static float startPositionX = resources.camera.getWidth()/2;
 	/** Ship's start position on Y axis. */
-	final static int startPositionY = 50;
+	private final static float startPositionY = resources.camera.getHeight()*5/6 - 30;
 	/**
 	 * Ship's texture's array.
 	 * <p><b>0</b> - Ship turning left.
 	 * <p><b>1</b> - Ship at normal state.
 	 * <p><b>2</b> - Ship turning right.
 	 */
-	final static ITiledTextureRegion texture = resources.ttPlayer;
+	private final static ITiledTextureRegion texture = resources.ttPlayer;
 	//#!
 	
 	/** Creates a new empty ship. */
 	public ShipObject() {
 		super(startPositionX, startPositionY, texture.getTextureRegion(1));
+		Equip(new GatlingCannon(0, getHeight() - getHeight()/5));
 	}
+
+	/** Creates a ship with predefined settings.
+	 * @param {@link #mainWeapon}
+	 * @param {@link #shield}
+	 * @param {@link #ability}
+	 * @param {@link #special}
+	 */
+	public ShipObject(BaseWeaponComponent mainWeapon, BaseShieldComponent shield, BaseAbilityComponent ability, BaseSpecialComponent special) {
+		super(startPositionX, startPositionY, texture.getTextureRegion(1));
+		Equip(mainWeapon);
+		Equip(shield);
+		Equip(ability);
+		Equip(special);
+	}
+
+	
+	/**
+	 * Suposed to called every frame during level's Update.<p>
+	 * Handles every component's Update.
+	 * @param accelerationX - Accelerometer reading for the X axis
+	 * @param elapsedTime - Time since the last update
+	 */
+	public void Update(float accelerationX, ArrayList<BaseObstacleObject> obstacles, float elapsedTime) {
+		Move(accelerationX, elapsedTime);
+		//Components
+		mainWeapon.Update(elapsedTime);
+		shield.Update(elapsedTime);
+		// Obstacles & Enemies
+		detectColisions(obstacles);
+	}
+	
+	/** Moves the ship.
+	 * @param accelerationX - Accelerometer reading for the X axis
+	 * @param elapsedTime - Time since the last update
+	 * @see #Update(float, ArrayList, float)
+	 */
+	private void Move(float accelerationX, float elapsedTime) {
+    	float X = 0;
+    	
+    	// Acceleration
+    	acceleration += accelerationX * speeder;
+    	X += acceleration;
+    	
+    	// Friction
+    	acceleration = acceleration / (frictionForce/2 + 1);
+
+    	// Pre-atribution
+        X *= elapsedTime*20;
+        X += getX();
+        
+        //Spring Effect
+    	int limite = 100;
+        if (X < limite-getWidth()/2)
+    		X = X + (limite-X-getWidth()/2) * springForce;
+        if (X > resources.camera.getWidth() - limite - getWidth()/2)
+    		X = X - (X- (resources.camera.getWidth() - limite - getWidth()/2)) * springForce;
+
+        // Atribution
+        setPosition(X, getY());
+	}
+
+	/** Fires the main weapon.
+	 * @see BaseWeaponComponent #fire()
+	 */
+	public void Fire(){
+		if (mainWeapon != null)
+			mainWeapon.fire();
+	}
+	
+	/** Detects if there is something coliding with the ship,
+	 * damages the ship and deletes the object.
+	 * @param obstaculos - 
+	 * @return <b>true</b> if there was a collision and
+	 * <b>false</b> if not.
+	 */
+	private boolean detectColisions(ArrayList<BaseObstacleObject> obstacles){
+		for(int i = 0; i<obstacles.size(); i++) {
+			if (obstacles.get(i).collidesWith(this)) {
+				if ((shield != null) && shield.isActive())
+					shield.TakeDamage(obstacles.get(i).getDamage());
+				else
+					TakeDamage(obstacles.get(i).getDamage());
+				
+				obstacles.get(i).Destroy();
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Aplies the damage to the player, weakening it.
+	 * @param damage - The damage to be absorved by the shield.
+	 */
+	public void TakeDamage(float damage) {
+		HP -= damage;
+		if (HP <= 0) {
+			// TODO: GameOver
+		}
+	}
+	
 	
 	/**
 	 * Equips a new weapon to the ship.
@@ -58,9 +169,14 @@ public class ShipObject extends GameEntity{
 	 * @return Previous weapon equiped.
 	 */
 	public BaseWeaponComponent Equip(BaseWeaponComponent mainWeapon) {
-		BaseWeaponComponent oldWeapon = this.mainWeapon;
-		this.mainWeapon = mainWeapon;
-		return oldWeapon;
+		if (mainWeapon != null) {
+			this.detachChild(this.mainWeapon);
+			BaseWeaponComponent oldWeapon = this.mainWeapon;
+			this.mainWeapon = mainWeapon;
+			this.attachChild(this.mainWeapon);
+			return oldWeapon;
+		}
+		else return null;
 	}
 
 	/**
@@ -69,9 +185,14 @@ public class ShipObject extends GameEntity{
 	 * @return Previous shield equiped.
 	 */
 	public BaseShieldComponent Equip(BaseShieldComponent shield) {
-		BaseShieldComponent oldShield = this.shield;
-		this.shield = shield;
-		return oldShield;
+		if (shield != null) {
+			this.detachChild(this.shield);
+			BaseShieldComponent oldShield = this.shield;
+			this.shield = shield;
+			this.attachChild(this.shield);
+			return oldShield;
+		}
+		else return null;
 	}
 
 	/**
@@ -80,9 +201,12 @@ public class ShipObject extends GameEntity{
 	 * @return Previous ability equiped.
 	 */
 	public BaseAbilityComponent Equip(BaseAbilityComponent ability) {
-		BaseAbilityComponent oldAbility = this.ability;
-		this.ability = ability;
-		return oldAbility;
+		if (ability != null) {
+			BaseAbilityComponent oldAbility = this.ability;
+			this.ability = ability;
+			return oldAbility;
+		}
+		else return null;
 	}
 
 	/**
@@ -91,9 +215,12 @@ public class ShipObject extends GameEntity{
 	 * @return Previous special passive equiped.
 	 */
 	public BaseSpecialComponent Equip(BaseSpecialComponent special) {
-		BaseSpecialComponent oldSpecial = this.special;
-		this.special = special;
-		return oldSpecial;
+		if (special != null) {
+			BaseSpecialComponent oldSpecial = this.special;
+			this.special = special;
+			return oldSpecial;
+		}
+		else return null;
 	}
 
 	/**
@@ -104,9 +231,15 @@ public class ShipObject extends GameEntity{
 	public boolean Equip(BaseBoosterComponent booster) {
 		if (boosters.size() >= boosterLimit)
 			return false;
-		else {
+		else if (booster != null) {
 			boosters.add(booster);
 			return true;
 		}
+		else return false;
+	}
+
+	public void Destroy() {
+		mainWeapon.Destroy();
+		shield.Destroy();
 	}
 }

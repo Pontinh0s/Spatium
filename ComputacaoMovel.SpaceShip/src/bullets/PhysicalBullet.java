@@ -1,7 +1,5 @@
 package bullets;
 
-import managers.ResourcesManager;
-
 /**
  * PhysicalBullet.java<p>
  * 
@@ -12,8 +10,15 @@ import managers.ResourcesManager;
  */
 public class PhysicalBullet extends BaseBulletObject {
 	private static final float velocity = 3.2f; // Inicial velocity
-	private final float speedX;
-	private final float speedY;
+	
+	/**
+	 * A normal looking bullet that doesn't cross enemies.<p>
+	 * Using this constructor means that the bullet fires in up direction (as in dirX=0, dirY=1).
+	 * @param <b>anchorX & anchorY</b> - Position from where the bullets will be fired
+	 */
+	protected PhysicalBullet(float anchorX, float anchorY) {
+			super(anchorX, anchorY, velocity, resources.placeholder);
+	}
 	
 	/**
 	 * A normal looking bullet that doesn't cross enemies.
@@ -21,14 +26,11 @@ public class PhysicalBullet extends BaseBulletObject {
 	 * @param <b>dirX & dirY</b> - Inicial bullet direction
 	 */
 	protected PhysicalBullet(float anchorX, float anchorY, float dirX, float dirY) {
-			super(anchorX, anchorY, resources.placeholder);
-		float dirMag = (float) Math.sqrt((dirX*dirX) + (dirY*dirY)); //Direction's vector's magnitude.
-		this.speedX = (dirX/dirMag) * velocity;
-		this.speedY = (dirY/dirMag) * velocity;
+			super(anchorX, anchorY, dirX, dirY, velocity, resources.placeholder);
 	}
-
+	
 	@Override
-	protected void _fire() {
-		setPosition(getX() + speedX, getY() + speedY);
+	public void Update(float elapsedTime) {
+		setPosition(getX() + speedX*elapsedTime, getY() + speedY*elapsedTime);
 	}
 }
