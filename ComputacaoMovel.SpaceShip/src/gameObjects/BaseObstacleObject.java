@@ -4,6 +4,7 @@
 package gameObjects;
 
 import org.andengine.opengl.texture.region.ITextureRegion;
+
 import source.GameEntity;
 
 /**
@@ -20,7 +21,7 @@ public class BaseObstacleObject extends GameEntity {
 	protected boolean isDinamic;
 	/** The damage that it causes when hitting the ship. */
 	protected final float damage;
-
+    //	private String tag;
 	
 	/**
 	 * @param pX - 
