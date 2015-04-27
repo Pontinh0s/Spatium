@@ -239,6 +239,7 @@ public class ShipObject extends GameEntity{
 	}
 
 	public void Destroy() {
+		super.Destroy();
 		mainWeapon.Destroy();
 		shield.Destroy();
 	}

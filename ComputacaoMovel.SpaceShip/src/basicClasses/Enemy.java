@@ -55,32 +55,12 @@ public abstract class Enemy extends BaseObstacleObject{
 	public void update(float elapsedTime)
 	{
 		//Components
+		if(mainWeapon != null)
 		mainWeapon.Update(elapsedTime);
+		if(shield != null)
 		shield.Update(elapsedTime);
 	}
-	
-	/** Detects if there is something coliding with the ship,
-	 * damages the ship and deletes the object.
-	 * @param obstaculos - 
-	 * @return <b>true</b> if there was a collision and
-	 * <b>false</b> if not.
-	 */
-	private boolean detectColisions(ArrayList<BaseObstacleObject> obstacles){
-		for(int i = 0; i<obstacles.size(); i++) {
-			if (obstacles.get(i).collidesWith(this)) {
-				if ((shield != null) && shield.isActive())
-					shield.TakeDamage(obstacles.get(i).getDamage());
-				else
-					TakeDamage(obstacles.get(i).getDamage());
-				
-				obstacles.get(i).Destroy();
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
+
 	/** Fires the main weapon.
 	 * @see BaseWeaponComponent #fire()
 	 */
@@ -89,19 +69,8 @@ public abstract class Enemy extends BaseObstacleObject{
 			mainWeapon.fire();
 	}
 	
-	/**
-	 * Aplies the damage to the player, weakening it.
-	 * @param damage - The damage to be absorved by the shield.
-	 */
-	public void TakeDamage(float damage) {
-		this.hp -= damage;
-		if (this.hp <= 0) {
-			// TODO: Destroy a nave
-			
-		}
-	}
-	
 	public void Destroy() {
+		super.Destroy();
 		mainWeapon.Destroy();
 		shield.Destroy();
 	}
