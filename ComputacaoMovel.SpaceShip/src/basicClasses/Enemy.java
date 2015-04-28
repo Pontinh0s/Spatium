@@ -40,13 +40,13 @@ public abstract class Enemy extends BaseObstacleObject{
 	 * @param {@link #mainWeapon}
 	 * @param {@link #shield}
 	 */
-	public Enemy(float pX, float pY, int hp, float speed, ITextureRegion texture, Path patternPath, BaseWeaponComponent mainWeapon, BaseShieldComponent shield){
+	public Enemy(float pX, float pY, int hp, float speed, ITextureRegion texture,Path patternPath, LoopEntityModifier loop, BaseWeaponComponent mainWeapon, BaseShieldComponent shield){
 		super(pX, pY, texture);
 		//Positions himself in the pattern and then loop the pattern
 		 Path inicialPath = new Path(1).to(patternPath.getCoordinatesX()[0],patternPath.getCoordinatesY()[0]);  
 		 this.registerEntityModifier(new SequenceEntityModifier(
-			        new PathModifier(speed, inicialPath , EaseLinear.getInstance()),
-			        new LoopEntityModifier(new PathModifier(speed, patternPath, EaseSineInOut.getInstance()))));
+			        new PathModifier(speed, inicialPath , EaseLinear.getInstance()), 
+			        loop ));
 	}
 
 	/**Faz o inimigo disparar*/
