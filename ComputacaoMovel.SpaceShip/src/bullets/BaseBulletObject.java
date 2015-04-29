@@ -2,8 +2,8 @@ package bullets;
 
 import org.andengine.opengl.texture.region.ITextureRegion;
 
-import player.BaseWeaponComponent;
 import source.GameEntity;
+import weapons.BaseWeaponComponent;
 
 /**
  * BaseBulletObject.java<p>

@@ -1,13 +1,17 @@
-package player;
+package gameObjects;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 
+import player.BaseAbilityComponent;
+import player.BaseBoosterComponent;
+import player.BaseShieldComponent;
+import player.BaseSpecialComponent;
 import source.GameEntity;
+import weapons.BaseWeaponComponent;
 import weapons.GatlingCannon;
-import gameObjects.BaseObstacleObject;
 
 /**
  * ShipObject.java<p>
@@ -239,8 +243,8 @@ public class ShipObject extends GameEntity{
 	}
 
 	public void Destroy() {
-		super.Destroy();
 		mainWeapon.Destroy();
 		shield.Destroy();
+		super.Destroy();
 	}
 }

@@ -1,6 +1,5 @@
 package weapons;
 
-import player.BaseWeaponComponent;
 
 /**
  * GatlingCannon.java<p>

@@ -1,4 +1,4 @@
-package player;
+package weapons;
 
 import java.util.ArrayList;
 

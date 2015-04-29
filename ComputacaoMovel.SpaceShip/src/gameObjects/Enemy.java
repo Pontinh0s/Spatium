@@ -1,7 +1,5 @@
 package gameObjects;
 
-import java.util.ArrayList;
-
 import managers.ResourcesManager;
 
 import org.andengine.entity.modifier.LoopEntityModifier;
@@ -12,10 +10,13 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.modifier.ease.EaseLinear;
 import org.andengine.util.modifier.ease.EaseSineInOut;
 
+<<<<<<< HEAD:ComputacaoMovel.SpaceShip/src/gameObjects/Enemy.java
 import player.BaseAbilityComponent;
+=======
+import gameObjects.BaseObstacleObject;
+>>>>>>> 6849e67a1232c0edef022dafcd5d4244f7602a31:ComputacaoMovel.SpaceShip/src/basicClasses/Enemy.java
 import player.BaseShieldComponent;
-import player.BaseSpecialComponent;
-import player.BaseWeaponComponent;
+import weapons.BaseWeaponComponent;
 
 /**
  * Enemy.java<p>
@@ -26,8 +27,6 @@ import player.BaseWeaponComponent;
  * @version 1.1 21/04/2015
  */
 public abstract class Enemy extends BaseObstacleObject{
-	
-
 	/** Ship's main weapon.<p>Suposed to be activated by pressing the screen's right side. */
 	protected BaseWeaponComponent mainWeapon = null;
 	/** Ship's shield generator.<p>As a passive element, the shields regenerate automaticly while enabled. */
@@ -58,7 +57,24 @@ public abstract class Enemy extends BaseObstacleObject{
 		mainWeapon.Update(elapsedTime);
 		if(shield != null)
 		shield.Update(elapsedTime);
+		if (isOutOfBounds(resources.camera.getWidth(), resources.camera.getHeight()))
+		Destroy();
 	}
+	
+	/** Verifies if this enemy is or not out of bounds.
+	 * @param cameraWidth - Wight of the camera.
+	 * @param cameraHeight - Height of the camera.
+	 * @return If the bullet is or not completely outside the camera bounds. */
+	protected boolean isOutOfBounds(float cameraWidth, float cameraHeight) {
+		if ((this.getX() < -this.getWidth()) ||
+			(this.getY() < -this.getHeight()) ||
+			(this.getX() > cameraWidth) ||
+			(this.getY() > cameraHeight))
+			return true;
+		else
+			return false;
+	}
+
 
 	/** Fires the main weapon.
 	 * @see BaseWeaponComponent #fire()
@@ -69,9 +85,9 @@ public abstract class Enemy extends BaseObstacleObject{
 	}
 	
 	public void Destroy() {
-		super.Destroy();
 		mainWeapon.Destroy();
 		shield.Destroy();
+		super.Destroy();
 	}
 
 }
