@@ -1,10 +1,18 @@
 package basicClasses;
 
 import managers.ResourcesManager;
-import org.andengine.entity.sprite.Sprite;
+
+import org.andengine.entity.modifier.LoopEntityModifier;
+import org.andengine.entity.modifier.PathModifier;
+import org.andengine.entity.modifier.PathModifier.Path;
+import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.opengl.texture.region.ITextureRegion;
-import gameObjects.Obstacles;
-import player.BaseWeaponComponent;
+import org.andengine.util.modifier.ease.EaseLinear;
+import org.andengine.util.modifier.ease.EaseSineInOut;
+
+import gameObjects.BaseObstacleObject;
+import player.BaseShieldComponent;
+import weapons.BaseWeaponComponent;
 
 /**
  * Enemy.java<p>
@@ -14,92 +22,68 @@ import player.BaseWeaponComponent;
  * @author David Malheiro
  * @version 1.1 21/04/2015
  */
-public abstract class Enemy extends Obstacles{
+public abstract class Enemy extends BaseObstacleObject{
+	/** Ship's main weapon.<p>Suposed to be activated by pressing the screen's right side. */
+	protected BaseWeaponComponent mainWeapon = null;
+	/** Ship's shield generator.<p>As a passive element, the shields regenerate automaticly while enabled. */
+	protected BaseShieldComponent shield = null;
 	
-	//Sprite do inimigo
-	private Sprite sprite; 
-	//velocidades
-	private float speedY , speedX;
-	//integridade 
-	private float shield;
-	private boolean isAlive;
-	//Tag caso seja necessário
-	private String tag;
-	private AI_State aI;
 	
-	private enum AI_State{
-		PATTERN,
-		EVADE
-	}
-	
-	public Enemy(float pX, float pY,int hp, ITextureRegion texture,String tag,AI_State ai){
+
+	/** Creates a ship with predefined settings.
+	 * @param {@link #mainWeapon}
+	 * @param {@link #shield}
+	 */
+	public Enemy(float pX, float pY, int hp, float speed, ITextureRegion texture,Path patternPath, LoopEntityModifier loop, BaseWeaponComponent mainWeapon, BaseShieldComponent shield){
 		super(pX, pY, texture);
-		//sprite = resources.enemy;
-		this.tag = tag;
-		isAlive = true;
-		this.aI = aI;
+		//Positions himself in the pattern and then loop the pattern
+		 Path inicialPath = new Path(1).to(patternPath.getCoordinatesX()[0],patternPath.getCoordinatesY()[0]);  
+		 this.registerEntityModifier(new SequenceEntityModifier(
+			        new PathModifier(speed, inicialPath , EaseLinear.getInstance()), 
+			        loop ));
 	}
-	
+
 	/**Faz o inimigo disparar*/
 	public abstract void shoot();
 
-	public void update()
+	public void update(float elapsedTime)
 	{
-		moveY();
-		moveX();
+		//Components
+		if(mainWeapon != null)
+		mainWeapon.Update(elapsedTime);
+		if(shield != null)
+		shield.Update(elapsedTime);
+		if (isOutOfBounds(resources.camera.getWidth(), resources.camera.getHeight()))
+		Destroy();
 	}
 	
-	/** Artificial Intelligence */
-	private void updateAI(AI_State ai){
-		this.aI = ai;
-	
-		 switch (this.aI) {
-         	
-		 	case PATTERN:
-         		System.out.println("pattern are bad.");
-         		break;
-         		
-         	case EVADE:
-         		System.out.println("evade are bad.");
-         		break;
-		 }
+	/** Verifies if this enemy is or not out of bounds.
+	 * @param cameraWidth - Wight of the camera.
+	 * @param cameraHeight - Height of the camera.
+	 * @return If the bullet is or not completely outside the camera bounds. */
+	protected boolean isOutOfBounds(float cameraWidth, float cameraHeight) {
+		if ((this.getX() < -this.getWidth()) ||
+			(this.getY() < -this.getHeight()) ||
+			(this.getX() > cameraWidth) ||
+			(this.getY() > cameraHeight))
+			return true;
+		else
+			return false;
 	}
-	
-	//Remove 1 escudo por cada ponto em i, quando tiver 0 escudos a proxima colisão 
-	//Tira i pontos de vida se a nave ficar sem vida o isAlive fica falso.
-	public void GetDamaged(int i)
-	{
-		if (shield < i){
-			shield = 0;
-		}else if (shield < 1){
-			life -= i;
-		}else
-			shield = shield - i;
-		if (life <= 0)
-			isAlive = false;
-	}
-	
-	/** Regenerates the shield */
-	public void generateShield(float rate)
-	{
-		shield += rate;
-	}
-	
-	/** Move the sprite in the Y axis */
-	private void moveY()
-	{
-		pX = pY + speedY;
-	}
-	
-	/** Move the sprite in the X axis */
-	private void moveX()
-	{
-		pX = pX + speedX;
-	}
-	
-	/* ------ Get's --------
-	 * ------  & -----------
-	 * ------ Set's --------
+
+
+	/** Fires the main weapon.
+	 * @see BaseWeaponComponent #fire()
 	 */
+	public void Fire(){
+		if (mainWeapon != null)
+			mainWeapon.fire();
+	}
+	
+	public void Destroy() {
+		mainWeapon.Destroy();
+		shield.Destroy();
+		super.Destroy();
+	}
 
 }

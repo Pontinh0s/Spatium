@@ -25,28 +25,26 @@ public class EnemyManager{
 	public void Update(float pSecondsElapsed){
 		for (int i = 0; i < inimigos.size();i++){
 			//Regenera o escudo
-			inimigos.get(i).generateShield(rate);
-			//Movimento do inimigo
-			inimigos.get(i).update();
+			inimigos.get(i).update(pSecondsElapsed);
 			 
 			//Elimina o inimigo se passar da altura do ecra
-			if (inimigos.get(i).getPosY() > alturaEcra){
+			/*if (inimigos.get(i).getPosY() > alturaEcra){
 				inimigos.get(i).getSprite().detachSelf();
 				inimigos.get(i).getSprite().dispose();
 				inimigos.remove(i);
 				AddEnemy();
-			}
+			}*/
 		}
 		random = new Random().nextInt(45);
 		ciclos++;
 	}
 	
 	public boolean colidesWith(IShape shape, int index) {
-		return inimigos.get(index).getSprite().collidesWith(shape);
+		return inimigos.get(index).collidesWith(shape);
 	}
 	
 	private void AddEnemy(){
-		Enemy enemy = new Enemy(resources, null, null ){
+		/*Enemy enemy = new Enemy(resources, null, null ){
 			
 			@Override
 			public void shoot() {
@@ -56,7 +54,7 @@ public class EnemyManager{
 		enemy.setPosX(larguraEcra*random);
 		random = new Random().nextFloat();
 		enemy.setPosY(-enemy.getSprite().getHeight()-(enemy.getSprite().getHeight()*random));
-		inimigos.add(enemy);
+		inimigos.add(enemy);*/
 	}
 }
 	
