@@ -45,7 +45,7 @@ public class ShipObject extends GameEntity{
 	/** Ship's start position on X axis. */
 	private final static float startPositionX = resources.camera.getWidth()/2;
 	/** Ship's start position on Y axis. */
-	private final static float startPositionY = resources.camera.getHeight()*5/6 - 30;
+	public final static float startPositionY = resources.camera.getHeight()*5/6 - 30;
 	/**
 	 * Ship's texture's array.
 	 * <p><b>0</b> - Ship turning left.

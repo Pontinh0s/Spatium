@@ -1,4 +1,4 @@
-package basicClasses;
+package managers;
 
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.PathModifier;
@@ -6,6 +6,9 @@ import org.andengine.entity.modifier.PathModifier.IPathModifierListener;
 import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.IEntity;
 import org.andengine.util.modifier.ease.EaseSineInOut;
+
+import player.ShipObject;
+import source.GameEntity;
 
 public class Pattern {
 	
@@ -17,7 +20,6 @@ public class Pattern {
 	pattern patternEnum;
 	private float speed, xInitial, YInitial;
 	
-	
 	public Pattern(float xInitial, float yInitial, pattern path, float speed){
 		
 		this.xInitial = xInitial;
@@ -25,7 +27,7 @@ public class Pattern {
 		this.speed = speed;
 		patternEnum = path;
 		switchToPattern();
-	}
+	}	
 	
 	
 	private void switchToPattern(){
@@ -39,7 +41,7 @@ public class Pattern {
 	
 	private LoopEntityModifier StraightLine(){
 		
-		pathToFollow = new Path(5).to(xInitial, 900); 
+		pathToFollow = new Path(1).to(xInitial, ShipObject.startPositionY); 
 
 		 LoopEntityModifier ourLoop = new LoopEntityModifier(new PathModifier(speed, pathToFollow, new IPathModifierListener()  
 		 {  
@@ -60,6 +62,13 @@ public class Pattern {
 		
 		
 		return ourLoop;		
-	}
+	}	
 	
+	/**
+	 * @return {@link #pathToFollow}
+	 */
+	public Path getPathToFollow() {
+		return pathToFollow;
+	}
+
 }

@@ -1,11 +1,11 @@
 package managers;
 
+import gameObjects.Enemy;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 import org.andengine.entity.shape.IShape;
-
-import basicClasses.Enemy;
 
 public class EnemyManager{
 

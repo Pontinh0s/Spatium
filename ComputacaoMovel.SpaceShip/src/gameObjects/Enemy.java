@@ -1,4 +1,4 @@
-package basicClasses;
+package gameObjects;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,6 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.modifier.ease.EaseLinear;
 import org.andengine.util.modifier.ease.EaseSineInOut;
 
-import gameObjects.BaseObstacleObject;
 import player.BaseAbilityComponent;
 import player.BaseShieldComponent;
 import player.BaseSpecialComponent;

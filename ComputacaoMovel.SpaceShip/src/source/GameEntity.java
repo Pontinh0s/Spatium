@@ -14,7 +14,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
  * @version 1.0 15/04/2015
  */
 public class GameEntity extends Sprite {
-	protected static ResourcesManager resources;
+	public static ResourcesManager resources;
 	
 	/**
 	 * @param pX Sprite position at X axis.
