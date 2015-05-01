@@ -1,14 +1,12 @@
 package managers;
 
+import gameObjects.ShipObject;
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.PathModifier;
 import org.andengine.entity.modifier.PathModifier.IPathModifierListener;
 import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.IEntity;
 import org.andengine.util.modifier.ease.EaseSineInOut;
-
-import player.ShipObject;
-import source.GameEntity;
 
 public class Pattern {
 	

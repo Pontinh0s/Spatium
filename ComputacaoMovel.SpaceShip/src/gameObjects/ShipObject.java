@@ -2,9 +2,7 @@ package gameObjects;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
-
 import player.BaseAbilityComponent;
 import player.BaseBoosterComponent;
 import player.BaseShieldComponent;
@@ -43,7 +41,7 @@ public class ShipObject extends GameEntity{
 	
 	//Status
 	/** Ship's health points. */
-	private float HP = 100;
+	private static float StartHP = 100;
 	/** Maximum booster amount that a ship can use. */
 	private static int boosterLimit = 1;
 	/** Ship's start position on X axis. */
@@ -61,7 +59,7 @@ public class ShipObject extends GameEntity{
 	
 	/** Creates a new empty ship. */
 	public ShipObject() {
-		super(startPositionX, startPositionY, texture.getTextureRegion(1));
+		super(startPositionX, startPositionY, StartHP, texture.getTextureRegion(1));
 		Equip(new GatlingCannon(0, getHeight() - getHeight()/5));
 	}
 
@@ -72,7 +70,7 @@ public class ShipObject extends GameEntity{
 	 * @param {@link #special}
 	 */
 	public ShipObject(BaseWeaponComponent mainWeapon, BaseShieldComponent shield, BaseAbilityComponent ability, BaseSpecialComponent special) {
-		super(startPositionX, startPositionY, texture.getTextureRegion(1));
+		super(startPositionX, startPositionY, StartHP, texture.getTextureRegion(1));
 		Equip(mainWeapon);
 		Equip(shield);
 		Equip(ability);
@@ -80,16 +78,15 @@ public class ShipObject extends GameEntity{
 	}
 
 	
-	/**
-	 * Suposed to called every frame during level's Update.<p>
+	/** Suposed to called every frame during level's Update.<p>
 	 * Handles every component's Update.
 	 * @param accelerationX - Accelerometer reading for the X axis
 	 * @param elapsedTime - Time since the last update
 	 */
-	public void Update(float accelerationX, ArrayList<BaseObstacleObject> obstacles, float elapsedTime) {
+	public void Update(float accelerationX, ArrayList<GameEntity> obstacles, float elapsedTime) {
 		Move(accelerationX, elapsedTime);
 		//Components
-		mainWeapon.Update(elapsedTime);
+		mainWeapon.Update(elapsedTime, obstacles);
 		shield.Update(elapsedTime);
 		// Obstacles & Enemies
 		detectColisions(obstacles);
@@ -139,13 +136,13 @@ public class ShipObject extends GameEntity{
 	 * @return <b>true</b> if there was a collision and
 	 * <b>false</b> if not.
 	 */
-	private boolean detectColisions(ArrayList<BaseObstacleObject> obstacles){
+	private boolean detectColisions(ArrayList<GameEntity> obstacles) {
 		for(int i = 0; i<obstacles.size(); i++) {
 			if (obstacles.get(i).collidesWith(this)) {
 				if ((shield != null) && shield.isActive())
-					shield.TakeDamage(obstacles.get(i).getDamage());
+					shield.TakeDamage(((BaseObstacleObject) obstacles.get(i)).getDamage());
 				else
-					TakeDamage(obstacles.get(i).getDamage());
+					TakeDamage(((BaseObstacleObject) obstacles.get(i)).getDamage());
 				
 				obstacles.get(i).Destroy();
 				return true;
@@ -155,20 +152,8 @@ public class ShipObject extends GameEntity{
 		return false;
 	}
 	
-	/**
-	 * Aplies the damage to the player, weakening it.
-	 * @param damage - The damage to be absorved by the shield.
-	 */
-	public void TakeDamage(float damage) {
-		HP -= damage;
-		if (HP <= 0) {
-			// TODO: GameOver
-		}
-	}
 	
-	
-	/**
-	 * Equips a new weapon to the ship.
+	/** Equips a new weapon to the ship.
 	 * @param mainWeapon - New weapon to be equiped.
 	 * @return Previous weapon equiped.
 	 */
@@ -183,8 +168,7 @@ public class ShipObject extends GameEntity{
 		else return null;
 	}
 
-	/**
-	 * Equips a new shield to the ship.
+	/** Equips a new shield to the ship.
 	 * @param shield - New shield to be equiped.
 	 * @return Previous shield equiped.
 	 */
@@ -199,8 +183,7 @@ public class ShipObject extends GameEntity{
 		else return null;
 	}
 
-	/**
-	 * Equips a new ability to the ship.
+	/** Equips a new ability to the ship.
 	 * @param ability - New ability to be equiped.
 	 * @return Previous ability equiped.
 	 */
@@ -213,8 +196,7 @@ public class ShipObject extends GameEntity{
 		else return null;
 	}
 
-	/**
-	 * Equips a new special passive to the ship.
+	/** Equips a new special passive to the ship.
 	 * @param special - New special passive to be equiped.
 	 * @return Previous special passive equiped.
 	 */
@@ -227,8 +209,7 @@ public class ShipObject extends GameEntity{
 		else return null;
 	}
 
-	/**
-	 * Equips a new booster to the ship.
+	/** Equips a new booster to the ship.
 	 * @param booster - New booster to be equiped.
 	 * @return if the booster was or not equiped
 	 */
@@ -242,9 +223,11 @@ public class ShipObject extends GameEntity{
 		else return false;
 	}
 
+	@Override
 	public void Destroy() {
 		mainWeapon.Destroy();
 		shield.Destroy();
 		super.Destroy();
+		// GAME OVER scene
 	}
 }

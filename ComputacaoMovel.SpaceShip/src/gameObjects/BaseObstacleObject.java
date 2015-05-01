@@ -4,7 +4,6 @@
 package gameObjects;
 
 import org.andengine.opengl.texture.region.ITextureRegion;
-
 import source.GameEntity;
 
 /**
@@ -16,59 +15,36 @@ import source.GameEntity;
  * @version 1.0 20/04/2015
  */
 public class BaseObstacleObject extends GameEntity {
-	protected float hp;
-	protected boolean isKillabe;
-	protected boolean isDinamic;
 	/** The damage that it causes when hitting the ship. */
 	protected final float damage;
-    //	private String tag;
 	
-	/**
-	 * @param pX - 
-	 * @param pY - 
-	 * @param texture - 
+	/** Creates a sprite that can move and damage the player.
+	 * @param <b>posX & posY</b> - Obstacle's start position
+	 * @param damage - The damage that it causes when hitting the ship
+	 * @param hp - Health points (0 if the object isn't killable)
+	 * @param texture - Texture used by the object itself
 	 */
-	protected BaseObstacleObject(float pX, float pY, float damage, ITextureRegion texture) {
-		super(pX, pY, texture);
+	protected BaseObstacleObject(float posX, float posY, float damage,
+			float hp, ITextureRegion texture) {
+		super(posX, posY, hp, texture);
 		this.damage = damage;
 	}
 	
-	/**
-	 * @param pX - 
-	 * @param damage - 
-	 * @param texture - 
+	/** Creates a sprite that can move and damage the player.
+	 * <p>This override allows to create the object just above the scene.
+	 * @param posX - Obstacle's start position
+	 * @param damage - The damage that it causes when hitting the ship
+	 * @param hp - Health points (0 if the object isn't killable)
+	 * @param texture - Texture used by the object itself
 	 */
-	protected BaseObstacleObject(float pX, float damage, ITextureRegion texture) {
-		super(pX, resources.camera.getHeight(), texture);
+	protected BaseObstacleObject(float pX, float damage,
+			float hp, ITextureRegion texture) {
+		super(pX, resources.camera.getHeight(), hp, texture);
 		this.damage = damage;
 	}
 	
-	/**
-	 * Aplies the damage to the entity, weakening it.
-	 * @param damage - The damage to be absorved by the shield.
-	 */
-	public void TakeDamage(float damage){
-		if ((hp > 0) && (isKillabe != false)){
-			hp = hp - damage;
-			if (hp < 0)
-				Destroy();
-		}
-	}
-
-	
-	//#- Getters & Setters
-	/**
-	 * @return {@link #isKillabe}
-	 */
-	public boolean isKillabe() {
-		return isKillabe;
-	}
-
-	/**
-	 * @return {@link #damage}
-	 */
+	/** @return {@link #damage} */
 	public float getDamage() {
 		return damage;
 	}
-	//#!
 }

@@ -34,7 +34,7 @@ public abstract class BaseShieldComponent extends GameEntity {
 	 * @param <b>posX & posY</b> - shield's sprite's position
 	 */
 	protected BaseShieldComponent(float posX, float posY) {
-			super(posX, posY, resources.placeholder);
+			super(posX, posY, 0, resources.placeholder);
 		this.setAlpha(.0f);
 	}
 	
@@ -84,6 +84,7 @@ public abstract class BaseShieldComponent extends GameEntity {
 	 * Aplies the damage to the shield, weakening it.
 	 * @param damage - The damage to be absorved by the shield.
 	 */
+	@Override
 	public void TakeDamage(float damage) {
 		rechargeValue -= damage;
 		

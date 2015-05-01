@@ -1,14 +1,9 @@
 package weapons;
 
+import gameObjects.BaseObstacleObject;
 import java.util.ArrayList;
-
-import managers.ResourcesManager;
-
-import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.opengl.texture.region.ITextureRegion;
-
 import source.GameEntity;
-import basicClasses.Detrito;
 import bullets.BaseBulletObject;
 
 /**
@@ -26,38 +21,36 @@ public abstract class BaseWeaponComponent extends GameEntity {
 	/** Time that takes to reload the weapon after firing. */
 	private float reloadTime;
 	/** Base damage that the weapon takes to the enemies. */
-	private float damage;
+	protected float damage;
 	/** Bullet fired by the weapon. */
     protected ArrayList<BaseBulletObject> bullets;
 	//#!
 	
 	// Functions and Methods
-	/**
-	 * Defines a weapon based on reloadTime and bullet damage.
+	/** Defines a weapon based on reloadTime and bullet damage.
 	 * @param <b>posX & posY</b> - relative position of the weapon.
 	 * @param <b>{@linkplain #reloadTime}</b>
 	 * @param <b>{@linkplain #damage}</b>
 	 */
 	protected BaseWeaponComponent(float posX, float posY, float reloadTime, float damage, ITextureRegion texture) {
-			super(posX, posY, texture);
+			super(posX, posY, 0, texture);
 		this.reloadTime = reloadTime;
 		this.damage = damage;
 		bullets = new ArrayList<BaseBulletObject>();
 	}
 
-	/**
-	 * Manages all the bullets shot 
+	/** Manages all the bullets shot 
 	 * @param elapsedTime - Time since the last update
+	 * @param levelObjects - Objects in the scene that can take damage by the bullets.
 	 */
-	public void Update(float elapsedTime) {
+	public void Update(float elapsedTime, ArrayList<GameEntity> levelObjects) {
 		for (int i = 0; i < bullets.size();i++)
-			bullets.get(i).Update(elapsedTime);
+			bullets.get(i).Update(elapsedTime, levelObjects);
 			
 		CheckBullets();
 	}
 	
-	/**
-	 * If the weapon is enabled, it is used the abstract function
+	/** If the weapon is enabled, it is used the abstract function
 	 * <code>_fire()</code> to fire it.
 	 */
 	public void fire() {
@@ -66,8 +59,7 @@ public abstract class BaseWeaponComponent extends GameEntity {
 		}
 	}
 	
-	/**
-	 * Checks if the bullets fired by this weapon are out of the screen limits.<p>
+	/** Checks if the bullets fired by this weapon are out of the screen limits.<p>
 	 * This is an Update function.
 	 */
 	private void CheckBullets() {
@@ -83,37 +75,28 @@ public abstract class BaseWeaponComponent extends GameEntity {
 			bullets.get(0).Destroy();
 	}
 	
-	
 	// Abstract Functions and Methods
 	/** Defines how the weapon is fired. */
 	protected abstract void _fire();
 	
 	
 	//#- Getters & Setters
-	/**
-	 * @return {@link #reloadTime}
-	 */
+	/** @return {@link #reloadTime} */
 	public float getReloadTime() {
 		return reloadTime;
 	}
 
-	/**
-	 * @return {@link #damage}
-	 */
+	/** @return {@link #damage} */
 	public float getDamage() {
 		return damage;
 	}
 	
-	/**
-	 * enables the weapon
-	 */
+	/** Enables the weapon. */
 	public void enable() {
 		enabled = true;
 	}
 
-	/**
-	 * disables the weapon
-	 */
+	/** Disables the weapon. */
 	public void disable() {
 		enabled = false;
 	}
