@@ -3,7 +3,10 @@
  */
 package gameObjects;
 
+import java.util.ArrayList;
+
 import org.andengine.opengl.texture.region.ITextureRegion;
+
 import source.GameEntity;
 
 /**
@@ -46,5 +49,11 @@ public class BaseObstacleObject extends GameEntity {
 	/** @return {@link #damage} */
 	public float getDamage() {
 		return damage;
+	}
+	
+	/** Makes the game object explode. */
+	public void explosion(final ArrayList<GameEntity> levelObjects, final ShipObject player){
+		resources.engine.getScene().attachChild(new Explosion(this.getX(), this.getY(), levelObjects, player));
+		this.Destroy();
 	}
 }

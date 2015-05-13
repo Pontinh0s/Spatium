@@ -9,12 +9,7 @@ import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.modifier.ease.EaseLinear;
 import org.andengine.util.modifier.ease.EaseSineInOut;
-
-<<<<<<< HEAD:ComputacaoMovel.SpaceShip/src/gameObjects/Enemy.java
-import player.BaseAbilityComponent;
-=======
 import gameObjects.BaseObstacleObject;
->>>>>>> 6849e67a1232c0edef022dafcd5d4244f7602a31:ComputacaoMovel.SpaceShip/src/basicClasses/Enemy.java
 import player.BaseShieldComponent;
 import weapons.BaseWeaponComponent;
 
@@ -39,12 +34,13 @@ public abstract class Enemy extends BaseObstacleObject{
 	 * @param {@link #shield}
 	 */
 	public Enemy(float pX, float pY, int hp, float speed, ITextureRegion texture,Path patternPath, LoopEntityModifier loop, BaseWeaponComponent mainWeapon, BaseShieldComponent shield){
-		super(pX, pY, texture);
+		super(pX, pY,speed, texture);
 		//Positions himself in the pattern and then loop the pattern
 		 Path inicialPath = new Path(1).to(patternPath.getCoordinatesX()[0],patternPath.getCoordinatesY()[0]);  
-		 this.registerEntityModifier(new SequenceEntityModifier(
+		 /*this.registerEntityModifier(new SequenceEntityModifier(
 			        new PathModifier(speed, inicialPath , EaseLinear.getInstance()), 
-			        loop ));
+			        loop ));*/
+		 this.registerEntityModifier(loop);
 	}
 
 	/**Faz o inimigo disparar*/
