@@ -1,6 +1,6 @@
 package menus;
 
-import com.example.computacaomovel.spaceship.R;
+/*import com.example.computacaomovel.spaceship.R;
 import com.example.computacaomovel.spaceship.R.layout;
 import com.example.computacaomovel.spaceship.R.menu;
 
@@ -23,4 +23,4 @@ public class Credits extends Activity {
 		return true;
 	}
 
-}
+}*/
