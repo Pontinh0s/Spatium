@@ -47,7 +47,7 @@ public class Wave {
 					for (int i = 0 ; i < waveTimerIndex.length ;i++)
 						if (waveTime == waveTimerIndex[i])
 						{
-							Enemy();
+							//Enemy();
 						}
 				break;
 		}
