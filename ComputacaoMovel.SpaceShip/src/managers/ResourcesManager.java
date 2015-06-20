@@ -63,6 +63,7 @@ public class ResourcesManager
     public BitmapTextureAtlas
     	bSplashScreen;
 
+    public ITextureRegion NULL;
     public ITextureRegion placeholder;
     public ITiledTextureRegion sheetHolder;
     

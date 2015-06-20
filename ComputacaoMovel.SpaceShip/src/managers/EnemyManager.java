@@ -1,16 +1,15 @@
 package managers;
 
-import gameObjects.Enemy;
-
 import java.util.ArrayList;
 import java.util.Random;
-
 import org.andengine.entity.shape.IShape;
+import source.GameEntity;
+import gameObjects.BaseEnemyObject;
 
 public class EnemyManager{
 
 	private ResourcesManager resources;
-	private ArrayList<Enemy> inimigos;
+	private ArrayList<GameEntity> inimigos;
 	private float alturaEcra, larguraEcra;
 	private float rate;
 	private float random;
@@ -25,7 +24,7 @@ public class EnemyManager{
 	public void Update(float pSecondsElapsed){
 		for (int i = 0; i < inimigos.size();i++){
 			//Regenera o escudo
-			inimigos.get(i).update(pSecondsElapsed);
+			((BaseEnemyObject) inimigos.get(i)).update(pSecondsElapsed, inimigos);
 			 
 			//Elimina o inimigo se passar da altura do ecra
 			/*if (inimigos.get(i).getPosY() > alturaEcra){

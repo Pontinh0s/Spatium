@@ -17,6 +17,7 @@ public class HeavyLaserBullet extends BaseBulletObject {
 	private static final ITextureRegion texture = resources.placeholder; // Bullet texture
 	private static final float velocity = 2.5f; // Inicial velocity
 
+	
 	/** A heavy laser bullet that pierces enemies in a line.
 	 * <p>Deals more damage than the Gatling gun, although is slower.
 	 * <p>Using this constructor means that the bullet fires in up direction (as in dirX=0, dirY=1).
@@ -37,6 +38,7 @@ public class HeavyLaserBullet extends BaseBulletObject {
 		super(anchorX, anchorY, dirX, dirY, velocity, damage, texture);
 	}
 
+	
 	@Override
 	public void Update(float elapsedTime, ArrayList<GameEntity> levelObjects) {
 		LinearMovement(elapsedTime);

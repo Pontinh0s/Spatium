@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import managers.Pattern;
 import managers.Pattern.pattern;
-import gameObjects.Enemy;
+import gameObjects.BaseEnemyObject;
 
 /**
  * Wave.java<p>
@@ -64,17 +64,17 @@ public class Wave {
 		
 		waveIndex.add(
 				new Pattern(resources.camera.getWidth()*0.25f,
-						(-Enemy.SPRITE_SIZE),
+						(-BaseEnemyObject.SPRITE_SIZE),
 						pattern.STRAIGHT_LINE,
 						5));
 		waveIndex.add(
 				new Pattern(resources.camera.getWidth()*0.5f,
-						(-Enemy.SPRITE_SIZE),
+						(-BaseEnemyObject.SPRITE_SIZE),
 						pattern.STRAIGHT_LINE,
 						5));
 		waveIndex.add(
 				new Pattern(resources.camera.getWidth()*0.75f,
-						(-Enemy.SPRITE_SIZE),
+						(-BaseEnemyObject.SPRITE_SIZE),
 						pattern.STRAIGHT_LINE,
 						5));
 		

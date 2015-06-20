@@ -21,16 +21,17 @@ public abstract class BaseWeaponComponent extends GameEntity {
 	/** Time that takes to reload the weapon after firing. */
 	private float reloadTime;
 	/** Base damage that the weapon takes to the enemies. */
-	protected float damage;
+	private float damage;
 	/** Bullet fired by the weapon. */
     protected ArrayList<BaseBulletObject> bullets;
 	//#!
 	
 	// Functions and Methods
-	/** Defines a weapon based on reloadTime and bullet damage.
-	 * @param <b>posX & posY</b> - relative position of the weapon.
+	/** Defines a weapon based on reloadTime and bullet damage
+	 * @param <b>posX & posY</b> - relative position of the weapon
 	 * @param <b>{@linkplain #reloadTime}</b>
 	 * @param <b>{@linkplain #damage}</b>
+	 * @param texture - The grafical representation of the weapon
 	 */
 	protected BaseWeaponComponent(float posX, float posY, float reloadTime, float damage, ITextureRegion texture) {
 			super(posX, posY, 0, texture);
@@ -87,7 +88,7 @@ public abstract class BaseWeaponComponent extends GameEntity {
 	}
 
 	/** @return {@link #damage} */
-	public float getDamage() {
+	public float getBaseDamage() {
 		return damage;
 	}
 	

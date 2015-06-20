@@ -1,6 +1,6 @@
 package gameObjects;
 
-import managers.ResourcesManager;
+import java.util.ArrayList;
 
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.PathModifier;
@@ -9,32 +9,34 @@ import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.modifier.ease.EaseLinear;
 import org.andengine.util.modifier.ease.EaseSineInOut;
+
 import gameObjects.BaseObstacleObject;
 import player.BaseShieldComponent;
+import source.GameEntity;
 import weapons.BaseWeaponComponent;
 
-/**
- * Enemy.java<p>
+/** EnemyObject.java<p>
  * Defines a base object for the Enemy.
  *
  * @category Enemies
  * @author David Malheiro
  * @version 1.1 21/04/2015
  */
-public abstract class Enemy extends BaseObstacleObject{
+public abstract class BaseEnemyObject extends BaseObstacleObject{
 	/** Ship's main weapon.<p>Suposed to be activated by pressing the screen's right side. */
 	protected BaseWeaponComponent mainWeapon = null;
 	/** Ship's shield generator.<p>As a passive element, the shields regenerate automaticly while enabled. */
 	protected BaseShieldComponent shield = null;
-	
 	
 
 	/** Creates a ship with predefined settings.
 	 * @param {@link #mainWeapon}
 	 * @param {@link #shield}
 	 */
-	public Enemy(float pX, float pY, int hp, float speed, ITextureRegion texture,Path patternPath, LoopEntityModifier loop, BaseWeaponComponent mainWeapon, BaseShieldComponent shield){
+	public BaseEnemyObject(float pX, float pY, int hp, float speed, ITextureRegion texture,Path patternPath, LoopEntityModifier loop, BaseWeaponComponent mainWeapon, BaseShieldComponent shield){
 		super(pX, pY,speed, texture);
+		this.mainWeapon = mainWeapon;
+		this.shield = shield;
 		//Positions himself in the pattern and then loop the pattern
 		 Path inicialPath = new Path(1).to(patternPath.getCoordinatesX()[0],patternPath.getCoordinatesY()[0]);  
 		 /*this.registerEntityModifier(new SequenceEntityModifier(
@@ -42,15 +44,18 @@ public abstract class Enemy extends BaseObstacleObject{
 			        loop ));*/
 		 this.registerEntityModifier(loop);
 	}
+	
 
-	/**Faz o inimigo disparar*/
-	public abstract void shoot();
+	/** Faz o inimigo disparar. */
+	public void fire() {
+		this.mainWeapon.fire();
+	}
 
-	public void update(float elapsedTime)
+	public void update(float elapsedTime, ArrayList<GameEntity> gameObjects)
 	{
 		//Components
 		if(mainWeapon != null)
-		mainWeapon.Update(elapsedTime);
+		mainWeapon.Update(elapsedTime, gameObjects);
 		if(shield != null)
 		shield.Update(elapsedTime);
 		if (isOutOfBounds(resources.camera.getWidth(), resources.camera.getHeight()))
