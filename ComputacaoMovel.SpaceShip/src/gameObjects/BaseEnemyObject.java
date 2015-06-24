@@ -33,15 +33,11 @@ public abstract class BaseEnemyObject extends BaseObstacleObject{
 	 * @param {@link #mainWeapon}
 	 * @param {@link #shield}
 	 */
-	public BaseEnemyObject(float pX, float pY, int hp, float speed, ITextureRegion texture,Path patternPath, LoopEntityModifier loop, BaseWeaponComponent mainWeapon, BaseShieldComponent shield){
+	public BaseEnemyObject(float pX, float pY, int hp, float speed, ITextureRegion texture, LoopEntityModifier loop, BaseWeaponComponent mainWeapon, BaseShieldComponent shield){
 		super(pX, pY,speed, texture);
 		this.mainWeapon = mainWeapon;
 		this.shield = shield;
 		//Positions himself in the pattern and then loop the pattern
-		 Path inicialPath = new Path(1).to(patternPath.getCoordinatesX()[0],patternPath.getCoordinatesY()[0]);  
-		 /*this.registerEntityModifier(new SequenceEntityModifier(
-			        new PathModifier(speed, inicialPath , EaseLinear.getInstance()), 
-			        loop ));*/
 		 this.registerEntityModifier(loop);
 	}
 	
