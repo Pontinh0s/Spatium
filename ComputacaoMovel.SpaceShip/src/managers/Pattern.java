@@ -19,6 +19,7 @@ public class Pattern {
 	}
 	
 	private Path pathToFollow; 
+	LoopEntityModifier ourLoop;
 	pattern patternEnum;
 	ResourcesManager resources;
 	private float speed, xInitial, YInitial;
@@ -56,7 +57,7 @@ public class Pattern {
 				this.xInitial+(resources.camera.getWidth()/6), 0.7f*resources.camera.getHeight()).to(
 				this.xInitial+(resources.camera.getWidth()/6), 1.5f*resources.camera.getHeight()); 
 
-		 LoopEntityModifier ourLoop = new LoopEntityModifier(new PathModifier(speed, pathToFollow, new IPathModifierListener()  
+		 ourLoop = new LoopEntityModifier(new PathModifier(speed, pathToFollow, new IPathModifierListener()  
 		 {  
 		      @Override  
 		      public void onPathFinished(PathModifier pPathModifier, IEntity pEntity) { }
@@ -82,7 +83,7 @@ public class Pattern {
 		
 		pathToFollow = new Path(1).to(xInitial, ShipObject.startPositionY); 
 
-		 LoopEntityModifier ourLoop = new LoopEntityModifier(new PathModifier(speed, pathToFollow, new IPathModifierListener()  
+		 ourLoop = new LoopEntityModifier(new PathModifier(speed, pathToFollow, new IPathModifierListener()  
 		 {  
 		      @Override  
 		      public void onPathFinished(PathModifier pPathModifier, IEntity pEntity) { }
@@ -111,7 +112,7 @@ public class Pattern {
 		xInitial + resources.camera.getWidth()/6,0.4f*resources.camera.getHeight()).to(
 		xInitial, 0.1f*resources.camera.getHeight()); 
 
-		 LoopEntityModifier ourLoop = new LoopEntityModifier(new PathModifier(speed, pathToFollow, new IPathModifierListener()  
+		 ourLoop = new LoopEntityModifier(new PathModifier(speed, pathToFollow, new IPathModifierListener()  
 		 {  
 		      @Override  
 		      public void onPathFinished(PathModifier pPathModifier, IEntity pEntity) { }
@@ -138,7 +139,7 @@ public class Pattern {
 		xInitial-resources.camera.getWidth()/6, 0.5f*resources.camera.getHeight()).to(
 		xInitial-resources.camera.getWidth()/6, 1.5f*resources.camera.getHeight()); 
 
-		 LoopEntityModifier ourLoop = new LoopEntityModifier(new PathModifier(speed, pathToFollow, new IPathModifierListener()  
+		ourLoop = new LoopEntityModifier(new PathModifier(speed, pathToFollow, new IPathModifierListener()  
 		 {  
 		      @Override  
 		      public void onPathFinished(PathModifier pPathModifier, IEntity pEntity) { }
@@ -165,7 +166,7 @@ public class Pattern {
 		xInitial+resources.camera.getWidth()/6, 0.5f*resources.camera.getHeight()).to(
 		xInitial+resources.camera.getWidth()/6, 1.5f*resources.camera.getHeight()); 
 
-		 LoopEntityModifier ourLoop = new LoopEntityModifier(new PathModifier(speed, pathToFollow, new IPathModifierListener()  
+		 ourLoop = new LoopEntityModifier(new PathModifier(speed, pathToFollow, new IPathModifierListener()  
 		 {  
 		      @Override  
 		      public void onPathFinished(PathModifier pPathModifier, IEntity pEntity) { }
@@ -193,6 +194,13 @@ public class Pattern {
 	 */
 	public Path getPathToFollow() {
 		return pathToFollow;
+	}
+	
+	/**
+	 * @return {@link #pathToFollow}
+	 */
+	public LoopEntityModifier getLoopToFollow() {
+		return ourLoop;
 	}
 
 }

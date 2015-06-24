@@ -3,6 +3,7 @@ package enemies;
 import java.util.ArrayList;
 
 import gameObjects.BaseEnemyObject;
+import managers.Pattern;
 
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.PathModifier.Path;
@@ -26,13 +27,13 @@ public class Pilot extends BaseEnemyObject {
 	private static final int hp = 1;
 	private static final float speed = 2;
 
-	/** Builds a simple drone in a specific position and a path.
+	/** Builds a simple pilot in a specific position and a path.
 	 * @param <b>posX & posY</b> - Initial enemy's position
 	 * @param <b>{@linkplain BaseEnemyObject#patternPath patternPath}</b>
 	 * @param <b>{@linkplain BaseEnemyObject#loop loop}</b>
 	 */
-	public Pilot(float posX, float posY, Path patternPath, LoopEntityModifier loop) {
-		super(posX, posY, hp, speed, texture, patternPath, loop, mainWeapon, shield);
+	public Pilot(float posX, float posY, Path patternPath, Pattern path) {
+		super(posX, posY, hp, speed, texture, path, mainWeapon, shield);
 	}
 	
 	public void Update(ArrayList<GameEntity> obstacles, float elapsedTime, float shootSpeed) {

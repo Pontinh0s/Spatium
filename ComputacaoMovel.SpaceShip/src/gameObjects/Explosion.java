@@ -25,7 +25,7 @@ public class Explosion extends TiledSprite {
 	private static final ITiledTextureRegion texture = resources.sheetHolder;
 
 	/** Damage that causes to objects per update. */
-	private static final float damage = .25f; // Heavy Laser bullet's damage is .2f per update
+	private float damage = .25f; // Heavy Laser bullet's damage is .2f per update
 	/** Time taken to change the frame. */
 	private static final float frameTime = 100.f;
 	/** for how long the current frame is being shown. */
@@ -36,9 +36,11 @@ public class Explosion extends TiledSprite {
 	 * @param levelObjects - Objects in the scene that can take damage by the explosion
 	 * @param player - the ship controlled by the player
 	 */
-	public Explosion(float posX, float posY, final ArrayList<GameEntity> levelObjects,
+	public Explosion(float posX, float posY,float damage, final ArrayList<GameEntity> levelObjects,
 			final ShipObject player) {
 			super(posX, posY, texture, resources.vbom);
+			
+			this.damage = damage;
 			
 		resources.engine.registerUpdateHandler(new IUpdateHandler() {
 			@Override

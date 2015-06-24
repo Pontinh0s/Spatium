@@ -2,6 +2,8 @@ package gameObjects;
 
 import java.util.ArrayList;
 
+import managers.Pattern;
+
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.PathModifier;
 import org.andengine.entity.modifier.PathModifier.Path;
@@ -30,15 +32,19 @@ public abstract class BaseEnemyObject extends BaseObstacleObject{
 	
 
 	/** Creates a ship with predefined settings.
+	 * @param <b>posX & posY</b> - enemie's position
+	 * @param <b>speed</b> - enemy speed
+	 * @param <b>texture</b>
+	 * @param <b>path</b> - Path the enemy will follow
 	 * @param {@link #mainWeapon}
 	 * @param {@link #shield}
 	 */
-	public BaseEnemyObject(float pX, float pY, int hp, float speed, ITextureRegion texture, LoopEntityModifier loop, BaseWeaponComponent mainWeapon, BaseShieldComponent shield){
+	public BaseEnemyObject(float pX, float pY, int hp, float speed, ITextureRegion texture, Pattern path, BaseWeaponComponent mainWeapon, BaseShieldComponent shield){
 		super(pX, pY,speed, texture);
 		this.mainWeapon = mainWeapon;
 		this.shield = shield;
 		//Positions himself in the pattern and then loop the pattern
-		 this.registerEntityModifier(loop);
+		 this.registerEntityModifier(path.getLoopToFollow());
 	}
 	
 

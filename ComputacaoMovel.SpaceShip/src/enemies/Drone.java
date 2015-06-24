@@ -1,6 +1,9 @@
 package enemies;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import managers.Pattern;
 
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.PathModifier.Path;
@@ -30,8 +33,9 @@ public class Drone extends BaseEnemyObject {
 	 * @param <b>{@linkplain BaseEnemyObject#patternPath patternPath}</b>
 	 * @param <b>{@linkplain BaseEnemyObject#loop loop}</b>
 	 */
-	public Drone(float posX, float posY, Path patternPath, LoopEntityModifier loop) {
-		super(posX, posY, hp, speed, texture, patternPath, loop, mainWeapon, shield);
+	public Drone(float posX, float posY, Pattern path) {
+		super(posX, posY, hp, speed, texture, path, mainWeapon, shield);
+		
 	}
 	
 	public void Update(ArrayList<GameEntity> obstacles, float elapsedTime, float shootSpeed) {
@@ -50,6 +54,18 @@ public class Drone extends BaseEnemyObject {
 	@Override
 	public void fire(){
 		mainWeapon.fire();
+		
+	}
+	
+	@Override
+	public void Destroy(){
+		super.Destroy();
+		
+		Random Rand =new Random();
+		int r = Rand.nextInt(100);
+		
+		if(r >= 50)
+		new Pilot(this.getX(), this.getY(),null,null);
 		
 	}
 
