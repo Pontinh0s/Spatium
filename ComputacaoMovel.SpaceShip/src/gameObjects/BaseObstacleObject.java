@@ -53,7 +53,7 @@ public class BaseObstacleObject extends GameEntity {
 	
 	/** Makes the game object explode. */
 	public void explosion(final ArrayList<GameEntity> levelObjects, final ShipObject player){
-		resources.engine.getScene().attachChild(new Explosion(this.getX(), this.getY(), levelObjects, player));
+		resources.engine.getScene().attachChild(new Explosion(this.getX(), this.getY(),1.0f, levelObjects, player));
 		this.Destroy();
 	}
 }

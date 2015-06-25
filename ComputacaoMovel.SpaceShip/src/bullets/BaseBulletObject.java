@@ -1,7 +1,11 @@
 package bullets;
 
+import gameObjects.ShipObject;
+
 import java.util.ArrayList;
+
 import org.andengine.opengl.texture.region.ITextureRegion;
+
 import source.GameEntity;
 import weapons.BaseWeaponComponent;
 
@@ -67,6 +71,17 @@ public abstract class BaseBulletObject extends GameEntity {
 			if (this.collidesWith(levelObjects.get(index)))
 				CollidesWithObject(levelObjects.get(index));
 		}
+	}
+	
+	/** Moves the bullet and detects collisions only with the player.
+	 * This function has to be repeated on an Update loop, generally called on {@link BaseWeaponComponent}.
+	 * @param elapsedTime - Time since the last update
+	 * @param player - The player that can take damage by the bullets
+	 */
+	public void Update(float elapsedTime, ShipObject player) {
+		//Verifica se colide com algum dos objetos
+		if (this.collidesWith(player))
+			CollidesWithObject(player);
 	}
 	
 	/** It's called when the bullet is colliding with an object

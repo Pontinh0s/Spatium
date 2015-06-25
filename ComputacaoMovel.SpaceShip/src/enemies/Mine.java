@@ -74,7 +74,7 @@ public class Mine  extends GameEntity{
 	@Override
 	public void Destroy() {
 		super.Destroy();
-		new Explosion(this.getX(),this.getY(),0.4f,null,player);
+		resources.engine.getScene().attachChild(new Explosion(this.getX(),this.getY(),0.4f,null,player));
 		// GAME OVER scene
 	}
 	

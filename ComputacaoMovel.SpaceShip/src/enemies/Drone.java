@@ -13,6 +13,8 @@ import player.BaseShieldComponent;
 import source.GameEntity;
 import weapons.LaserCannon;
 import gameObjects.BaseEnemyObject;
+import gameObjects.Explosion;
+import gameObjects.ShipObject;
 
 /** Drone.java<p>
  * A simple drone.
@@ -38,10 +40,10 @@ public class Drone extends BaseEnemyObject {
 		
 	}
 	
-	public void Update(ArrayList<GameEntity> obstacles, float elapsedTime, float shootSpeed) {
+	public void Update(ShipObject player, float elapsedTime, float shootSpeed) {
 		
 		//Components
-		mainWeapon.Update(elapsedTime, obstacles);
+		mainWeapon.Update(elapsedTime, player);
 		shield.Update(elapsedTime);
 		
 		//Dispara
@@ -60,13 +62,19 @@ public class Drone extends BaseEnemyObject {
 	@Override
 	public void Destroy(){
 		super.Destroy();
-		
+		explosion(null, null);
 		Random Rand =new Random();
 		int r = Rand.nextInt(100);
 		
 		if(r >= 50)
-		new Pilot(this.getX(), this.getY(),null,null);
+			resources.engine.getScene().attachChild(new Pilot(this.getX(), this.getY(),null,null));
 		
+	}
+	
+	/** Makes the game object explode. */
+	public void explosion(final ArrayList<GameEntity> levelObjects, final ShipObject player){
+		resources.engine.getScene().attachChild(new Explosion(this.getX(), this.getY(),1.0f, levelObjects, player));
+		this.Destroy();
 	}
 
 }
