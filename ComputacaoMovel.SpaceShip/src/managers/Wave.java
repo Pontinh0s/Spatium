@@ -22,7 +22,9 @@ public class Wave {
 	enum wave_enum{
 		WAVE_3_V,
 		WAVE_5_V,
-		WAVE_3_V_2_ll
+		WAVE_2_LL,
+		WAVE_3_V_2_ll,
+		WAVE_5_V_2_ll
 		
 	}
 	
@@ -43,7 +45,7 @@ public class Wave {
 	 */
 	public void Update(float elapsedTime) {
 		waveTime += elapsedTime;
-
+		
 	}
 	
 	
@@ -59,17 +61,20 @@ public class Wave {
 		case WAVE_3_V:
 				Wave_3_V();
 					for (int i = 0 ; i < waveTimerIndex.length ;i++)
-						if (waveTime <= waveTimerIndex[i])
+						if (waveTime <= waveTimerIndex[i] && waveTimerIndex[i]> 0)
 						{
 							if (i == 0)
 							{
+								waveTimerIndex[i] = -1;
 								resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.25f,-25,waveIndex.get(i)));
 							} else if (i == 1)
 							{
+								waveTimerIndex[i] = -1;
 								resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i)));
 
 							} else if (i == 2)
 							{
+								waveTimerIndex[i] = -1;
 								resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
 
 							}
@@ -79,52 +84,122 @@ public class Wave {
 		case WAVE_5_V:
 			Wave_5_V();
 				for (int i = 0 ; i < waveTimerIndex.length ;i++)
-					if (waveTime == waveTimerIndex[i])
+					if (waveTime == waveTimerIndex[i] && waveTimerIndex[i]> 0)
 					{
 						if (i == 0)
 						{
+							waveTimerIndex[i] = -1;
 							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.23f,-25,waveIndex.get(i)));
 						} else if (i == 1)
 						{
+							waveTimerIndex[i] = -1;
 							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.39f,-25,waveIndex.get(i)));
 
 						} else if (i == 2)
 						{
+							waveTimerIndex[i] = -1;
 							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i)));
 
 						}else if (i == 3)
 						{
+							waveTimerIndex[i] = -1;
 							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.66f,-25,waveIndex.get(i)));
 
 						}else if (i == 4)
 						{
+							waveTimerIndex[i] = -1;
 							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.82f,-25,waveIndex.get(i)));
 
 						}
 					}
 			break;
-		case WAVE_3_V_2_ll:
-			Wave_3_V_2_ll();
+		case WAVE_2_LL:
+			Wave_2_LL();
 				for (int i = 0 ; i < waveTimerIndex.length ;i++)
-					if (waveTime <= waveTimerIndex[i])
+					if (waveTime == waveTimerIndex[i] && waveTimerIndex[i]> 0)
 					{
 						if (i == 0)
 						{
+							waveTimerIndex[i] = -1;
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.23f,-25,waveIndex.get(i)));
+						} else if (i == 1)
+						{
+							waveTimerIndex[i] = -1;
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.39f,-25,waveIndex.get(i)));
+
+						} 
+					}
+			break;
+		case WAVE_3_V_2_ll:
+			Wave_3_V_2_LL();
+				for (int i = 0 ; i < waveTimerIndex.length ;i++)
+					if (waveTime <= waveTimerIndex[i] && waveTimerIndex[i]> 0)
+					{
+						if (i == 0)
+						{ 
+							waveTimerIndex[i] = -1;
 							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.25f,-25,waveIndex.get(i)));
 						} else if (i == 1)
 						{
+							waveTimerIndex[i] = -1;
 							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i)));
 
 						} else if (i == 2)
 						{
+							waveTimerIndex[i] = -1;
 							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
 
 						}else if (i == 3)
 						{
+							waveTimerIndex[i] = -1;
 							resources.engine.getScene().attachChild(new shieldon(resources.camera.getWidth()*0.25f,-25,3, 5, waveIndex.get(i)));
 
 						}else if (i == 4)
 						{
+							waveTimerIndex[i] = -1;
+							resources.engine.getScene().attachChild(new shieldon(resources.camera.getWidth()*0.75f,-25,3, 5, waveIndex.get(i)));
+
+						}
+						
+					}
+			break;
+		case WAVE_5_V_2_ll: // I am here and you are not
+			Wave_5_V_2_LL();
+				for (int i = 0 ; i < waveTimerIndex.length ;i++)
+					if (waveTime <= waveTimerIndex[i] && waveTimerIndex[i]> 0)
+					{
+						if (i == 0)
+						{ 
+							waveTimerIndex[i] = -1;
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.25f,-25,waveIndex.get(i)));
+						} else if (i == 1)
+						{
+							waveTimerIndex[i] = -1;
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i)));
+
+						} else if (i == 2)
+						{
+							waveTimerIndex[i] = -1;
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
+
+						}else if (i == 3)
+						{
+							waveTimerIndex[i] = -1;
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
+
+						}else if (i == 4)
+						{
+							waveTimerIndex[i] = -1;
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
+
+						}else if (i == 5)
+						{
+							waveTimerIndex[i] = -1;
+							resources.engine.getScene().attachChild(new shieldon(resources.camera.getWidth()*0.25f,-25,3, 5, waveIndex.get(i)));
+
+						}else if (i == 6)
+						{
+							waveTimerIndex[i] = -1;
 							resources.engine.getScene().attachChild(new shieldon(resources.camera.getWidth()*0.75f,-25,3, 5, waveIndex.get(i)));
 
 						}
@@ -201,7 +276,29 @@ public class Wave {
 		
 	}
 	
-	private void Wave_3_V_2_ll(){
+	private void Wave_2_LL(){
+		
+		waveIndex = new ArrayList<Pattern>();
+		waveTimerIndex = new int [5];
+		
+		waveTimerIndex[0] = 1000;
+		waveTimerIndex[1] = 1000;
+
+		
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.23f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.39f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		
+	}
+	
+	private void Wave_3_V_2_LL(){
 		
 		waveIndex = new ArrayList<Pattern>();
 		waveTimerIndex = new int [5];
@@ -209,8 +306,50 @@ public class Wave {
 		waveTimerIndex[0] = 2000; // V
 		waveTimerIndex[1] = 1000; // V
 		waveTimerIndex[2] = 2000; // V
+		waveTimerIndex[3] = 1000; // Lado a Lado
 		waveTimerIndex[4] = 1000; // Lado a Lado
-		waveTimerIndex[5] = 1000; // Lado a Lado
+		
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.25f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.5f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.75f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.25f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.75f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		
+	}
+	
+	private void Wave_5_V_2_LL(){
+		
+		waveIndex = new ArrayList<Pattern>();
+		waveTimerIndex = new int [8];
+		
+		waveTimerIndex[0] = 2000; // V
+		waveTimerIndex[1] = 1000; // V
+		waveTimerIndex[2] = 2000; // V
+		waveTimerIndex[3] = 1000; // Lado a Lado
+		waveTimerIndex[4] = 1000; // Lado a Lado
+		waveTimerIndex[5] = 1000; // V
+		waveTimerIndex[6] = 2000; // V
+		waveTimerIndex[7] = 3000;
 		
 		waveIndex.add(
 				new Pattern(resources.camera.getWidth()*0.25f,

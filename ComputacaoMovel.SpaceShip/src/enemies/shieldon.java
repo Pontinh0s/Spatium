@@ -36,10 +36,7 @@ public class shieldon extends BaseEnemyObject{
 	 * @param pY
 	 * @param hp
 	 * @param speed
-	 * @param texture
 	 * @param path
-	 * @param mainWeapon
-	 * @param shield
 	 */
 	public shieldon(float pX, float pY, int hp, float speed, Pattern path) {
 		super(pX, pY, hp, speed, texture, path, mainWeapon, shield);
