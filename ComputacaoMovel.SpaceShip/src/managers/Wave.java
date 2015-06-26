@@ -2,6 +2,7 @@ package managers;
 
 import java.util.ArrayList;
 
+import enemies.BarrageShooter;
 import enemies.Drone;
 import enemies.shieldon;
 import managers.Pattern;
@@ -19,13 +20,12 @@ import gameObjects.BaseEnemyObject;
 public class Wave {
 	
 	// WAVE_"n enemies"_"style or organization"
-	enum wave_enum{
+	public enum wave_enum{
 		WAVE_3_V,
 		WAVE_5_V,
 		WAVE_2_LL,
 		WAVE_3_V_2_ll,
-		WAVE_5_V_2_ll
-		
+		WAVE_5_V_2_ll_1C		
 	}
 	
 	ResourcesManager resources;
@@ -163,34 +163,34 @@ public class Wave {
 						
 					}
 			break;
-		case WAVE_5_V_2_ll: // I am here and you are not
-			Wave_5_V_2_LL();
+		case WAVE_5_V_2_ll_1C: // I am here and you are not
+			Wave_5_V_2_LL_1C();
 				for (int i = 0 ; i < waveTimerIndex.length ;i++)
 					if (waveTime <= waveTimerIndex[i] && waveTimerIndex[i]> 0)
 					{
 						if (i == 0)
-						{ 
+						{
 							waveTimerIndex[i] = -1;
-							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.25f,-25,waveIndex.get(i)));
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.23f,-25,waveIndex.get(i)));
 						} else if (i == 1)
 						{
 							waveTimerIndex[i] = -1;
-							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i)));
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.39f,-25,waveIndex.get(i)));
 
 						} else if (i == 2)
 						{
 							waveTimerIndex[i] = -1;
-							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i)));
 
 						}else if (i == 3)
 						{
 							waveTimerIndex[i] = -1;
-							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.66f,-25,waveIndex.get(i)));
 
 						}else if (i == 4)
 						{
 							waveTimerIndex[i] = -1;
-							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.82f,-25,waveIndex.get(i)));
 
 						}else if (i == 5)
 						{
@@ -201,6 +201,11 @@ public class Wave {
 						{
 							waveTimerIndex[i] = -1;
 							resources.engine.getScene().attachChild(new shieldon(resources.camera.getWidth()*0.75f,-25,3, 5, waveIndex.get(i)));
+
+						}else if (i == 7)
+						{
+							waveTimerIndex[i] = -1;
+							resources.engine.getScene().attachChild(new BarrageShooter(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i)));
 
 						}
 						
@@ -337,7 +342,7 @@ public class Wave {
 		
 	}
 	
-	private void Wave_5_V_2_LL(){
+	private void Wave_5_V_2_LL_1C(){
 		
 		waveIndex = new ArrayList<Pattern>();
 		waveTimerIndex = new int [8];
@@ -352,7 +357,12 @@ public class Wave {
 		waveTimerIndex[7] = 3000;
 		
 		waveIndex.add(
-				new Pattern(resources.camera.getWidth()*0.25f,
+				new Pattern(resources.camera.getWidth()*0.23f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.39f,
 						(-BaseEnemyObject.SPRITE_SIZE),
 						pattern.STRAIGHT_LINE,
 						5));
@@ -362,7 +372,12 @@ public class Wave {
 						pattern.STRAIGHT_LINE,
 						5));
 		waveIndex.add(
-				new Pattern(resources.camera.getWidth()*0.75f,
+				new Pattern(resources.camera.getWidth()*0.66f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.82f,
 						(-BaseEnemyObject.SPRITE_SIZE),
 						pattern.STRAIGHT_LINE,
 						5));
@@ -375,6 +390,12 @@ public class Wave {
 				new Pattern(resources.camera.getWidth()*0.75f,
 						(-BaseEnemyObject.SPRITE_SIZE),
 						pattern.STRAIGHT_LINE,
+						5));
+		
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.5f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STAY,
 						5));
 		
 	}

@@ -15,7 +15,8 @@ public class Pattern {
 		ZIGZAG,
 		DIAMOND,
 		LEFT_TURN,
-		RIGHT_TURN
+		RIGHT_TURN,
+		STAY
 	}
 	
 	private Path pathToFollow; 
@@ -43,6 +44,13 @@ public class Pattern {
 				break;
 		case ZIGZAG:
 			ZigZag();
+			break;
+		
+		case STAY:
+			Stay();
+		break;
+		default:
+			Stay();
 			break;
 		}
 	}
@@ -80,6 +88,31 @@ public class Pattern {
 	
 	//StraightLine ,falta explodir quando chega ao destino
 	private LoopEntityModifier StraightLine(){
+		
+		pathToFollow = new Path(1).to(xInitial,  50); 
+
+		 ourLoop = new LoopEntityModifier(new PathModifier(speed, pathToFollow, new IPathModifierListener()  
+		 {  
+		      @Override  
+		      public void onPathFinished(PathModifier pPathModifier, IEntity pEntity) { }
+		      	
+		      @Override  
+		      public void onPathStarted(PathModifier pPathModifier, IEntity pEntity) { } 
+		 
+		      @Override  
+		      public void onPathWaypointFinished(final PathModifier pPathModifier, final IEntity pEntity,  
+		                final int pWaypointIndex) { }  
+
+		      @Override  
+		      public void onPathWaypointStarted(final PathModifier pPathModifier, final IEntity pEntity,  
+		                final int pWaypointIndex) { }  
+		 }, EaseSineInOut.getInstance()));  
+		
+		
+		return ourLoop;		
+	}	
+	
+	private LoopEntityModifier Stay(){
 		
 		pathToFollow = new Path(1).to(xInitial, ShipObject.startPositionY); 
 

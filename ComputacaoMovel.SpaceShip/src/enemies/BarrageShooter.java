@@ -12,64 +12,54 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 
 import player.BaseShieldComponent;
 import source.GameEntity;
-import weapons.BaseWeaponComponent;
+import weapons.BarrageLaserGun;
 import weapons.LaserCannon;
 import gameObjects.BaseEnemyObject;
 import gameObjects.Explosion;
 import gameObjects.ShipObject;
 
 /**
- * shieldon.java<p>
+ * BarrageShooter.java<p>
  *
  *
  * @category enemies
  * @author David Malheiro
- * @version 1.0 25/06/2015
+ * @version 1.0 26/06/2015
  */
-public class shieldon extends BaseEnemyObject{
-
+public class BarrageShooter extends BaseEnemyObject{
 	private static final ITextureRegion texture = resources.placeholder;
-	private static final LaserCannon mainWeapon = null;
-	/** Ship's shield generator.<p>As a passive element, the shields regenerate automaticly while enabled. */
-	private static BaseShieldComponent shield = null; //TO-DO: Shield not initialized;
-	private static final int hp = 3;
-	private static final float speed = 1;
-	private float timeU, timeDisabled;
-	private Boolean shieldDisabled;
-	/**
-	 * @param pX
-	 * @param pY
-	 * @param hp
-	 * @param speed
-	 * @param path
+	private static final BarrageLaserGun mainWeapon = new BarrageLaserGun(-texture.getHeight()/3, 0);
+	private static final BaseShieldComponent shield = null; //TO-DO: Shield not initialized;
+	private static final int hp = 2;
+	private static final float speed = 2;
+
+	/** Builds a simple drone in a specific position and a path.
+	 * @param <b>posX & posY</b> - Initial enemy's position
+	 * @param <b>{@linkplain BaseEnemyObject#patternPath patternPath}</b>
+	 * @param <b>{@linkplain BaseEnemyObject#loop loop}</b>
 	 */
-	public shieldon(float pX, float pY, int hp, float speed, Pattern path) {
-		super(pX, pY, hp, speed, texture, path, mainWeapon, shield);
-		// TODO Auto-generated constructor stub
-		shield = new BaseShieldComponent(this.getX(),this.getY(),5,1,0.5f);
-	
+	public BarrageShooter(float posX, float posY, Pattern path) {
+		super(posX, posY, hp, speed, texture, path, mainWeapon, shield);
+		
 	}
 	
 	public void Update(ShipObject player, float elapsedTime, float shootSpeed) {
 		
 		//Components
 		mainWeapon.Update(elapsedTime, player);
-		
-			shield.Update(elapsedTime);
+		shield.Update(elapsedTime);
 		
 		//Dispara
-		if (timeU >= 1000 / shootSpeed)
-		{
-			shield.disable();
-			timeU = 0;
-			shieldDisabled = true;
-		} else if (timeDisabled >= 1000)
-		
-		if (shieldDisabled == true)
-			timeDisabled += elapsedTime;
-		
+		if (elapsedTime >= 1000 / shootSpeed)
+			fire();
+	}
 
-		timeU += elapsedTime;
+
+	
+	@Override
+	public void fire(){
+		mainWeapon.fire();
+		
 	}
 	
 	@Override
@@ -89,5 +79,6 @@ public class shieldon extends BaseEnemyObject{
 		resources.engine.getScene().attachChild(new Explosion(this.getX(), this.getY(),1.0f, levelObjects, player));
 		this.Destroy();
 	}
+
 
 }
