@@ -21,7 +21,9 @@ public class Level_0 extends BaseLevel {
 
 	}
 
-	private void Update() {
+	@Override
+	protected void Update(float pSecondsElapsed) {
+		super.Update(pSecondsElapsed);
 		if(resourcesManager.timer == 5000)
 			 new Wave(wave_enum.WAVE_3_V);
 		if(resourcesManager.timer == 7000)

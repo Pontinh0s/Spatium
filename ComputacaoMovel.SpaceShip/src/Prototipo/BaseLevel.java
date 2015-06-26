@@ -74,7 +74,7 @@ public class BaseLevel extends BaseScene implements IOnSceneTouchListener {
         });
     }
     
-    private void Update(float pSecondsElapsed) {
+    protected void Update(float pSecondsElapsed) {
     	player.Update(-accelerometer.getYAxis(), enemies, pSecondsElapsed);
     	for (int i = 0; i<enemies.size(); i++)
     		enemies.get(i).Update(pSecondsElapsed, enemies, player);
