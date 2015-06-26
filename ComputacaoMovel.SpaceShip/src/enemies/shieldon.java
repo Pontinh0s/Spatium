@@ -24,9 +24,9 @@ import gameObjects.ShipObject;
 public class shieldon extends BaseEnemyObject{
 
 	private static final ITextureRegion texture = resources.placeholder;
-	private static final LaserCannon mainWeapon = new LaserCannon(-texture.getHeight()/3, 0);
+	private static final LaserCannon mainWeapon = null;
 	/** Ship's shield generator.<p>As a passive element, the shields regenerate automaticly while enabled. */
-	private BaseShieldComponent shield = null; //TO-DO: Shield not initialized;
+	private static BaseShieldComponent shield = null; //TO-DO: Shield not initialized;
 	private static final int hp = 3;
 	private static final float speed = 1;
 	private float timeU, timeDisabled;
@@ -41,9 +41,7 @@ public class shieldon extends BaseEnemyObject{
 	 * @param mainWeapon
 	 * @param shield
 	 */
-	public shieldon(float pX, float pY, int hp, float speed,
-			ITextureRegion texture, Pattern path,
-			BaseWeaponComponent mainWeapon, BaseShieldComponent shield) {
+	public shieldon(float pX, float pY, int hp, float speed, Pattern path) {
 		super(pX, pY, hp, speed, texture, path, mainWeapon, shield);
 		// TODO Auto-generated constructor stub
 		shield = new BaseShieldComponent(this.getX(),this.getY(),5,1,0.5f);

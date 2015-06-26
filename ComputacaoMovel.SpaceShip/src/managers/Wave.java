@@ -3,6 +3,7 @@ package managers;
 import java.util.ArrayList;
 
 import enemies.Drone;
+import enemies.shieldon;
 import managers.Pattern;
 import managers.Pattern.pattern;
 import gameObjects.BaseEnemyObject;
@@ -120,11 +121,11 @@ public class Wave {
 
 						}else if (i == 3)
 						{
-							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
+							resources.engine.getScene().attachChild(new shieldon(resources.camera.getWidth()*0.25f,-25,3, 5, waveIndex.get(i)));
 
 						}else if (i == 4)
 						{
-							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
+							resources.engine.getScene().attachChild(new shieldon(resources.camera.getWidth()*0.75f,-25,3, 5, waveIndex.get(i)));
 
 						}
 						
@@ -166,11 +167,11 @@ public class Wave {
 		waveIndex = new ArrayList<Pattern>();
 		waveTimerIndex = new int [5];
 		
-		waveTimerIndex[0] = 2;
-		waveTimerIndex[1] = 1;
-		waveTimerIndex[2] = 2;
-		waveTimerIndex[3] = 3;
-		waveTimerIndex[4] = 3;
+		waveTimerIndex[0] = 2000;
+		waveTimerIndex[1] = 1000;
+		waveTimerIndex[2] = 2000;
+		waveTimerIndex[3] = 3000;
+		waveTimerIndex[4] = 3000;
 		
 		waveIndex.add(
 				new Pattern(resources.camera.getWidth()*0.23f,
@@ -205,9 +206,11 @@ public class Wave {
 		waveIndex = new ArrayList<Pattern>();
 		waveTimerIndex = new int [5];
 		
-		waveTimerIndex[0] = 2000;
-		waveTimerIndex[1] = 1000;
-		waveTimerIndex[2] = 2000;
+		waveTimerIndex[0] = 2000; // V
+		waveTimerIndex[1] = 1000; // V
+		waveTimerIndex[2] = 2000; // V
+		waveTimerIndex[4] = 1000; // Lado a Lado
+		waveTimerIndex[5] = 1000; // Lado a Lado
 		
 		waveIndex.add(
 				new Pattern(resources.camera.getWidth()*0.25f,
@@ -216,6 +219,16 @@ public class Wave {
 						5));
 		waveIndex.add(
 				new Pattern(resources.camera.getWidth()*0.5f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.75f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.25f,
 						(-BaseEnemyObject.SPRITE_SIZE),
 						pattern.STRAIGHT_LINE,
 						5));
