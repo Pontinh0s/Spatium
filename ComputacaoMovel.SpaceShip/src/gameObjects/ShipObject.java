@@ -2,7 +2,11 @@ package gameObjects;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
+
+import android.R.string;
 import player.BaseAbilityComponent;
 import player.BaseBoosterComponent;
 import player.BaseShieldComponent;
@@ -54,12 +58,12 @@ public class ShipObject extends GameEntity{
 	 * <p><b>1</b> - Ship at normal state.
 	 * <p><b>2</b> - Ship turning right.
 	 */
-	private final static ITiledTextureRegion texture = resources.ttPlayer;
+	private final static ITextureRegion texture = resources.player;
 	//#!
 	
 	/** Creates a new empty ship. */
 	public ShipObject() {
-		super(startPositionX, startPositionY, StartHP, texture.getTextureRegion(1));
+		super(startPositionX, startPositionY, StartHP, texture);
 		Equip(new GatlingCannon(0, getHeight() - getHeight()/5));
 	}
 
@@ -70,7 +74,7 @@ public class ShipObject extends GameEntity{
 	 * @param {@link #special}
 	 */
 	public ShipObject(BaseWeaponComponent mainWeapon, BaseShieldComponent shield, BaseAbilityComponent ability, BaseSpecialComponent special) {
-		super(startPositionX, startPositionY, StartHP, texture.getTextureRegion(1));
+		super(startPositionX, startPositionY, StartHP, texture);
 		Equip(mainWeapon);
 		Equip(shield);
 		Equip(ability);
@@ -83,13 +87,16 @@ public class ShipObject extends GameEntity{
 	 * @param accelerationX - Accelerometer reading for the X axis
 	 * @param elapsedTime - Time since the last update
 	 */
-	public void Update(float accelerationX, ArrayList<GameEntity> obstacles, float elapsedTime) {
+	public void Update(float accelerationX, ArrayList<BaseObstacleObject> enemies, float elapsedTime) {
 		Move(accelerationX, elapsedTime);
+		
 		//Components
-		mainWeapon.Update(elapsedTime, obstacles);
+		mainWeapon.Update(elapsedTime, enemies);
 		shield.Update(elapsedTime);
+		ability.Update(this, elapsedTime);
+		
 		// Obstacles & Enemies
-		detectColisions(obstacles);
+		detectColisions(enemies);
 	}
 	
 	/** Moves the ship.
@@ -130,19 +137,24 @@ public class ShipObject extends GameEntity{
 			mainWeapon.fire();
 	}
 	
+	/** Activates the special active action. */
+	public void FireSpecial() {
+		ability.Activate();
+	}
+	
 	/** Detects if there is something coliding with the ship,
 	 * damages the ship and deletes the object.
 	 * @param obstaculos - 
 	 * @return <b>true</b> if there was a collision and
 	 * <b>false</b> if not.
 	 */
-	private boolean detectColisions(ArrayList<GameEntity> obstacles) {
+	private boolean detectColisions(ArrayList<BaseObstacleObject> obstacles) {
 		for(int i = 0; i<obstacles.size(); i++) {
 			if (obstacles.get(i).collidesWith(this)) {
 				if ((shield != null) && shield.isActive())
-					shield.TakeDamage(((BaseObstacleObject) obstacles.get(i)).getDamage());
+					shield.TakeDamage(obstacles.get(i).getDamage());
 				else
-					TakeDamage(((BaseObstacleObject) obstacles.get(i)).getDamage());
+					TakeDamage(obstacles.get(i).getDamage());
 				
 				obstacles.get(i).Destroy();
 				return true;
@@ -229,5 +241,10 @@ public class ShipObject extends GameEntity{
 		shield.Destroy();
 		super.Destroy();
 		// GAME OVER scene
+	}
+
+	/** Returns a string debugging instant Player status. */
+	public String Debug() {
+		return shield.Debug() + mainWeapon.Debug() + ability.Debug() + special.Debug();
 	}
 }

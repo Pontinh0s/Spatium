@@ -1,7 +1,11 @@
 package bullets;
 
+import gameObjects.BaseObstacleObject;
+
 import java.util.ArrayList;
+
 import org.andengine.opengl.texture.region.ITextureRegion;
+
 import source.GameEntity;
 import weapons.LaserCannon;
 
@@ -40,7 +44,7 @@ public class HeavyLaserBullet extends BaseBulletObject {
 
 	
 	@Override
-	public void Update(float elapsedTime, ArrayList<GameEntity> levelObjects) {
+	public void Update(float elapsedTime, ArrayList<BaseObstacleObject> levelObjects) {
 		LinearMovement(elapsedTime);
 		super.Update(elapsedTime, levelObjects);
 	}

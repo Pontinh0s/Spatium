@@ -29,7 +29,7 @@ public class Activity extends BaseGameActivity {
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		//engineOptions.getRenderOptions().setDithering(true);
-		camera = new Camera(0, 0, 480, 800);
+		camera = new Camera(0, 0, 1200, 1920);
 	    EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, 
 	    	    new FillResolutionPolicy(), camera);
 	    engineOptions.getAudioOptions().setNeedsMusic(true);

@@ -46,11 +46,11 @@ public abstract class BaseWeaponComponent extends GameEntity {
 
 	/** Manages all the bullets shot by the player
 	 * @param elapsedTime - Time since the last update
-	 * @param levelObjects - Objects in the scene that can take damage by the bullets.
+	 * @param obstacles - Objects in the scene that can take damage by the bullets.
 	 */
-	public void Update(float elapsedTime, ArrayList<GameEntity> levelObjects) {
+	public void Update(float elapsedTime, ArrayList<BaseObstacleObject> obstacles) {
 		for (int i = 0; i < bullets.size();i++)
-			bullets.get(i).Update(elapsedTime, levelObjects);
+			bullets.get(i).Update(elapsedTime, obstacles);
 			
 		CheckBullets();
 	}
@@ -117,4 +117,9 @@ public abstract class BaseWeaponComponent extends GameEntity {
 		enabled = false;
 	}
 	//#!
+
+	/** Returns the string debugging the main Weapon. */
+	public String Debug() {
+		return String.format("Bullet number: %d\n", bullets.size());
+	}
 }

@@ -3,14 +3,13 @@ package enemies;
 import java.util.ArrayList;
 
 import gameObjects.BaseEnemyObject;
+import gameObjects.BaseObstacleObject;
 import managers.Pattern;
 
-import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
 import player.BaseShieldComponent;
-import source.GameEntity;
 import weapons.LaserCannon;
 
 /** Pilot.java<p>
@@ -26,17 +25,19 @@ public class Pilot extends BaseEnemyObject {
 	private static final BaseShieldComponent shield = null; //TO-DO: Shield not initialized;
 	private static final int hp = 1;
 	private static final float speed = 2;
+	private float shootSpeed;
 
 	/** Builds a simple pilot in a specific position and a path.
 	 * @param <b>posX & posY</b> - Initial enemy's position
 	 * @param <b>{@linkplain BaseEnemyObject#patternPath patternPath}</b>
 	 * @param <b>{@linkplain BaseEnemyObject#loop loop}</b>
 	 */
-	public Pilot(float posX, float posY, Path patternPath, Pattern path) {
-		super(posX, posY, hp, speed, texture, path, mainWeapon, shield);
+	public Pilot(float posX, float posY, float shootSpeed) {
+		super(posX, posY, hp, speed, texture, null, mainWeapon, shield);
+		this.shootSpeed = shootSpeed;
 	}
 	
-	public void Update(ArrayList<GameEntity> obstacles, float elapsedTime, float shootSpeed) {
+	public void Update(ArrayList<BaseObstacleObject> obstacles, float elapsedTime) {
 		
 		//Movimento do Pilot
 		Move(elapsedTime);
@@ -50,6 +51,7 @@ public class Pilot extends BaseEnemyObject {
 		if (elapsedTime >= 1000 / shootSpeed)
 			fire();
 	}
+	
 	/** Moves the Sprite.
 	 * @param <b>elaspsedTime</b>
 	 */
@@ -79,7 +81,6 @@ public class Pilot extends BaseEnemyObject {
 	@Override
 	public void fire(){
 		mainWeapon.fire();
-		
 	}
 
 }

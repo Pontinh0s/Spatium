@@ -3,16 +3,14 @@ package enemies;
 import java.util.ArrayList;
 import java.util.Random;
 
-import managers.Pattern;
-
-import org.andengine.entity.modifier.LoopEntityModifier;
-import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
+import managers.Pattern;
 import player.BaseShieldComponent;
 import source.GameEntity;
 import weapons.LaserCannon;
 import gameObjects.BaseEnemyObject;
+import gameObjects.BaseObstacleObject;
 import gameObjects.Explosion;
 import gameObjects.ShipObject;
 
@@ -67,7 +65,7 @@ public class Drone extends BaseEnemyObject {
 		int r = Rand.nextInt(100);
 		
 		if(r >= 50)
-			resources.engine.getScene().attachChild(new Pilot(this.getX(), this.getY(),null,null));
+			resources.engine.getScene().attachChild(new Pilot(this.getX(), this.getY(), 1.f));
 		
 	}
 	

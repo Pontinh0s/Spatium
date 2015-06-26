@@ -22,14 +22,11 @@ public class LoadingScene extends BaseScene
     }
 
     @Override
-    public void onBackKeyPressed()
-    {
-        return;
+    public void onBackKeyPressed() {
     }
 
     @Override
-    public SceneType getSceneType()
-    {
+    public SceneType getSceneType() {
         return SceneType.SCENE_LOADING;
     }
 
