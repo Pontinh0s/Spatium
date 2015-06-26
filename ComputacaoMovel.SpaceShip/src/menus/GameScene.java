@@ -44,8 +44,7 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
     public void createScene(){
     	dataBase = new DatabaseHandler(activity);
     	
-    	setOnSceneTouchListener(this); 
-    	
+    	setOnSceneTouchListener(this);
     	this.accelerometer = new AccelerometerManager(activity);
     	
     	createBackground();
@@ -62,7 +61,6 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
     	
     	attachChild(nave.getSprite());
     	attachChild(scoreText);
-    	
     }
     
     @Override

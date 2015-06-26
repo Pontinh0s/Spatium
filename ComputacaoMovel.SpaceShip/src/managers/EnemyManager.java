@@ -24,7 +24,7 @@ public class EnemyManager{
 	public void Update(float pSecondsElapsed){
 		for (int i = 0; i < inimigos.size();i++){
 			//Regenera o escudo
-			((BaseEnemyObject) inimigos.get(i)).update(pSecondsElapsed, inimigos);
+			//TODO: ((BaseEnemyObject) inimigos.get(i)).Update(pSecondsElapsed, inimigos);
 			 
 			//Elimina o inimigo se passar da altura do ecra
 			/*if (inimigos.get(i).getPosY() > alturaEcra){

@@ -1,7 +1,11 @@
 package bullets;
 
+import gameObjects.BaseObstacleObject;
+
 import java.util.ArrayList;
+
 import org.andengine.opengl.texture.region.ITextureRegion;
+
 import source.GameEntity;
 import weapons.BaseWeaponComponent;
 
@@ -58,14 +62,14 @@ public abstract class BaseBulletObject extends GameEntity {
 	/** Moves the bullet and detects collisions.
 	 * This function has to be repeated on an Update loop, generally called on {@link BaseWeaponComponent}.
 	 * @param elapsedTime - Time since the last update
-	 * @param levelObjects - Objects in the scene that can take damage by the bullets
+	 * @param obstacles - Objects in the scene that can take damage by the bullets
 	 */
 	public void Update(float elapsedTime,
-			ArrayList<GameEntity> levelObjects) {
+			ArrayList<BaseObstacleObject> obstacles) {
 		//Verifica se colide com algum dos objetos
-		for (int index = 0; index < levelObjects.size(); index++) {
-			if (this.collidesWith(levelObjects.get(index)))
-				CollidesWithObject(levelObjects.get(index));
+		for (int index = 0; index < obstacles.size(); index++) {
+			if (this.collidesWith(obstacles.get(index)))
+				CollidesWithObject(obstacles.get(index));
 		}
 	}
 	

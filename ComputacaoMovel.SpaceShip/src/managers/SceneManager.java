@@ -18,6 +18,7 @@ import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.ease.IEaseFunction;
 
 import source.BaseScene;
+import Prototipo.BaseLevel;
 import android.util.Log;
 
 
@@ -151,6 +152,20 @@ public class SceneManager
                 mEngine.unregisterUpdateHandler(pTimerHandler);
                 ResourcesManager.getInstance().loadGameResources();
                 gameScene = new GameScene();
+                setScene(gameScene);
+            }
+        }));
+    }
+    
+    public void loadTestLevel(final Engine mEngine){
+        setScene(loadingScene);
+        ResourcesManager.getInstance().unloadMenuGraphics();
+        mEngine.registerUpdateHandler(new TimerHandler(0.1f, new ITimerCallback() {
+            public void onTimePassed(final TimerHandler pTimerHandler) 
+            {
+                mEngine.unregisterUpdateHandler(pTimerHandler);
+                ResourcesManager.getInstance().loadGameResources();
+                gameScene = new BaseLevel();
                 setScene(gameScene);
             }
         }));

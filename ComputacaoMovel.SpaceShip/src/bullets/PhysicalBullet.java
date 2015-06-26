@@ -1,5 +1,7 @@
 package bullets;
 
+import gameObjects.BaseObstacleObject;
+
 import java.util.ArrayList;
 
 import org.andengine.opengl.texture.region.ITextureRegion;
@@ -38,7 +40,7 @@ public class PhysicalBullet extends BaseBulletObject {
 	}
 	
 	@Override
-	public void Update(float elapsedTime, ArrayList<GameEntity> levelObjects) {
+	public void Update(float elapsedTime, ArrayList<BaseObstacleObject> levelObjects) {
 		LinearMovement(elapsedTime);
 		super.Update(elapsedTime, levelObjects);
 	}

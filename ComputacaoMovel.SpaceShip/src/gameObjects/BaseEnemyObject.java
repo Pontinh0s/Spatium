@@ -53,8 +53,8 @@ public abstract class BaseEnemyObject extends BaseObstacleObject{
 		this.mainWeapon.fire();
 	}
 
-	public void update(float elapsedTime, ArrayList<GameEntity> gameObjects)
-	{
+	@Override
+	public void Update(float elapsedTime, ArrayList<BaseObstacleObject> gameObjects, ShipObject player) {
 		//Components
 		if(mainWeapon != null)
 		mainWeapon.Update(elapsedTime, gameObjects);

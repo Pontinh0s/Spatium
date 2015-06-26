@@ -10,8 +10,11 @@ package player;
  */
 public abstract class BaseSpecialComponent {
 	
-	/**
-	 * Causes the effect pretended for the specific booster type.
-	 */
+	/** Causes the effect pretended for the specific booster type. */
 	public abstract void effect();
+
+	/** Returns the string debugging the shield. */
+	public String Debug() {
+		return String.format("");
+	}
 }

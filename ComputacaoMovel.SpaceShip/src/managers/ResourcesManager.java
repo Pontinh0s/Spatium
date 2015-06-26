@@ -53,9 +53,12 @@ public class ResourcesManager
     	ttStart,
     	ttCredits,
     	ttOptions,
-    	ttHighscores;
+    	ttHighscores,
+    	ttMute;
     public ITextureRegion
-    	tBackgroundMenu,
+		tBackgroundMenu1,
+		tBackgroundMenu2,
+		tBackgroundMenu3,
     	tbackground,
     	tTiro,
     	tMeteorito,
@@ -103,15 +106,20 @@ public class ResourcesManager
     }
     
     private void loadMenuGraphics(){
-    	tBackgroundMenu = loadTexture("fundoMenu.jpg", 256, 384);
-    	ttStart = loadTileTexture("StartGame.png", 720, 56, 2, 1);
-    	ttCredits = loadTileTexture("Credits.png", 720, 56, 2, 1);
-    	ttOptions = loadTileTexture("Options.png", 720, 56, 2, 1);
-    	ttHighscores = loadTileTexture("Highscores.png", 720, 56, 2, 1);
+    	tBackgroundMenu1 = loadTexture("fundo_layer1.png", 1320, 2112);
+    	tBackgroundMenu2 = loadTexture("fundo_layer2.png", 1320, 2112);
+    	tBackgroundMenu3 = loadTexture("fundo_layer3.png", 1320, 2112);
+    	ttStart = loadTileTexture("ss_button_play.png", 1712, 197, 2, 1);
+    	ttOptions = loadTileTexture("ss_button_hangar.png", 1712, 197, 2, 1);
+    	ttHighscores = loadTileTexture("ss_button_highscores.png", 1712, 197, 2, 1);
+    	ttCredits = loadTileTexture("ss_hardSaveGames.png", 460, 275, 2, 1);
+    	ttMute = loadTileTexture("ss_button_mute.png", 594, 256, 2, 1);
     }
     
     public void unloadMenuGraphics(){
-    	tBackgroundMenu.getTexture().unload();
+    	tBackgroundMenu1.getTexture().unload();
+    	tBackgroundMenu2.getTexture().unload();
+    	tBackgroundMenu3.getTexture().unload();
     	ttStart.getTexture().unload();
     	ttCredits.getTexture().unload();
     	ttOptions.getTexture().unload();
@@ -119,7 +127,7 @@ public class ResourcesManager
     }
     
     private void loadMenuAudio(){
-    	mMenuMusic = loadMusic("a-call-to-duty.mp3", true);
+    	mMenuMusic = loadMusic("menu.wav", true);
     }
     
     private void loadMenuFonts(){
@@ -232,6 +240,7 @@ public class ResourcesManager
     	//DEFAULTS
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("spritesheets/");
         MusicFactory.setAssetBasePath("sounds/");
+        SoundFactory.setAssetBasePath("sounds/");
         FontFactory.setAssetBasePath("fonts/");
     }
     

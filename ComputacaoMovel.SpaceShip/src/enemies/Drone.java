@@ -3,16 +3,14 @@ package enemies;
 import java.util.ArrayList;
 import java.util.Random;
 
-import managers.Pattern;
-
-import org.andengine.entity.modifier.LoopEntityModifier;
-import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
+import managers.Pattern;
 import player.BaseShieldComponent;
 import source.GameEntity;
 import weapons.LaserCannon;
 import gameObjects.BaseEnemyObject;
+import gameObjects.BaseObstacleObject;
 
 /** Drone.java<p>
  * A simple drone.
@@ -38,7 +36,7 @@ public class Drone extends BaseEnemyObject {
 		
 	}
 	
-	public void Update(ArrayList<GameEntity> obstacles, float elapsedTime, float shootSpeed) {
+	public void Update(ArrayList<BaseObstacleObject> obstacles, float elapsedTime, float shootSpeed) {
 		
 		//Components
 		mainWeapon.Update(elapsedTime, obstacles);
@@ -65,7 +63,7 @@ public class Drone extends BaseEnemyObject {
 		int r = Rand.nextInt(100);
 		
 		if(r >= 50)
-		new Pilot(this.getX(), this.getY(),null,null);
+		new Pilot(this.getX(), this.getY(),null,null, 5.f);
 		
 	}
 

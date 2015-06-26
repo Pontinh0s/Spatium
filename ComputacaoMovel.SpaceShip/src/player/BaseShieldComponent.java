@@ -121,4 +121,9 @@ public abstract class BaseShieldComponent extends GameEntity {
 		enabled = false;
 	}
 	//#!
+
+	/** Returns the string debugging the shield. */
+	public String Debug() {
+		return String.format("Shields: %d\n", currentShields);
+	}
 }

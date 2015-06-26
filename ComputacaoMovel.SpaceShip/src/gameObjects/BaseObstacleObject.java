@@ -17,7 +17,7 @@ import source.GameEntity;
  * @author Renato Teixeira
  * @version 1.0 20/04/2015
  */
-public class BaseObstacleObject extends GameEntity {
+public abstract class BaseObstacleObject extends GameEntity {
 	/** The damage that it causes when hitting the ship. */
 	protected final float damage;
 	
@@ -40,11 +40,12 @@ public class BaseObstacleObject extends GameEntity {
 	 * @param hp - Health points (0 if the object isn't killable)
 	 * @param texture - Texture used by the object itself
 	 */
-	protected BaseObstacleObject(float pX, float damage,
-			float hp, ITextureRegion texture) {
+	protected BaseObstacleObject(float pX, float damage, float hp, ITextureRegion texture) {
 		super(pX, resources.camera.getHeight(), hp, texture);
 		this.damage = damage;
 	}
+	
+	public abstract void Update(float elapsedTime, ArrayList<BaseObstacleObject> gameObjects, ShipObject player);
 	
 	/** @return {@link #damage} */
 	public float getDamage() {
@@ -53,7 +54,7 @@ public class BaseObstacleObject extends GameEntity {
 	
 	/** Makes the game object explode. */
 	public void explosion(final ArrayList<GameEntity> levelObjects, final ShipObject player){
-		resources.engine.getScene().attachChild(new Explosion(this.getX(), this.getY(), levelObjects, player));
+		resources.engine.getScene().attachChild(new Explosion(this.getX(), this.getY(), 1.f, levelObjects, player));
 		this.Destroy();
 	}
 }
