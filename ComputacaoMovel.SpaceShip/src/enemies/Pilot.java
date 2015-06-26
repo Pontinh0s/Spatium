@@ -32,8 +32,8 @@ public class Pilot extends BaseEnemyObject {
 	 * @param <b>{@linkplain BaseEnemyObject#patternPath patternPath}</b>
 	 * @param <b>{@linkplain BaseEnemyObject#loop loop}</b>
 	 */
-	public Pilot(float posX, float posY, Path patternPath, Pattern path, float shootSpeed) {
-		super(posX, posY, hp, speed, texture, path, mainWeapon, shield);
+	public Pilot(float posX, float posY, float shootSpeed) {
+		super(posX, posY, hp, speed, texture, null, mainWeapon, shield);
 		this.shootSpeed = shootSpeed;
 	}
 	

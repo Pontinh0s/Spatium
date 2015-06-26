@@ -10,7 +10,7 @@ import source.GameEntity;
  * @author Davide Teixeria
  * @version 1.2 15/04/2015
  */
-public abstract class BaseShieldComponent extends GameEntity {
+public class BaseShieldComponent extends GameEntity {
 	//#- variables
 	/** If the shield component is working. */
 	protected boolean enabled;
@@ -24,19 +24,34 @@ public abstract class BaseShieldComponent extends GameEntity {
 	 * and when it reaches its max, 1 is added to {@link #currentShields}. */
 	protected float rechargeValue = 0;
 	/** The damage that a single shield can absorve. */
-	private final int strength = 10;
+	private float strength = 10;
 	//#!
 	
 	
 	//#- Functions and Methods
 	/**
-	 * Automatic shield's onstructor.
+	 * Automatic shield's constructor.
 	 * @param <b>posX & posY</b> - shield's sprite's position
 	 */
-	protected BaseShieldComponent(float posX, float posY) {
+	public BaseShieldComponent(float posX, float posY) {
 			super(posX, posY, 0, resources.placeholder);
 		this.setAlpha(.0f);
 	}
+	//#- Functions and Methods
+	/**
+	* Automatic shield's constructor.
+	* @param <b>posX & posY</b> - shield's sprite's position
+	* @param <b>strength</b> - The damage that a single shield can absorve.
+	* @param <b>rechargeValue</b> - Recharging value. Varies between 0 and {@link #strength}, and when it reaches its max, 1 is added to {@link #currentShields}
+	* @param <b>rechargeSpeed</b> - Shield recharging speed.
+	*/
+	public BaseShieldComponent(float posX, float posY, float strength, float rechargeValue, float rechargeSpeed) {
+				super(posX, posY, 0, resources.placeholder);
+			this.setAlpha(.0f);
+			this.strength = strength;
+			this.rechargeValue = rechargeValue;
+			this.rechargeSpeed = rechargeSpeed;
+	}	
 	
 	/**
 	 * Is responsible for recharging the shields.
@@ -81,8 +96,8 @@ public abstract class BaseShieldComponent extends GameEntity {
 	}
 	
 	/**
-	 * Aplies the damage to the shield, weakening it.
-	 * @param damage - The damage to be absorved by the shield.
+	 * Applies the damage to the shield, weakening it.
+	 * @param damage - The damage to be absorbed by the shield.
 	 */
 	@Override
 	public void TakeDamage(float damage) {
@@ -111,7 +126,7 @@ public abstract class BaseShieldComponent extends GameEntity {
 		else return false;
 	}
 	
-	/**Enables the shelds.*/
+	/**Enables the shields.*/
 	public void enable() {
 		enabled = true;
 	}

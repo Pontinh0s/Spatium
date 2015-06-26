@@ -20,7 +20,9 @@ public class Wave {
 	// WAVE_"n enemies"_"style or organization"
 	enum wave_enum{
 		WAVE_3_V,
-		WAVE_5_V
+		WAVE_5_V,
+		WAVE_3_V_2_ll
+		
 	}
 	
 	ResourcesManager resources;
@@ -29,7 +31,8 @@ public class Wave {
 	int[] waveTimerIndex;
 	ArrayList<Pattern> waveIndex;
 	
-	public Wave(){
+	public Wave(wave_enum wave){
+		this.wave = wave;
 		switchToWave();
 	}
 	
@@ -59,14 +62,14 @@ public class Wave {
 						{
 							if (i == 0)
 							{
-								new Drone(resources.camera.getWidth()*0.25f,-25,waveIndex.get(i));
+								resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.25f,-25,waveIndex.get(i)));
 							} else if (i == 1)
 							{
-								new Drone(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i));
+								resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i)));
 
 							} else if (i == 2)
 							{
-								new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i));
+								resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
 
 							}
 							
@@ -79,24 +82,52 @@ public class Wave {
 					{
 						if (i == 0)
 						{
-							new Drone(resources.camera.getWidth()*0.23f,-25,waveIndex.get(i));
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.23f,-25,waveIndex.get(i)));
 						} else if (i == 1)
 						{
-							new Drone(resources.camera.getWidth()*0.39f,-25,waveIndex.get(i));
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.39f,-25,waveIndex.get(i)));
 
 						} else if (i == 2)
 						{
-							new Drone(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i));
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i)));
 
 						}else if (i == 3)
 						{
-							new Drone(resources.camera.getWidth()*0.66f,-25,waveIndex.get(i));
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.66f,-25,waveIndex.get(i)));
 
 						}else if (i == 4)
 						{
-							new Drone(resources.camera.getWidth()*0.82f,-25,waveIndex.get(i));
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.82f,-25,waveIndex.get(i)));
 
 						}
+					}
+			break;
+		case WAVE_3_V_2_ll:
+			Wave_3_V_2_ll();
+				for (int i = 0 ; i < waveTimerIndex.length ;i++)
+					if (waveTime <= waveTimerIndex[i])
+					{
+						if (i == 0)
+						{
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.25f,-25,waveIndex.get(i)));
+						} else if (i == 1)
+						{
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i)));
+
+						} else if (i == 2)
+						{
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
+
+						}else if (i == 3)
+						{
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
+
+						}else if (i == 4)
+						{
+							resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
+
+						}
+						
 					}
 			break;
 		}
@@ -163,6 +194,33 @@ public class Wave {
 						5));
 		waveIndex.add(
 				new Pattern(resources.camera.getWidth()*0.82f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		
+	}
+	
+	private void Wave_3_V_2_ll(){
+		
+		waveIndex = new ArrayList<Pattern>();
+		waveTimerIndex = new int [5];
+		
+		waveTimerIndex[0] = 2000;
+		waveTimerIndex[1] = 1000;
+		waveTimerIndex[2] = 2000;
+		
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.25f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.5f,
+						(-BaseEnemyObject.SPRITE_SIZE),
+						pattern.STRAIGHT_LINE,
+						5));
+		waveIndex.add(
+				new Pattern(resources.camera.getWidth()*0.75f,
 						(-BaseEnemyObject.SPRITE_SIZE),
 						pattern.STRAIGHT_LINE,
 						5));

@@ -1,6 +1,7 @@
 package weapons;
 
 import gameObjects.BaseObstacleObject;
+import gameObjects.ShipObject;
 
 import java.util.ArrayList;
 
@@ -43,13 +44,24 @@ public abstract class BaseWeaponComponent extends GameEntity {
 		bullets = new ArrayList<BaseBulletObject>();
 	}
 
-	/** Manages all the bullets shot 
+	/** Manages all the bullets shot by the player
 	 * @param elapsedTime - Time since the last update
 	 * @param obstacles - Objects in the scene that can take damage by the bullets.
 	 */
 	public void Update(float elapsedTime, ArrayList<BaseObstacleObject> obstacles) {
 		for (int i = 0; i < bullets.size();i++)
 			bullets.get(i).Update(elapsedTime, obstacles);
+			
+		CheckBullets();
+	}
+
+	/** Manages all the bullets shot by the enemy
+	 * @param elapsedTime - Time since the last update
+	 * @param levelObjects - Objects in the scene that can take damage by the bullets.
+	 */
+	public void Update(float elapsedTime, ShipObject player) {
+		for (int i = 0; i < bullets.size();i++)
+			bullets.get(i).Update(elapsedTime, player);
 			
 		CheckBullets();
 	}
