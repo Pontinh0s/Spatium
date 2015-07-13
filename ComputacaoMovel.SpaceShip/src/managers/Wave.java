@@ -2,7 +2,6 @@ package managers;
 
 import java.util.ArrayList;
 
-import enemies.BarrageShooter;
 import enemies.Drone;
 import enemies.shieldon;
 import managers.Pattern;
@@ -45,7 +44,6 @@ public class Wave {
 	 */
 	public void Update(float elapsedTime) {
 		waveTime += elapsedTime;
-		
 	}
 	
 	
@@ -78,7 +76,6 @@ public class Wave {
 								resources.engine.getScene().attachChild(new Drone(resources.camera.getWidth()*0.75f,-25,waveIndex.get(i)));
 
 							}
-							
 						}
 				break;
 		case WAVE_5_V:
@@ -160,7 +157,6 @@ public class Wave {
 							resources.engine.getScene().attachChild(new shieldon(resources.camera.getWidth()*0.75f,-25,3, 5, waveIndex.get(i)));
 
 						}
-						
 					}
 			break;
 		case WAVE_5_V_2_ll_1C: // I am here and you are not
@@ -205,7 +201,7 @@ public class Wave {
 						}else if (i == 7)
 						{
 							waveTimerIndex[i] = -1;
-							resources.engine.getScene().attachChild(new BarrageShooter(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i)));
+							//resources.engine.getScene().attachChild(new BarrageShooter(resources.camera.getWidth()*0.5f,-25,waveIndex.get(i)));
 
 						}
 						

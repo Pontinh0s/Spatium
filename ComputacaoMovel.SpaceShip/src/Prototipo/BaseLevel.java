@@ -9,7 +9,6 @@ import gameObjects.BaseObstacleObject;
 import gameObjects.ShipObject;
 import managers.AccelerometerManager;
 import managers.SceneManager;
-import managers.Wave;
 import managers.SceneManager.SceneType;
 
 import org.andengine.engine.handler.IUpdateHandler;
@@ -50,7 +49,7 @@ public class BaseLevel extends BaseScene implements IOnSceneTouchListener {
     	
     	createBackground();
     	createHUD();
-    	LoadGameObjects();
+    	//LoadGameObjects();
     	createUpdates();
 	}
     
@@ -66,7 +65,7 @@ public class BaseLevel extends BaseScene implements IOnSceneTouchListener {
 				
 				resourcesManager.timer += pSecondsElapsed;
 				Update(pSecondsElapsed);
-				RefreshText();
+				//RefreshText();
 			}
 			@Override
 			public void reset() {
@@ -75,7 +74,7 @@ public class BaseLevel extends BaseScene implements IOnSceneTouchListener {
     }
     
     protected void Update(float pSecondsElapsed) {
-    	player.Update(-accelerometer.getYAxis(), enemies, pSecondsElapsed);
+    	//player.Update(-accelerometer.getYAxis(), enemies, pSecondsElapsed);
     	for (int i = 0; i<enemies.size(); i++)
     		enemies.get(i).Update(pSecondsElapsed, enemies, player);
     }
@@ -106,7 +105,7 @@ public class BaseLevel extends BaseScene implements IOnSceneTouchListener {
     			"Vidas: XX\nTempo: XXxxxxxXxxxXXxxxXXxxXxxxxxxxxXXxxxXXxxXxxxxxxxxXXxxxXXxxXxxxxxxxxXXxxxXXxxXxxxxxxX", vbom);
 	    scoreText.setTextOptions(new TextOptions(HorizontalAlign.LEFT));
     	scoreText.setScale(scoreScale);
-		scoreText.setColor(Color.BLUE);
+		scoreText.setColor(Color.BLACK);
     }
 
     private void LoadGameObjects(){
@@ -119,7 +118,6 @@ public class BaseLevel extends BaseScene implements IOnSceneTouchListener {
 	public void onBackKeyPressed() {
     	SceneManager.getInstance().createMenuScene();
 	}
-
 
 
 	@Override
@@ -135,7 +133,7 @@ public class BaseLevel extends BaseScene implements IOnSceneTouchListener {
 	}
 	
     private void createBackground() {
-        setBackground(new Background(Color.BLUE));
+        setBackground(new Background(0.44f, 0.815f, 0.878f));
     }
 	
 	private void onTouchDown(){
